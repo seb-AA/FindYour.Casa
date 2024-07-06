@@ -7,7 +7,7 @@ export type User = {
     hashedPassword?: string;
     createdAt: Date;
     updatedAt: Date;
-    favoriteIds: string[];
+    favoriteIds: number[];
     // other fields...
   };
   

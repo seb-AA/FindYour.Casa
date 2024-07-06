@@ -8,24 +8,15 @@ export default async function getFavoriteListings() {
 
     if (!currentUser) return [];
 
-    // Ensure favoriteIds is an array of strings
+    // Ensure favoriteIds is an array of numbers
     if (!Array.isArray(currentUser.favoriteIds)) {
       throw new Error("favoriteIds is not an array");
     }
 
-    // Convert favoriteIds to numbers
-    const favoriteIds = currentUser.favoriteIds.map(id => {
-      const numId = Number(id);
-      if (isNaN(numId)) {
-        throw new Error(`Invalid id: ${id}`);
-      }
-      return numId;
-    });
-
     const favoriteListings = await prisma.listing.findMany({
       where: {
         id: {
-          in: favoriteIds,
+          in: currentUser.favoriteIds,
         },
       },
     });
