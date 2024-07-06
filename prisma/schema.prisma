@@ -23,7 +23,6 @@ model User {
   reservations Reservation[]
 }
 
-
 model Account {
   id                Int     @id @default(autoincrement())
   userId            Int
