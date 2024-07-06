@@ -16,6 +16,11 @@ export const authOptions: AuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          scope: "read:user user:email",
+        },
+      },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -58,6 +63,22 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, account, user }) {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      session.accessToken = token.accessToken;
+      session.user.id = token.id;
+      return session;
+    },
+  },
   pages: {
     signIn: "/",
   },
