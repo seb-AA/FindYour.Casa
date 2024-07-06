@@ -1,33 +1,29 @@
 import prisma from "@/app/libs/prismadb";
 
-interface IGetListingById {
-  listingId?: string;
-}
+export default async function getListingById(listingId: string | undefined) {
+  if (!listingId) {
+    throw new Error("listingId is required");
+  }
 
-export default async function getListingById(params: IGetListingById) {
+  // Convert listingId to number
+  const numericListingId = Number(listingId);
+
+  if (isNaN(numericListingId)) {
+    throw new Error("Invalid listingId format");
+  }
+
   try {
-    const { listingId } = params;
-
     const listing = await prisma.listing.findUnique({
       where: {
-        id: listingId,
+        id: numericListingId,
       },
       include: {
         user: true,
       },
     });
 
-    if (!listing) {
-      return null;
-    }
-
-    return {
-      ...listing,
-      user: {
-        ...listing.user,
-      },
-    };
+    return listing;
   } catch (error: any) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 }

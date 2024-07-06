@@ -26,7 +26,7 @@ export default async function getCurrentUser(): Promise<User | null> {
       return null;
     }
 
-    // Type assertion to match the custom User type
+    // Return the user with the correct type
     return {
       ...currentUser,
       favoriteIds: currentUser.favoriteIds as number[],
