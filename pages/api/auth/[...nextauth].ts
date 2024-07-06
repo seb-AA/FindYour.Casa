@@ -9,7 +9,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 
 import prisma from "@/app/libs/prismadb";
-import { User } from "@prisma/client";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -54,8 +53,8 @@ export const authOptions: AuthOptions = {
 
         return {
           ...user,
-          id: user.id.toString(), // Convert id to string
-        } as User;
+          id: user.id.toString(), // Ensure the id is a string
+        };
       },
     }),
   ],
