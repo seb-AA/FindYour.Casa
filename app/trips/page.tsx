@@ -8,7 +8,7 @@ import TripsClient from "./TripsClient";
 const TripsPage = async () => {
   const currentUser = await getCurrentUser();
   const reservations = await getReservations({
-    userId: currentUser?.id,
+    userId: currentUser?.id?.toString(), // Convert id to string
   });
 
   if (!currentUser) {
