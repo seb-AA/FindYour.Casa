@@ -8,7 +8,7 @@ import ReservationsClient from "./ReservationsClient";
 const ReservationsPage = async () => {
   const currentUser = await getCurrentUser();
   const reservations = await getReservations({
-    authorId: currentUser?.id,
+    authorId: currentUser?.id?.toString(), // Convert id to string
   });
 
   if (!currentUser) {
