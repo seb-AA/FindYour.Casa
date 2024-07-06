@@ -1,41 +1,42 @@
 "use client";
 
+import { useCallback, useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
+import axios from "axios";
+
 import { Listing, User } from "@prisma/client";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
 import ListingCard from "../components/listings/ListingCard";
 
 interface PropertiesClientProps {
-  currentUser?: User | null;
   listings: Listing[];
+  currentUser?: User | null;
 }
 
 const PropertiesClient: React.FC<PropertiesClientProps> = ({
-  currentUser,
   listings,
+  currentUser,
 }) => {
   const router = useRouter();
-  const [deletingId, setDeletingId] = useState("");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const onCancel = useCallback(
-    async (id: string) => {
+    (id: string) => {
       setDeletingId(id);
 
       axios
         .delete(`/api/listings/${id}`)
         .then(() => {
           toast.success("Listing deleted successfully");
-          router.refresh();
+          router.replace(router.asPath);
         })
-        .catch((error) => {
-          toast.error(error?.response?.data?.message || "Something went wrong");
+        .catch(() => {
+          toast.error("Something went wrong.");
         })
         .finally(() => {
-          setDeletingId("");
+          setDeletingId(null);
         });
     },
     [router]
@@ -61,9 +62,9 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           <ListingCard
             key={listing.id}
             data={listing}
-            actionId={listing.id}
+            actionId={listing.id.toString()}  // Convert id to string
             onAction={onCancel}
-            disabled={deletingId === listing.id}
+            disabled={deletingId === listing.id.toString()}  // Convert id to string
             actionLabel="Delete property"
             currentUser={currentUser}
           />
