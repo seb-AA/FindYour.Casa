@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
 
@@ -20,9 +19,16 @@ export async function POST(request: Request, { params }: { params: IParams }) {
     throw new Error("Invalid ID");
   }
 
+  // Convert listingId to number
+  const numericListingId = Number(listingId);
+
+  if (isNaN(numericListingId)) {
+    throw new Error("Invalid listingId format");
+  }
+
   let favoriteIds = [...(currentUser.favoriteIds || [])];
 
-  favoriteIds.push(listingId);
+  favoriteIds.push(numericListingId);
 
   const user = await prisma.user.update({
     where: {
@@ -52,9 +58,16 @@ export async function DELETE(
     throw new Error("Invalid ID");
   }
 
+  // Convert listingId to number
+  const numericListingId = Number(listingId);
+
+  if (isNaN(numericListingId)) {
+    throw new Error("Invalid listingId format");
+  }
+
   let favoriteIds = [...(currentUser.favoriteIds || [])];
 
-  favoriteIds = favoriteIds.filter((id) => id !== listingId);
+  favoriteIds = favoriteIds.filter((id) => id !== numericListingId);
 
   const user = await prisma.user.update({
     where: {
