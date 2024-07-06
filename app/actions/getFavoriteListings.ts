@@ -1,6 +1,6 @@
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "./getCurrentUser";
-import { User } from "@/app/types/types";
+import { User } from "@/app/types";
 
 export default async function getFavoriteListings() {
   try {
