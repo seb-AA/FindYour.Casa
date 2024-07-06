@@ -6,7 +6,7 @@ import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
 
 interface FavoritesClientProps {
-  currentUser?: User | null;
+  currentUser?: User | null; // Allow undefined as well
   listings: Listing[];
 }
 
