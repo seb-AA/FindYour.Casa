@@ -10,7 +10,7 @@ interface IListingHeadProps {
   title: string;
   locationValue: string;
   imageSrc: string;
-  id: string;  // assuming id is a string
+  id: number;  // Changed from string to number
   currentUser?: User | null;
 }
 
@@ -24,13 +24,6 @@ const ListingHead: React.FC<IListingHeadProps> = ({
   const { getByValue } = useCountries();
 
   const location = getByValue(locationValue);
-
-  // Convert id to number
-  const numericId = Number(id);
-
-  if (isNaN(numericId)) {
-    throw new Error("Invalid listing id format");
-  }
 
   return (
     <>
@@ -55,7 +48,7 @@ const ListingHead: React.FC<IListingHeadProps> = ({
           className="object-cover w-full"
         />
         <div className="absolute top-5 right-5">
-          <HeartButton listingId={numericId} currentUser={currentUser} />
+          <HeartButton listingId={id} currentUser={currentUser} />
         </div>
       </div>
     </>
