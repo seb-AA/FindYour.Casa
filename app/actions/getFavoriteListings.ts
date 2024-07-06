@@ -1,27 +1,28 @@
 import prisma from "@/app/libs/prismadb";
-import getCurrentUser from "./getCurrentUser";
-import { User } from "@/app/types";
 
-export default async function getFavoriteListings() {
+export default async function getListingById(listingId: string | undefined) {
+  if (!listingId) {
+    throw new Error("listingId is required");
+  }
+
+  // Convert listingId to number
+  const numericListingId = Number(listingId);
+
+  if (isNaN(numericListingId)) {
+    throw new Error("Invalid listingId format");
+  }
+
   try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) return [];
-
-    // Ensure favoriteIds is an array of numbers
-    if (!Array.isArray(currentUser.favoriteIds)) {
-      throw new Error("favoriteIds is not an array");
-    }
-
-    const favoriteListings = await prisma.listing.findMany({
+    const listing = await prisma.listing.findUnique({
       where: {
-        id: {
-          in: currentUser.favoriteIds,
-        },
+        id: numericListingId,
+      },
+      include: {
+        user: true,
       },
     });
 
-    return favoriteListings;
+    return listing;
   } catch (error: any) {
     throw new Error(error.message);
   }
