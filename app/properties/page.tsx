@@ -8,7 +8,7 @@ import getListings from "../actions/getListings";
 const PropertiesPage = async () => {
   const currentUser = await getCurrentUser();
   const listings = await getListings({
-    userId: currentUser?.id,
+    userId: currentUser?.id?.toString(), // Convert id to string
   });
 
   if (!currentUser) {
