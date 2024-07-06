@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 
@@ -20,9 +19,16 @@ export async function DELETE(req: Request, { params }: { params: IParams }) {
     throw new Error("Invalid ID");
   }
 
+  // Convert reservationId to number
+  const numericReservationId = Number(reservationId);
+
+  if (isNaN(numericReservationId)) {
+    throw new Error("Invalid reservationId format");
+  }
+
   const reservation = await prisma.reservation.deleteMany({
     where: {
-      id: reservationId,
+      id: numericReservationId,
       OR: [{ userId: currentUser.id }, { listing: { userId: currentUser.id } }],
     },
   });
