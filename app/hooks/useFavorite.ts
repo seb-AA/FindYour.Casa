@@ -8,7 +8,7 @@ import { User } from "@prisma/client";
 import useLoginModal from "./useLoginModal";
 
 interface IUseFavorite {
-  listingId: string;
+  listingId: number;
   currentUser?: User | null;
 }
 
