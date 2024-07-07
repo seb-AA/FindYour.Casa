@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Updated import
 import { toast } from "react-hot-toast";
 import axios from "axios";
 

@@ -27,7 +27,7 @@ export default async function getListings(params: IListingParams) {
     let query: any = {};
 
     if (userId) {
-      query.userId = userId;
+      query.userId = parseInt(userId, 10); // Convert userId to number
     }
 
     if (category) {
@@ -39,15 +39,15 @@ export default async function getListings(params: IListingParams) {
     }
 
     if (guestCount) {
-      query.guestCount = { gte: +guestCount };
+      query.guestCount = { gte: guestCount };
     }
 
     if (roomCount) {
-      query.roomCount = { gte: +roomCount };
+      query.roomCount = { gte: roomCount };
     }
 
     if (bathroomCount) {
-      query.bathroomCount = { gte: +bathroomCount };
+      query.bathroomCount = { gte: bathroomCount };
     }
 
     if (startDate && endDate) {
