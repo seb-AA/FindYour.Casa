@@ -31,6 +31,7 @@ const Search = () => {
           text-sm
           font-semibold
           flex
+          text-gray-500
           items-center
           justify-center
         "
