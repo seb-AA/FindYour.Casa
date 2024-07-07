@@ -19,63 +19,32 @@ const Search = () => {
         hover:shadow-md
         transition
         cursor-pointer
+        flex
+        items-center
+        justify-center
       "
     >
       <div
         className="
+          text-sm
+          font-semibold
           flex
-          flex-row
           items-center
-          justify-between
+          justify-center
         "
       >
-        <div
-          className="
-            text-sm
-            font-semibold
-            px-6
-          "
-        >
-          Find your happy place[s]
-        </div>
-        <div
-          className="
-            hidden
-            sm:block
-            text-sm
-            font-semibold
-            px-6
-            border-x-[1px]
-            flex-1
-            text-center
-          "
-        >
-          &nbsp;
-        </div>
-        <div
-          className="
-            text-sm
-            pl-6
-            pr-2
-            text-gray-600
-            flex
-            flex-row
-            items-center
-            gap-3
-          "
-        >
-          <div className="hidden sm:block">&nbsp;</div>
-          <div
-            className="
-              p-2
-              bg-rose-500
-              rounded-full
-              text-white
-            "
-          >
-            <BiSearch size={18} />
-          </div>
-        </div>
+        Find your happy place..(s)...
+      </div>
+      <div
+        className="
+          p-2
+          bg-rose-500
+          rounded-full
+          text-white
+          ml-4
+        "
+      >
+        <BiSearch size={18} />
       </div>
     </div>
   );
