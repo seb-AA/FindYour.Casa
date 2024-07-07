@@ -36,7 +36,7 @@ const Search = () => {
           justify-center
         "
       >
-        Find your happy place..[s]...
+        Search for your happy place..[s]...
       </div>
       <div className="p-2">
         <BiSearch size={18} className="text-slate-800" />
