@@ -39,7 +39,7 @@ const Search = () => {
       <div
         className="
           p-6
-          bg-slate-850
+          bg-slate-800
           rounded-full
           text-white
           ml-4
