@@ -57,9 +57,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <div
             onClick={toggleOpen}
             className="
-              p-8
-              md:py-1
-              md:px-2
+              p-5
+              md:py-2
+              md:px-3
               border-[1px]
               border-neutral-200
               flex
