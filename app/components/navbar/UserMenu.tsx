@@ -60,7 +60,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               p-4
               md:py-1
               md:px-2
-              border-[1px]
               border-neutral-200
               flex
               flex-row
@@ -68,7 +67,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               gap-3
               rounded-full
               cursor-pointer
-              hover:shadow-md
+              shadow-md
+              hover:shadow-xl
               transition
             "
           >
