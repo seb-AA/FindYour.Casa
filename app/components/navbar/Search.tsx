@@ -38,8 +38,8 @@ const Search = () => {
       </div>
       <div
         className="
-          p-4
-          bg-rose-500
+          p-6
+          bg-slate-500
           rounded-full
           text-white
           ml-4
