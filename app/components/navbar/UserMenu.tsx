@@ -66,7 +66,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               flex-row
               items-center
               gap-3
-              rounded-full
+              rounded-md
               cursor-pointer
               hover:shadow-xl
               shadow-md
