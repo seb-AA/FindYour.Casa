@@ -13,9 +13,10 @@ const Search = () => {
         border-[1px]
         w-full
         md:w-auto
-        py-2  
+        py-1
+        px-2
         rounded-full
-        shadow-sm
+        shadow-md
         hover:shadow-xl
         transition
         cursor-pointer
@@ -31,18 +32,17 @@ const Search = () => {
           flex
           items-center
           justify-center
-          p-6
         "
       >
-        Find your happy place..(s)...
+        Find your happy place[s]
       </div>
       <div
         className="
-          p-6
+          p-2
           bg-slate-800
           rounded-full
           text-white
-          ml-4
+          ml-2
         "
       >
         <BiSearch size={18} />
