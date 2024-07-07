@@ -1,15 +1,13 @@
-import getCurrentUser from "./actions/getCurrentUser";
+"use client";
+
+import { useCallback } from "react";
+import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
 import ClientOnly from "./components/ClientOnly";
 import Container from "./components/Container";
 import useRegisterModal from "./hooks/useRegisterModal";
 import useLoginModal from "./hooks/useLoginModal";
-import { useCallback } from "react";
-import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
 
-export const dynamic = "force-dynamic";
-
-const Home = async () => {
-  const currentUser = await getCurrentUser();
+const Home = () => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
 
@@ -28,7 +26,7 @@ const Home = async () => {
           <h1 className="text-4xl font-bold mb-8">Welcome to FindYour.Casa</h1>
           <p className="text-lg mb-8">
             FindYour.Casa is your centralized platform for uploading, analyzing,
-            and comparing properties. Whether you&apos;re considering multiple homes
+            and comparing properties. Whether you're considering multiple homes
             or just want to keep track of potential purchases, FindYour.Casa
             offers the tools you need to make informed decisions.
           </p>
@@ -43,12 +41,12 @@ const Home = async () => {
             </li>
             <li className="mb-4">
               <span className="font-semibold">Upload Properties:</span> Add the
-              properties you&apos;re interested in to your profile. Include details
+              properties you're interested in to your profile. Include details
               like images, descriptions, locations, and prices.
             </li>
             <li className="mb-4">
               <span className="font-semibold">Analyze and Compare:</span> Use
-              our tools to analyze and compare the properties you&apos;ve uploaded.
+              our tools to analyze and compare the properties you’ve uploaded.
               Make the best decision with all the information at your
               fingertips.
             </li>

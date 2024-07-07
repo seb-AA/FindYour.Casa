@@ -12,8 +12,8 @@ import SearchModal from "./components/modals/SearchModal";
 const font = Nunito({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Airbnb clone",
-  description: "Airbnb app for vacation rentals",
+  title: "FindYour.Casa",
+  description: "Supercharge the search for your dream property",
 };
 
 export default async function RootLayout({
