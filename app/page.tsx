@@ -26,7 +26,7 @@ const Home = () => {
           <h1 className="text-4xl font-bold mb-8">Welcome to FindYour.Casa</h1>
           <p className="text-lg mb-8">
             FindYour.Casa is your centralized platform for uploading, analyzing,
-            and comparing properties. Whether you're considering multiple homes
+            and comparing properties. Whether you&apos;re considering multiple homes
             or just want to keep track of potential purchases, FindYour.Casa
             offers the tools you need to make informed decisions.
           </p>
@@ -41,7 +41,7 @@ const Home = () => {
             </li>
             <li className="mb-4">
               <span className="font-semibold">Upload Properties:</span> Add the
-              properties you're interested in to your profile. Include details
+              properties you&apos;re interested in to your profile. Include details
               like images, descriptions, locations, and prices.
             </li>
             <li className="mb-4">
