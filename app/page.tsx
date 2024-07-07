@@ -28,7 +28,7 @@ const Home = async () => {
           <h1 className="text-4xl font-bold mb-8">Welcome to FindYour.Casa</h1>
           <p className="text-lg mb-8">
             FindYour.Casa is your centralized platform for uploading, analyzing,
-            and comparing properties. Whether you're considering multiple homes
+            and comparing properties. Whether you&apos;re considering multiple homes
             or just want to keep track of potential purchases, FindYour.Casa
             offers the tools you need to make informed decisions.
           </p>
@@ -48,7 +48,7 @@ const Home = async () => {
             </li>
             <li className="mb-4">
               <span className="font-semibold">Analyze and Compare:</span> Use
-              our tools to analyze and compare the properties you’ve uploaded.
+              our tools to analyze and compare the properties you&apos;ve uploaded.
               Make the best decision with all the information at your
               fingertips.
             </li>
