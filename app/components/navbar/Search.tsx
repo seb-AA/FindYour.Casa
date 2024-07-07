@@ -33,7 +33,7 @@ const Search = () => {
           justify-center
         "
       >
-        Find your happy place[s]
+        Find your happy place..(s)...
       </div>
       <div
         className="
