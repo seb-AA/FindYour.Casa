@@ -24,7 +24,7 @@ const Home = () => {
         className="relative bg-cover bg-center min-h-screen flex items-center justify-center"
         style={{ backgroundImage: 'url("/images/provence.jpg")', zIndex: '-1' }}
       >
-        <div className="bg-white bg-opacity-50 p-10 rounded-md shadow-md max-w-2xl mx-auto text-center mt-20" style={{ zIndex: '1' }}>
+        <div className="bg-white bg-opacity-80 p-10 rounded-md shadow-md max-w-2xl mx-auto text-center mt-20" style={{ zIndex: '1' }}>
           <h1 className="text-4xl font-bold mb-8">Welcome to FindYour.Casa</h1>
           <p className="text-lg mb-8">
             FindYour.Casa is your centralized platform for uploading, analyzing,
