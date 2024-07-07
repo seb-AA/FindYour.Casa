@@ -32,7 +32,7 @@ const Home = () => {
             or just want to keep track of your properties, FindYour.Casa
             offers the tools you need to make informed decisions.
           </p>
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-4 mb-8">
             <button
               onClick={onLogin}
               className="
