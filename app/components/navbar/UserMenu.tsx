@@ -4,10 +4,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { useCallback, useState } from "react";
 import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
-
-import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
-
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRentModal from "@/app/hooks/useRentModal";
@@ -73,8 +70,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             "
           >
             <AiOutlineMenu />
-            <div className="hidden md:block">
-            </div>
           </div>
         </div>
         {isOpen && (
