@@ -16,7 +16,7 @@ const Search = () => {
         py-2  
         rounded-full
         shadow-sm
-        hover:shadow-md
+        hover:shadow-xl
         transition
         cursor-pointer
         flex
