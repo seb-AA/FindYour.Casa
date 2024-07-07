@@ -1,3 +1,4 @@
+// app/layout.tsx
 import { Toaster } from "react-hot-toast";
 import ClientOnly from "./components/ClientOnly";
 import Navbar from "./components/navbar/Navbar";
@@ -33,7 +34,7 @@ export default async function RootLayout({
           <RegisterModal />
           <LoginModal />
           <Navbar currentUser={currentUser} />
-          <div>{children}</div>
+          <div className="pt-20">{children}</div>
         </ClientOnly>
       </body>
     </html>

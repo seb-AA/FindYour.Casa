@@ -55,10 +55,12 @@ model Listing {
   guestCount    Int
   locationValue String
   price         Int
+  isPublic      Boolean  @default(false)
 
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
 }
+
 
 model Reservation {
   id         Int      @id @default(autoincrement())

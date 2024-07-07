@@ -1,5 +1,3 @@
-"use client";
-
 import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
 import { useMemo, useState } from "react";
@@ -49,6 +47,7 @@ const RentModal = () => {
       price: 1,
       title: "",
       description: "",
+      isPublic: false,  // Add default value
     },
   });
 
@@ -259,6 +258,14 @@ const RentModal = () => {
           errors={errors}
           required
         />
+        <label className="flex items-center space-x-2">
+          <input
+            {...register("isPublic")}
+            type="checkbox"
+            className="border p-2 rounded"
+          />
+          <span>Make this property public</span>
+        </label>
       </div>
     );
   }

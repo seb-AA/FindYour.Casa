@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
@@ -44,7 +44,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
 
   return (
     <Container>
-      <Heading title="Properties" subtitle="List of your properties" />
+      <Heading title="Public Properties" subtitle="List of public properties" />
       <div
         className="
           mt-10
@@ -58,17 +58,43 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           gap-8
         "
       >
-        {listings.map((listing) => (
-          <ListingCard
-            key={listing.id}
-            data={listing}
-            actionId={listing.id.toString()}  // Convert id to string
-            onAction={onCancel}
-            disabled={deletingId === listing.id.toString()}  // Convert id to string
-            actionLabel="Delete property"
-            currentUser={currentUser}
-          />
-        ))}
+        {listings
+          .filter((listing) => listing.isPublic)
+          .map((listing) => (
+            <ListingCard
+              key={listing.id}
+              data={listing}
+              currentUser={currentUser}
+            />
+          ))}
+      </div>
+      <Heading title="Your Properties" subtitle="List of your properties" />
+      <div
+        className="
+          mt-10
+          grid
+          grid-cols-1
+          sm:grid-cols-2
+          md:grid-cols-3
+          lg:grid-cols-4
+          xl:grid-cols-5
+          2xl:grid-cols-6
+          gap-8
+        "
+      >
+        {listings
+          .filter((listing) => listing.userId === currentUser?.id)
+          .map((listing) => (
+            <ListingCard
+              key={listing.id}
+              data={listing}
+              actionId={listing.id.toString()}
+              onAction={onCancel}
+              disabled={deletingId === listing.id.toString()}
+              actionLabel="Delete property"
+              currentUser={currentUser}
+            />
+          ))}
       </div>
     </Container>
   );
