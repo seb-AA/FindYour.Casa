@@ -12,9 +12,10 @@ const Search = () => {
       className="
         border-[1px]
         w-full
-        md:w-auto
+        md:w-1/2
+        mx-auto
         py-1
-        px-2
+        px-4
         rounded-full
         shadow-md
         hover:shadow-xl
@@ -22,7 +23,7 @@ const Search = () => {
         cursor-pointer
         flex
         items-center
-        justify-center
+        justify-between
       "
     >
       <div
@@ -42,7 +43,6 @@ const Search = () => {
           bg-slate-800
           rounded-full
           text-white
-          ml-2
         "
       >
         <BiSearch size={18} />
