@@ -43,7 +43,7 @@ const Home = async () => {
             </li>
             <li className="mb-4">
               <span className="font-semibold">Upload Properties:</span> Add the
-              properties you're interested in to your profile. Include details
+              properties you&apos;re interested in to your profile. Include details
               like images, descriptions, locations, and prices.
             </li>
             <li className="mb-4">
