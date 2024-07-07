@@ -31,13 +31,14 @@ const Search = () => {
           flex
           items-center
           justify-center
+          p-6
         "
       >
         Find your happy place..(s)...
       </div>
       <div
         className="
-          p-2
+          p-4
           bg-rose-500
           rounded-full
           text-white
