@@ -43,7 +43,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               items-center
               text-sm
               font-semibold
-              py-3
+              py-2
               px-4
               rounded-full
               hover:bg-neutral-100
@@ -57,7 +57,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <div
             onClick={toggleOpen}
             className="
-              p-5
+              p-2
               md:py-2
               md:px-3
               border-[1px]
@@ -82,7 +82,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             absolute
             rounded-xl
             shadow-md
-            w-[40vw]
+            w-[80vw]
             md:w-3/4
             bg-white
             overflow-hidden

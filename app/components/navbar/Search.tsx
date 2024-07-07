@@ -14,7 +14,7 @@ const Search = () => {
         w-full
         md:w-1/2
         mx-auto
-        py-1
+        py-2
         px-4
         rounded-full
         shadow-md
