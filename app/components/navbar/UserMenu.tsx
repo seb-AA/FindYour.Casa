@@ -1,6 +1,6 @@
 "use client";
 
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlinePlus } from "react-icons/ai";
 import { useCallback, useState } from "react";
 import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
@@ -38,7 +38,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             onClick={onRent}
             className="
               hidden
-              md:block
+              md:flex
+              flex-row
+              items-center
               text-sm
               font-semibold
               py-3
@@ -49,7 +51,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               cursor-pointer
             "
           >
-            Airbnb your home
+            <AiOutlinePlus className="mr-1" />
+            Add a Property
           </div>
           <div
             onClick={toggleOpen}
