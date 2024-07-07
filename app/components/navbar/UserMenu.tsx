@@ -1,6 +1,6 @@
 "use client";
 
-import { AiOutlineMenu, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlinePlus, AiOutlineCompass, AiOutlineHeart, AiOutlineHome } from "react-icons/ai";
 import { useCallback, useState } from "react";
 import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
@@ -97,20 +97,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   <MenuItem
                     onClick={() => router.push("/trips")}
                     label="Explorer"
+                    icon={AiOutlineCompass}
                   />
                   <MenuItem
                     onClick={() => router.push("/favorites")}
-                    label="My Favorites"
+                    label="Favorites"
+                    icon={AiOutlineHeart}
                   />
-                  {/*<MenuItem
-                    onClick={() => router.push("/reservations")}
-                    label="My reservations"
-                  />*/}
                   <MenuItem
                     onClick={() => router.push("/properties")}
                     label="Properties"
+                    icon={AiOutlineHome}
                   />
-                  <MenuItem onClick={rentModal.onOpen} label="Add a Property" />
                   <hr />
                   <MenuItem onClick={() => signOut()} label="Logout" />
                 </>
