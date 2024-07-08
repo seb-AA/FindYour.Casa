@@ -10,17 +10,22 @@ declare global {
 }
 
 interface ImageUploadProps {
-  onChange: (value: string) => void;
-  value: string;
+  onChange: (value: string[] | string) => void;
+  value: string[] | string;
   label?: string;
+  multiple?: boolean;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label }) => {
+const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multiple = false }) => {
   const handleUpload = useCallback(
     (result: any) => {
-      onChange(result.info.secure_url);
+      if (multiple) {
+        onChange([...((value as string[]) || []), result.info.secure_url]);
+      } else {
+        onChange(result.info.secure_url);
+      }
     },
-    [onChange]
+    [onChange, multiple, value]
   );
 
   return (
@@ -30,7 +35,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label }) => 
         onUpload={handleUpload}
         uploadPreset="Airbnb-clone"
         options={{
-          maxFiles: 1,
+          maxFiles: multiple ? undefined : 1,
           styles: {
             palette: {
               window: "#F5F5F5",
@@ -76,16 +81,30 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label }) => 
             >
               <TbPhotoPlus size={50} />
               <div className="font-semibold text-lg">Click to upload a photo</div>
-              {value && (
-                <div className="absolute inset-0 w-full h-full">
-                  <Image
-                    alt="Uploaded image"
-                    fill
-                    sizes="100%"
-                    style={{ objectFit: "cover" }}
-                    src={value}
-                  />
-                </div>
+              {Array.isArray(value) ? (
+                value.map((val, index) => (
+                  <div key={index} className="relative w-full h-40 mt-4">
+                    <Image
+                      alt={`Uploaded image ${index + 1}`}
+                      fill
+                      sizes="100%"
+                      style={{ objectFit: "cover" }}
+                      src={val}
+                    />
+                  </div>
+                ))
+              ) : (
+                value && (
+                  <div className="absolute inset-0 w-full h-full">
+                    <Image
+                      alt="Uploaded image"
+                      fill
+                      sizes="100%"
+                      style={{ objectFit: "cover" }}
+                      src={value}
+                    />
+                  </div>
+                )
               )}
             </div>
           );
