@@ -12,9 +12,10 @@ declare global {
 interface ImageUploadProps {
   onChange: (value: string) => void;
   value: string;
+  label?: string;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
+const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label }) => {
   const handleUpload = useCallback(
     (result: any) => {
       onChange(result.info.secure_url);
@@ -23,71 +24,74 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
   );
 
   return (
-    <CldUploadWidget
-      onUpload={handleUpload}
-      uploadPreset="Airbnb-clone"
-      options={{
-        maxFiles: 1,
-        styles: {
-          palette: {
-            window: "#F5F5F5",
-            sourceBg: "#FFFFFF",
-            windowBorder: "#90a0b3",
-            tabIcon: "#69778A",
-            inactiveTabIcon: "#69778A",
-            menuIcons: "#69778A",
-            link: "#F43F5E",
-            action: "#8F5DA5",
-            inProgress: "#0194c7",
-            complete: "#53ad9d",
-            error: "#c43737",
-            textDark: "#90A0B3",
-            textLight: "#FFFFFF",
+    <div className="flex flex-col gap-2">
+      {label && <div className="font-semibold text-lg">{label}</div>}
+      <CldUploadWidget
+        onUpload={handleUpload}
+        uploadPreset="Airbnb-clone"
+        options={{
+          maxFiles: 1,
+          styles: {
+            palette: {
+              window: "#F5F5F5",
+              sourceBg: "#FFFFFF",
+              windowBorder: "#90a0b3",
+              tabIcon: "#69778A",
+              inactiveTabIcon: "#69778A",
+              menuIcons: "#69778A",
+              link: "#F43F5E",
+              action: "#8F5DA5",
+              inProgress: "#0194c7",
+              complete: "#53ad9d",
+              error: "#c43737",
+              textDark: "#90A0B3",
+              textLight: "#FFFFFF",
+            },
+            frame: {
+              background: "#67676700",
+            },
           },
-          frame: {
-            background: "#67676700",
-          },
-        },
-      }}
-    >
-      {({ open }) => {
-        return (
-          <div
-            onClick={() => (open ? open() : {})}
-            className="
-              relative
-              cursor-pointer
-              hover:opacity-70
-              transition
-              border-dashed
-              border-2
-              p-20
-              border-neutral-300
-              flex
-              flex-col
-              justify-center
-              items-center
-              gap-4
-              text-neutral-600
-            "
-          >
-            <TbPhotoPlus size={50} />
-            <div className="font-semibold text-lg">Click to upload a photo</div>
-            {value && (
-              <div className="absolute inset-0 w-full h-full">
-                <Image
-                  alt="Uploaded image"
-                  fill
-                  sizes="100%"
-                  style={{ objectFit: "cover" }}
-                  src={value}
-                />
-              </div>
-            )}
-          </div>
-        );
-      }}
-    </CldUploadWidget>
+        }}
+      >
+        {({ open }) => {
+          return (
+            <div
+              onClick={() => (open ? open() : {})}
+              className="
+                relative
+                cursor-pointer
+                hover:opacity-70
+                transition
+                border-dashed
+                border-2
+                p-20
+                border-neutral-300
+                flex
+                flex-col
+                justify-center
+                items-center
+                gap-4
+                text-neutral-600
+              "
+            >
+              <TbPhotoPlus size={50} />
+              <div className="font-semibold text-lg">Click to upload a photo</div>
+              {value && (
+                <div className="absolute inset-0 w-full h-full">
+                  <Image
+                    alt="Uploaded image"
+                    fill
+                    sizes="100%"
+                    style={{ objectFit: "cover" }}
+                    src={value}
+                  />
+                </div>
+              )}
+            </div>
+          );
+        }}
+      </CldUploadWidget>
+    </div>
   );
 };
 
