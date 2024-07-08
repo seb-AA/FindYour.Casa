@@ -9,8 +9,8 @@ interface ListingInfoProps {
   guestCount: number;
   bathroomCount: number;
   locationValue: string;
-  agentWebsite?: string;
-  notes?: string;
+  agentWebsite?: string | null;
+  notes?: string | null;
   hasSwimmingPool?: boolean;
   hasGarage?: boolean;
   numberOfOtherBuildings?: number;
@@ -82,22 +82,22 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           <span className="font-semibold">Garage:</span> Yes
         </div>
       )}
-      {numberOfOtherBuildings !== undefined && (
+      {numberOfOtherBuildings && (
         <div>
           <span className="font-semibold">Number of Other Buildings:</span> {numberOfOtherBuildings}
         </div>
       )}
-      {numberOfHabitableBuildings !== undefined && (
+      {numberOfHabitableBuildings && (
         <div>
           <span className="font-semibold">Number of Habitable Buildings:</span> {numberOfHabitableBuildings}
         </div>
       )}
-      {landSize !== undefined && (
+      {landSize && (
         <div>
           <span className="font-semibold">Size of Land:</span> {landSize} sq meters
         </div>
       )}
-      {arableLandSize !== undefined && (
+      {arableLandSize && (
         <div>
           <span className="font-semibold">Size of Arable Land:</span> {arableLandSize} sq meters
         </div>
