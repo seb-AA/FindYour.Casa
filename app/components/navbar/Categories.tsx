@@ -12,13 +12,11 @@ import {
   GiForestCamp,
   GiIsland,
   GiWindmill,
-  GiHouse,
-  GiFarmTractor
 } from "react-icons/gi";
-import { FaSkiing, FaWarehouse } from "react-icons/fa";
+import { FaSkiing } from "react-icons/fa";
 import { BsSnow } from "react-icons/bs";
 import { IoDiamond } from "react-icons/io5";
-import { MdOutlineVilla, MdOutlineOtherHouses } from "react-icons/md";
+import { MdOutlineVilla } from "react-icons/md";
 import CategoryBox from "../CategoryBox";
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -33,7 +31,7 @@ export const categories = [
   {
     label: "Windmills",
     icon: <GiWindmill />,
-    description: "This property is has windmills!",
+    description: "This property has windmills!",
   },
   {
     label: "Modern",
@@ -48,7 +46,7 @@ export const categories = [
   {
     label: "Pools",
     icon: <TbPool />,
-    description: "This is property has a beautiful pool!",
+    description: "This property has a beautiful pool!",
   },
   {
     label: "Islands",
@@ -63,7 +61,7 @@ export const categories = [
   {
     label: "Skiing",
     icon: <FaSkiing />,
-    description: "This property has skiing activies!",
+    description: "This property has skiing activities!",
   },
   {
     label: "Castles",
@@ -83,7 +81,7 @@ export const categories = [
   {
     label: "Arctic",
     icon: <BsSnow />,
-    description: "This property is in arctic environment!",
+    description: "This property is in an arctic environment!",
   },
   {
     label: "Desert",
@@ -99,31 +97,6 @@ export const categories = [
     label: "Lux",
     icon: <IoDiamond />,
     description: "This property is brand new and luxurious!",
-  },
-  {
-    label: "Garage",
-    icon: <FaWarehouse />,
-    description: "This property has a garage!",
-  },
-  {
-    label: "Other Buildings",
-    icon: <MdOutlineOtherHouses />,
-    description: "This property has other buildings!",
-  },
-  {
-    label: "Habitable Buildings",
-    icon: <GiHouse />,
-    description: "This property has habitable buildings!",
-  },
-  {
-    label: "Land Size",
-    icon: <GiFarmTractor />,
-    description: "This property has land!",
-  },
-  {
-    label: "Arable Land Size",
-    icon: <GiFarmTractor />,
-    description: "This property has arable land!",
   },
 ];
 
@@ -148,7 +121,6 @@ const Categories = () => {
         items-center
         justify-between
         overflow-x-auto
-        overflow-
         ${styles.categories}
         `}
       >
