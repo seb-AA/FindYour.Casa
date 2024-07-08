@@ -52,10 +52,11 @@ const ListingPage = async ({ params }: { params: IParams }) => {
         />
       </ClientOnly>
     );
-  } catch (error) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     return (
       <ClientOnly>
-        <EmptyState title="Something went wrong" subtitle={error.message} />
+        <EmptyState title="Something went wrong" subtitle={errorMessage} />
       </ClientOnly>
     );
   }
