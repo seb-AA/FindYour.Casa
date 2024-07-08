@@ -46,19 +46,9 @@ const RentModal = () => {
       roomCount: 1,
       bathroomCount: 1,
       imageSrc: "",
-      photos: [],
       price: 1,
       title: "",
       description: "",
-      agentWebsite: "",
-      notes: "",
-      hasSwimmingPool: false,
-      hasGarage: false,
-      numberOfOtherBuildings: 0,
-      numberOfHabitableBuildings: 0,
-      landSize: 0,
-      arableLandSize: 0,
-      isPublic: false,
     },
   });
 
@@ -206,73 +196,6 @@ const RentModal = () => {
           value={bathroomCount}
           onChange={(value) => setCustomValue("bathroomCount", value)}
         />
-        <hr />
-        <Input
-          id="agentWebsite"
-          label="Agent Website"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        <Input
-          id="notes"
-          label="Notes"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="hasSwimmingPool"
-            className="mr-2"
-            disabled={isLoading}
-            {...register("hasSwimmingPool")}
-          />
-          <span>Has Swimming Pool</span>
-        </div>
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="hasGarage"
-            className="mr-2"
-            disabled={isLoading}
-            {...register("hasGarage")}
-          />
-          <span>Has Garage</span>
-        </div>
-        <Input
-          id="numberOfOtherBuildings"
-          label="Number of Other Buildings"
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        <Input
-          id="numberOfHabitableBuildings"
-          label="Number of Habitable Buildings"
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        <Input
-          id="landSize"
-          label="Size of Land (sq meters)"
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        <Input
-          id="arableLandSize"
-          label="Size of Arable Land (sq meters)"
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
       </div>
     );
   }
@@ -335,7 +258,6 @@ const RentModal = () => {
           title="Now let's set up your price"
           subtitle="You can always edit this later"
         />
-       ```tsx
         <Input
           id="price"
           label="Price"
@@ -346,16 +268,6 @@ const RentModal = () => {
           errors={errors}
           required
         />
-        <div className="flex items-center mt-4">
-          <input
-            type="checkbox"
-            id="isPublic"
-            className="mr-2"
-            disabled={isLoading}
-            {...register("isPublic")}
-          />
-          <span>Make this listing public</span>
-        </div>
       </div>
     );
   }

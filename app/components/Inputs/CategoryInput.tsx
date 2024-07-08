@@ -1,16 +1,16 @@
 "use client";
 
-import { IconType } from "react-icons";
+import { ReactNode } from "react";
 
 interface CategoryInputProps {
-  icon: IconType;
+  icon: ReactNode;
   label: string;
   selected: boolean;
   onClick: (value: string) => void;
 }
 
 const CategoryInput: React.FC<CategoryInputProps> = ({
-  icon: Icon,
+  icon,
   label,
   selected,
   onClick,
@@ -31,7 +31,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
         ${selected ? "border-neutral-500" : "border-neutral-200"}
       `}
     >
-      <Icon size={32} />
+      <div className="icon-container">{icon}</div>
       <div className="text-sm font-semibold">{label}</div>
     </div>
   );
