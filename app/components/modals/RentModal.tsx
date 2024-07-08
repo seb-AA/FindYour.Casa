@@ -285,7 +285,6 @@ const RentModal = () => {
           subtitle="You can always add more later"
         />
         <ImageUpload
-          label="Primary Image"
           value={imageSrc}
           onChange={(value) => setCustomValue("imageSrc", value)}
         />
