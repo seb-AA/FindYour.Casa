@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { useMemo, useState } from "react";
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import axios from "axios";
-import toast from "react-hot-toast";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
 import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
+import { useMemo, useState } from "react";
 import Heading from "../Heading";
+import { categories } from "../navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import CountrySelect from "../Inputs/CountrySelect";
+import dynamic from "next/dynamic";
 import Counter from "../Inputs/Counter";
 import ImageUpload from "../Inputs/ImageUpload";
 import Input from "../Inputs/Input";
-import { categories } from "../navbar/Categories";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 enum STEPS {
   CATEGORY = 0,
@@ -22,9 +22,7 @@ enum STEPS {
   INFO = 2,
   IMAGES = 3,
   DESCRIPTION = 4,
-  DETAILS = 5,
-  AMENITIES = 6,
-  PRICE = 7,
+  PRICE = 5,
 }
 
 const RentModal = () => {
@@ -48,6 +46,7 @@ const RentModal = () => {
       roomCount: 1,
       bathroomCount: 1,
       imageSrc: "",
+      photos: [],
       price: 1,
       title: "",
       description: "",
@@ -69,9 +68,11 @@ const RentModal = () => {
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
   const imageSrc = watch("imageSrc");
+  const photos = watch("photos");
 
   const Map = useMemo(
     () => dynamic(() => import("../Map"), { ssr: false }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]
   );
 
@@ -205,6 +206,73 @@ const RentModal = () => {
           value={bathroomCount}
           onChange={(value) => setCustomValue("bathroomCount", value)}
         />
+        <hr />
+        <Input
+          id="agentWebsite"
+          label="Agent Website"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <Input
+          id="notes"
+          label="Notes"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="hasSwimmingPool"
+            className="mr-2"
+            disabled={isLoading}
+            {...register("hasSwimmingPool")}
+          />
+          <span>Has Swimming Pool</span>
+        </div>
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="hasGarage"
+            className="mr-2"
+            disabled={isLoading}
+            {...register("hasGarage")}
+          />
+          <span>Has Garage</span>
+        </div>
+        <Input
+          id="numberOfOtherBuildings"
+          label="Number of Other Buildings"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <Input
+          id="numberOfHabitableBuildings"
+          label="Number of Habitable Buildings"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <Input
+          id="landSize"
+          label="Size of Land (sq meters)"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <Input
+          id="arableLandSize"
+          label="Size of Arable Land (sq meters)"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
       </div>
     );
   }
@@ -217,8 +285,16 @@ const RentModal = () => {
           subtitle="You can always add more later"
         />
         <ImageUpload
+          label="Primary Image"
           value={imageSrc}
           onChange={(value) => setCustomValue("imageSrc", value)}
+        />
+        <hr />
+        <ImageUpload
+          label="Additional Photos"
+          multiple
+          value={photos}
+          onChange={(value) => setCustomValue("photos", value)}
         />
       </div>
     );
@@ -252,152 +328,50 @@ const RentModal = () => {
     );
   }
 
-  if (step === STEPS.DETAILS) {
+  if (step === STEPS.PRICE) {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Add additional details about your property"
+          title="Now let's set up your price"
           subtitle="You can always edit this later"
         />
+       ```tsx
         <Input
-          id="agentWebsite"
-          label="Real Estate Agent's Website"
+          id="price"
+          label="Price"
+          formatPrice
+          type="number"
           disabled={isLoading}
           register={register}
           errors={errors}
+          required
         />
-        <hr />
-        <Input
-          id="notes"
-          label="Notes"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        <hr />
-        <ImageUpload
-          id="photos"
-          label="Additional Photos"
-          multiple
-          value={watch("photos")}
-          onChange={(value) => setCustomValue("photos", value)}
-/>
-</div>
-);
-}
+        <div className="flex items-center mt-4">
+          <input
+            type="checkbox"
+            id="isPublic"
+            className="mr-2"
+            disabled={isLoading}
+            {...register("isPublic")}
+          />
+          <span>Make this listing public</span>
+        </div>
+      </div>
+    );
+  }
 
-if (step === STEPS.AMENITIES) {
-bodyContent = (
-<div className="flex flex-col gap-8">
-<Heading
-title="List the amenities of your place"
-subtitle="Specify the amenities your property offers"
-/>
-<label className="flex items-center">
-<input
-type="checkbox"
-id="hasSwimmingPool"
-className="mr-2"
-disabled={isLoading}
-{...register("hasSwimmingPool")}
-/>
-<span>Swimming Pool</span>
-</label>
-<hr />
-<label className="flex items-center">
-<input
-type="checkbox"
-id="hasGarage"
-className="mr-2"
-disabled={isLoading}
-{...register("hasGarage")}
-/>
-<span>Garage</span>
-</label>
-<hr />
-<Input
-id="numberOfOtherBuildings"
-label="Number of Other Buildings"
-type="number"
-disabled={isLoading}
-register={register}
-errors={errors}
-/>
-<hr />
-<Input
-id="numberOfHabitableBuildings"
-label="Number of Habitable Buildings"
-type="number"
-disabled={isLoading}
-register={register}
-errors={errors}
-/>
-<hr />
-<Input
-id="landSize"
-label="Size of Land (sq meters)"
-type="number"
-disabled={isLoading}
-register={register}
-errors={errors}
-/>
-<hr />
-<Input
-id="arableLandSize"
-label="Size of Arable Land (sq meters)"
-type="number"
-disabled={isLoading}
-register={register}
-errors={errors}
-/>
-<hr />
-<label className="flex items-center">
-<input
-type="checkbox"
-id="isPublic"
-className="mr-2"
-disabled={isLoading}
-{...register("isPublic")}
-/>
-<span>Make this property public</span>
-</label>
-</div>
-);
-}
-
-if (step === STEPS.PRICE) {
-bodyContent = (
-<div className="flex flex-col gap-8">
-<Heading
-title="Set your price"
-subtitle="You can always change this later"
-/>
-<Input
-id="price"
-label="Price"
-formatPrice
-type="number"
-disabled={isLoading}
-register={register}
-errors={errors}
-required
-/>
-</div>
-);
-}
-
-return (
-<Modal
-isOpen={rentModal.isOpen}
-onClose={rentModal.onClose}
-onSubmit={handleSubmit(onSubmit)}
-actionLabel={actionLabel}
-secondaryActionLabel={secondaryActionLabel}
-secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-title="List your property"
-body={bodyContent}
-/>
-);
+  return (
+    <Modal
+      isOpen={rentModal.isOpen}
+      onClose={rentModal.onClose}
+      onSubmit={handleSubmit(onSubmit)}
+      actionLabel={actionLabel}
+      secondaryActionLabel={secondaryActionLabel}
+      secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
+      title="Airbnb your home"
+      body={bodyContent}
+    />
+  );
 };
 
 export default RentModal;

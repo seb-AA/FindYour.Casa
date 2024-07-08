@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import prisma from "@/app/libs/prismadb";
+
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import prisma from "@/app/libs/prismadb";
 
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
@@ -14,6 +15,7 @@ export async function POST(request: Request) {
     title,
     description,
     imageSrc,
+    photos,
     category,
     roomCount,
     bathroomCount,
@@ -36,13 +38,13 @@ export async function POST(request: Request) {
       title,
       description,
       imageSrc,
+      photos,
       category,
       roomCount,
       bathroomCount,
       guestCount,
       locationValue: location.value,
       price: parseInt(price, 10),
-      userId: currentUser.id,
       agentWebsite,
       notes,
       hasSwimmingPool,
@@ -52,6 +54,7 @@ export async function POST(request: Request) {
       landSize,
       arableLandSize,
       isPublic,
+      userId: currentUser.id,
     },
   });
 
