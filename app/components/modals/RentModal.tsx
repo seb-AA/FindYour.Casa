@@ -1,3 +1,5 @@
+
+"use client"
 import { useMemo, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import axios from "axios";
