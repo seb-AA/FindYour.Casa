@@ -82,22 +82,22 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           <span className="font-semibold">Garage:</span> Yes
         </div>
       )}
-      {numberOfOtherBuildings && (
+      {numberOfOtherBuildings !== undefined && (
         <div>
           <span className="font-semibold">Number of Other Buildings:</span> {numberOfOtherBuildings}
         </div>
       )}
-      {numberOfHabitableBuildings && (
+      {numberOfHabitableBuildings !== undefined && (
         <div>
           <span className="font-semibold">Number of Habitable Buildings:</span> {numberOfHabitableBuildings}
         </div>
       )}
-      {landSize && (
+      {landSize !== undefined && (
         <div>
           <span className="font-semibold">Size of Land:</span> {landSize} sq meters
         </div>
       )}
-      {arableLandSize && (
+      {arableLandSize !== undefined && (
         <div>
           <span className="font-semibold">Size of Arable Land:</span> {arableLandSize} sq meters
         </div>
