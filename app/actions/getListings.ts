@@ -27,7 +27,7 @@ export default async function getListings(params: IListingParams) {
     let query: any = {};
 
     if (userId) {
-      query.userId = parseInt(userId, 10); // Convert userId to number
+      query.userId = parseInt(userId, 10);
     }
 
     if (category) {

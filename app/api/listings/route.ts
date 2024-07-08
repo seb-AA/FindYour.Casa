@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
@@ -20,7 +20,15 @@ export async function POST(request: Request) {
     guestCount,
     location,
     price,
-    isPublic, // Add this line
+    agentWebsite,
+    notes,
+    hasSwimmingPool,
+    hasGarage,
+    numberOfOtherBuildings,
+    numberOfHabitableBuildings,
+    landSize,
+    arableLandSize,
+    isPublic,
   } = body;
 
   const listing = await prisma.listing.create({
@@ -35,7 +43,15 @@ export async function POST(request: Request) {
       locationValue: location.value,
       price: parseInt(price, 10),
       userId: currentUser.id,
-      isPublic, // Add this line
+      agentWebsite,
+      notes,
+      hasSwimmingPool,
+      hasGarage,
+      numberOfOtherBuildings,
+      numberOfHabitableBuildings,
+      landSize,
+      arableLandSize,
+      isPublic,
     },
   });
 

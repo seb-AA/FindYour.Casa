@@ -4,11 +4,10 @@ import Container from "@/app/components/Container";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import { categories } from "@/app/components/navbar/Categories";
-import { Listing, Reservation, User } from "@prisma/client";
+import { Listing, User } from "@prisma/client";
 import { useMemo } from "react";
 
 interface IListingClientProps {
-  reservations?: Reservation[];
   listing: Listing & {
     user: User;
   };
@@ -18,7 +17,6 @@ interface IListingClientProps {
 const ListingClient: React.FC<IListingClientProps> = ({
   listing,
   currentUser,
-  reservations = [],
 }) => {
   const category = useMemo(() => {
     return categories.find((item) => item.label === listing.category);
@@ -26,7 +24,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
 
   return (
     <Container>
-      <div className="max-w-screen-lg mx-auto mt-20">
+      <div className="max-w-screen-lg mx-auto">
         <div className="flex flex-col gap-6">
           <ListingHead
             title={listing.title}
@@ -53,6 +51,14 @@ const ListingClient: React.FC<IListingClientProps> = ({
               guestCount={listing.guestCount}
               bathroomCount={listing.bathroomCount}
               locationValue={listing.locationValue}
+              agentWebsite={listing.agentWebsite}
+              notes={listing.notes}
+              hasSwimmingPool={listing.hasSwimmingPool}
+              hasGarage={listing.hasGarage}
+              numberOfOtherBuildings={listing.numberOfOtherBuildings}
+              numberOfHabitableBuildings={listing.numberOfHabitableBuildings}
+              landSize={listing.landSize}
+              arableLandSize={listing.arableLandSize}
             />
           </div>
         </div>

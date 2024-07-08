@@ -1,6 +1,5 @@
 import EmptyState from "../components/EmptyState";
 import ClientOnly from "../components/ClientOnly";
-
 import getCurrentUser from "../actions/getCurrentUser";
 import PropertiesClient from "./PropertiesClient";
 import getListings from "../actions/getListings";
@@ -8,7 +7,7 @@ import getListings from "../actions/getListings";
 const PropertiesPage = async () => {
   const currentUser = await getCurrentUser();
   const listings = await getListings({
-    userId: currentUser?.id?.toString(), // Convert id to string
+    userId: currentUser?.id?.toString(),
   });
 
   if (!currentUser) {
