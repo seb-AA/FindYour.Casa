@@ -32,7 +32,7 @@ const ListingPage = async ({ params }: { params: IParams }) => {
 
   try {
     const listing = await getListingById(listingId);
-    const reservations = await getReservations({ listingId });
+    const reservations = await getReservations({ listingId: numericListingId });
     const currentUser = await getCurrentUser();
 
     if (!listing) {

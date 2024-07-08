@@ -1,7 +1,7 @@
 import prisma from "@/app/libs/prismadb";
 
 interface Reservation {
-  listingId?: string;
+  listingId?: string | number;
   userId?: string;
   authorId?: string;
 }
@@ -13,7 +13,7 @@ export default async function getReservations(params: Reservation) {
     const query: any = {};
 
     if (listingId) {
-      query.listingId = listingId;
+      query.listingId = typeof listingId === "string" ? parseInt(listingId, 10) : listingId;
     }
 
     if (userId) {
@@ -41,6 +41,6 @@ export default async function getReservations(params: Reservation) {
       },
     }));
   } catch (error: any) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 }
