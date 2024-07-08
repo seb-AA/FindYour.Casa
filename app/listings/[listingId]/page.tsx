@@ -15,32 +15,50 @@ const ListingPage = async ({ params }: { params: IParams }) => {
   if (!listingId) {
     return (
       <ClientOnly>
-        <EmptyState />
+        <EmptyState title="Invalid Listing" subtitle="Listing ID is required." />
       </ClientOnly>
     );
   }
 
-  const listing = await getListingById(listingId);
-  const reservations = await getReservations({ listingId });
-  const currentUser = await getCurrentUser();
+  const numericListingId = Number(listingId);
 
-  if (!listing) {
+  if (isNaN(numericListingId)) {
     return (
       <ClientOnly>
-        <EmptyState />
+        <EmptyState title="Invalid Listing" subtitle="Listing ID is invalid." />
       </ClientOnly>
     );
   }
 
-  return (
-    <ClientOnly>
-      <ListingClient
-        listing={listing}
-        currentUser={currentUser}
-        reservations={reservations}
-      />
-    </ClientOnly>
-  );
+  try {
+    const listing = await getListingById(listingId);
+    const reservations = await getReservations({ listingId });
+    const currentUser = await getCurrentUser();
+
+    if (!listing) {
+      return (
+        <ClientOnly>
+          <EmptyState title="Listing Not Found" subtitle="The listing does not exist." />
+        </ClientOnly>
+      );
+    }
+
+    return (
+      <ClientOnly>
+        <ListingClient
+          listing={listing}
+          currentUser={currentUser}
+          reservations={reservations}
+        />
+      </ClientOnly>
+    );
+  } catch (error) {
+    return (
+      <ClientOnly>
+        <EmptyState title="Something went wrong" subtitle={error.message} />
+      </ClientOnly>
+    );
+  }
 };
 
 export default ListingPage;
