@@ -1,9 +1,10 @@
-
 "use client"
+
 import { useMemo, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
