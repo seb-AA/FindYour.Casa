@@ -2,7 +2,11 @@
 
 import Container from "../Container";
 
-import { TbBeach, TbMountain, TbPool } from "react-icons/tb";
+import {
+  TbBeach,
+  TbMountain,
+  TbPool
+} from "react-icons/tb";
 import {
   GiBarn,
   GiBoatFishing,
@@ -12,13 +16,28 @@ import {
   GiForestCamp,
   GiIsland,
   GiWindmill,
+  GiHouse,
+  GiFarmTractor
 } from "react-icons/gi";
-import { FaSkiing } from "react-icons/fa";
-import { BsSnow } from "react-icons/bs";
-import { IoDiamond } from "react-icons/io5";
-import { MdOutlineVilla } from "react-icons/md";
+import {
+  FaSkiing,
+  FaWarehouse
+} from "react-icons/fa";
+import {
+  BsSnow
+} from "react-icons/bs";
+import {
+  IoDiamond
+} from "react-icons/io5";
+import {
+  MdOutlineVilla,
+  MdOutlineOtherHouses
+} from "react-icons/md";
 import CategoryBox from "../CategoryBox";
-import { usePathname, useSearchParams } from "next/navigation";
+import {
+  usePathname,
+  useSearchParams
+} from "next/navigation";
 
 import styles from "./Categories.module.css";
 
@@ -97,6 +116,31 @@ export const categories = [
     label: "Lux",
     icon: IoDiamond,
     description: "This property is brand new and luxurious!",
+  },
+  {
+    label: "Garage",
+    icon: FaWarehouse,
+    description: "This property has a garage!",
+  },
+  {
+    label: "Other Buildings",
+    icon: MdOutlineOtherHouses,
+    description: "This property has other buildings!",
+  },
+  {
+    label: "Habitable Buildings",
+    icon: GiHouse,
+    description: "This property has habitable buildings!",
+  },
+  {
+    label: "Land Size",
+    icon: GiFarmTractor,
+    description: "This property has land!",
+  },
+  {
+    label: "Arable Land Size",
+    icon: GiFarmTractor,
+    description: "This property has arable land!",
   },
 ];
 
