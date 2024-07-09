@@ -26,8 +26,7 @@ enum STEPS {
   AMENITIES = 6,
 }
 
-const RentModal = ({ listing }: { listing?: FieldValues }) => {
-  const rentModal = useRentModal();
+const RentModal = ({ isOpen, onClose, listing }: { isOpen: boolean, onClose: () => void, listing?: FieldValues }) => {
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -71,7 +70,6 @@ const RentModal = ({ listing }: { listing?: FieldValues }) => {
 
   const Map = useMemo(
     () => dynamic(() => import("../Map"), { ssr: false }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]
   );
 
@@ -108,7 +106,7 @@ const RentModal = ({ listing }: { listing?: FieldValues }) => {
         router.refresh();
         reset();
         setStep(STEPS.CATEGORY);
-        rentModal.onClose();
+        onClose();
       })
       .catch(() => {
         toast.error("Something went wrong");
@@ -323,15 +321,15 @@ const RentModal = ({ listing }: { listing?: FieldValues }) => {
           type="number"
           disabled={isLoading}
           register={register}
-          errors={
-errors}
+          errors={errors}
         />
         <hr />
         <Input
           id="landSize"
           label="Land Size (sq meters)"
           type="number"
-          disabled={isLoading}
+          disabled```typescript
+={isLoading}
           register={register}
           errors={errors}
         />
@@ -371,13 +369,13 @@ errors}
 
   return (
     <Modal
-      isOpen={rentModal.isOpen}
-      onClose={rentModal.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit(onSubmit)}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      title={listing ? "Edit your listing" : "Airbnb your home"}
+      title="Airbnb your home"
       body={bodyContent}
     />
   );
