@@ -328,8 +328,7 @@ const RentModal = ({ isOpen, onClose, listing }: { isOpen: boolean, onClose: () 
           id="landSize"
           label="Land Size (sq meters)"
           type="number"
-          disabled```typescript
-={isLoading}
+          disabled={isLoading}
           register={register}
           errors={errors}
         />
