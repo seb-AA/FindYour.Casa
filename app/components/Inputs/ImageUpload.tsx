@@ -32,7 +32,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multi
     setUploading(false);
 
     if (response.ok) {
-      const uploadedFiles = data.files.map((file) => `/uploads/${file.newFilename}`);
+      const uploadedFiles = data.files.map((file: { newFilename: string }) => `/uploads/${file.newFilename}`);
       onChange(multiple ? uploadedFiles : uploadedFiles[0]);
     } else {
       console.error('Upload failed:', data.error);
