@@ -45,13 +45,10 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
   );
 
   const onEdit = useCallback(
-    (id: string) => {
-      const listing = listings.find((listing) => listing.id.toString() === id);
-      if (listing) {
-        setEditingListing(listing);
-      }
+    (listing: Listing) => {
+      setEditingListing(listing);
     },
-    [listings]
+    []
   );
 
   const handleModalClose = useCallback(() => {
