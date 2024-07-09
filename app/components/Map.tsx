@@ -23,10 +23,10 @@ interface MapProps {
 const Map: React.FC<MapProps> = ({ center }) => {
   return (
     <MapContainer
-      center={(center as L.LatLngExpression) || [51.505, -0.09]}
-      zoom={center ? 13 : 2}
+      center={(center as L.LatLngExpression) || [-12.04318, -77.02824]}
+      zoom={center ? 4 : 2}
       scrollWheelZoom={false}
-      className="h-[35vh] rounded-lg z-0 mb-20 w-full"
+      className="h-[35vh] rounded-lg z-0 mb-20"
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {center && <Marker position={center as L.LatLngExpression} />}
