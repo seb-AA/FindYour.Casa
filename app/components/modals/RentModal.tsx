@@ -52,6 +52,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
       roomCount: 1,
       bathroomCount: 1,
       imageSrc: "",
+      photos: [],
       price: 1,
       title: "",
       description: "",

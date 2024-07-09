@@ -1,13 +1,6 @@
-"use client";
+// components/Inputs/ImageUpload.tsx
 
-import { CldUploadWidget } from "next-cloudinary";
-import { useCallback } from "react";
-import { TbPhotoPlus } from "react-icons/tb";
-import Image from "next/image";
-
-declare global {
-  var cloudinary: any;
-}
+import { useState } from 'react';
 
 interface ImageUploadProps {
   onChange: (value: string[] | string) => void;
@@ -17,81 +10,59 @@ interface ImageUploadProps {
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multiple = false }) => {
-  const handleUpload = useCallback(
-    (result: any) => {
-      if (result.event === 'success') {
-        if (multiple) {
-          onChange([...((value as string[]) || []), result.info.secure_url]);
-        } else {
-          onChange(result.info.secure_url);
-        }
-      }
-    },
-    [onChange, multiple, value]
-  );
+  const [uploading, setUploading] = useState(false);
+
+  const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    setUploading(true);
+
+    const formData = new FormData();
+    Array.from(files).forEach((file) => {
+      formData.append('file', file);
+    });
+
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    setUploading(false);
+
+    if (response.ok) {
+      const uploadedFiles = data.files.map((file) => `/uploads/${file.newFilename}`);
+      onChange(multiple ? uploadedFiles : uploadedFiles[0]);
+    } else {
+      console.error('Upload failed:', data.error);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2">
       {label && <div className="font-semibold text-lg">{label}</div>}
-      <CldUploadWidget
-        onUpload={handleUpload}
-        uploadPreset="FYC_TEST" // Replace with your upload preset
-        options={{
-          maxFiles: multiple ? undefined : 1,
-        }}
-      >
-        {({ open }) => {
-          return (
-            <div
-              onClick={() => open?.()}
-              className="
-                relative
-                cursor-pointer
-                hover:opacity-70
-                transition
-                border-dashed
-                border-2
-                p-20
-                border-neutral-300
-                flex
-                flex-col
-                justify-center
-                items-center
-                gap-4
-                text-neutral-600
-              "
-            >
-              <TbPhotoPlus size={50} />
-              <div className="font-semibold text-lg">Click to upload a photo</div>
-              {Array.isArray(value) ? (
-                value.map((val, index) => (
-                  <div key={index} className="relative w-full h-40 mt-4">
-                    <Image
-                      alt={`Uploaded image ${index + 1}`}
-                      fill
-                      sizes="100%"
-                      style={{ objectFit: "cover" }}
-                      src={val}
-                    />
-                  </div>
-                ))
-              ) : (
-                value && (
-                  <div className="absolute inset-0 w-full h-full">
-                    <Image
-                      alt="Uploaded image"
-                      fill
-                      sizes="100%"
-                      style={{ objectFit: "cover" }}
-                      src={value}
-                    />
-                  </div>
-                )
-              )}
-            </div>
-          );
-        }}
-      </CldUploadWidget>
+      <input
+        type="file"
+        multiple={multiple}
+        onChange={handleUpload}
+        disabled={uploading}
+        className="cursor-pointer border-dashed border-2 p-4 border-neutral-300 text-neutral-600"
+      />
+      {uploading && <div>Uploading...</div>}
+      {Array.isArray(value) ? (
+        value.map((val, index) => (
+          <div key={index} className="relative w-full h-40 mt-4">
+            <img src={val} alt={`Uploaded image ${index + 1}`} className="object-cover h-full w-full" />
+          </div>
+        ))
+      ) : (
+        value && (
+          <div className="relative w-full h-40 mt-4">
+            <img src={value} alt="Uploaded image" className="object-cover h-full w-full" />
+          </div>
+        )
+      )}
     </div>
   );
 };
