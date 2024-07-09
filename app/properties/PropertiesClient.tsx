@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Updated import
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
@@ -9,7 +9,7 @@ import { Listing, User } from "@prisma/client";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
-import RentModal from "../components/modals/RentModal"; // Import RentModal
+import RentModal from "../components/modals/RentModal";
 
 interface PropertiesClientProps {
   listings: Listing[];
@@ -22,7 +22,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
 }) => {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [editingListing, setEditingListing] = useState<Listing | null>(null); // State to handle editing listing
+  const [editingListing, setEditingListing] = useState<Listing | null>(null);
 
   const onCancel = useCallback(
     (id: string) => {
@@ -45,16 +45,19 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
   );
 
   const onEdit = useCallback(
-    (listing: Listing) => {
-      setEditingListing(listing);
+    (id: string) => {
+      const listing = listings.find((listing) => listing.id.toString() === id);
+      if (listing) {
+        setEditingListing(listing);
+      }
     },
-    []
+    [listings]
   );
 
-  const handleModalClose = () => {
+  const handleModalClose = useCallback(() => {
     setEditingListing(null);
     router.refresh();
-  };
+  }, [router]);
 
   return (
     <Container>

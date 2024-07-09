@@ -26,7 +26,7 @@ enum STEPS {
   AMENITIES = 6,
 }
 
-const RentModal = ({ isOpen, onClose, listing }: { isOpen: boolean, onClose: () => void, listing?: FieldValues }) => {
+const RentModal = ({ isOpen, onClose, listing }: { isOpen: boolean; onClose: () => void; listing?: FieldValues }) => {
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -374,7 +374,7 @@ const RentModal = ({ isOpen, onClose, listing }: { isOpen: boolean, onClose: () 
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      title="Airbnb your home"
+      title="Find Your Dream Property"
       body={bodyContent}
     />
   );
