@@ -28,7 +28,6 @@ export default async function RootLayout({
       <body className={font.className}>
         <ClientOnly>
           <Toaster />
-          <RentModal isOpen={false} onClose={() => {}} />
           <SearchModal />
           <RegisterModal />
           <LoginModal />

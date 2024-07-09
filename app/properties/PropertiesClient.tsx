@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useRouter } from "next/navigation"; // Updated import
+import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
@@ -76,10 +76,10 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           <ListingCard
             key={listing.id}
             data={listing}
-            actionId={listing.id.toString()} // Convert id to string
+            actionId={listing.id.toString()}
             onAction={onCancel}
             onEdit={onEdit}
-            disabled={deletingId === listing.id.toString()} // Convert id to string
+            disabled={deletingId === listing.id.toString()}
             actionLabel="Delete property"
             currentUser={currentUser}
           />

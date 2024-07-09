@@ -15,7 +15,7 @@ interface ListingCardProps {
   data: Listing;
   reservation?: Reservation;
   onAction?: (id: string) => void;
-  onEdit?: (listing: Listing) => void; // Add onEdit prop
+  onEdit?: (listing: Listing) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;

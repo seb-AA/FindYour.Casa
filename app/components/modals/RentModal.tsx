@@ -26,7 +26,13 @@ enum STEPS {
   AMENITIES = 6,
 }
 
-const RentModal = ({ isOpen, onClose, listing }: { isOpen: boolean; onClose: () => void; listing?: FieldValues }) => {
+interface RentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  listing?: FieldValues;
+}
+
+const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -273,6 +279,7 @@ const RentModal = ({ isOpen, onClose, listing }: { isOpen: boolean; onClose: () 
         <Heading
           title="Amenities and Additional Details"
           subtitle="Provide more information about your place"
+       ```tsx
         />
         <Input
           id="agentWebsite"
@@ -374,7 +381,7 @@ const RentModal = ({ isOpen, onClose, listing }: { isOpen: boolean; onClose: () 
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      title="Find Your Dream Property"
+      title="Airbnb your home"
       body={bodyContent}
     />
   );
