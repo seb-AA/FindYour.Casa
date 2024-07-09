@@ -55,12 +55,12 @@ const ListingClient: React.FC<IListingClientProps> = ({
               locationValue={listing.locationValue}
               agentWebsite={listing.agentWebsite || undefined}
               notes={listing.notes || undefined}
-              hasSwimmingPool={listing.hasSwimmingPool}
-              hasGarage={listing.hasGarage}
-              numberOfOtherBuildings={listing.numberOfOtherBuildings}
-              numberOfHabitableBuildings={listing.numberOfHabitableBuildings}
-              landSize={listing.landSize}
-              arableLandSize={listing.arableLandSize}
+              hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
+              hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
+              numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
+              numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
+              landSize={listing.landSize !== null ? listing.landSize : undefined}
+              arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
             />
           </div>
         </div>
