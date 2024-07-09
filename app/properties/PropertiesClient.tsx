@@ -61,7 +61,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
       <Heading title="Properties" subtitle="List of your properties" />
       <div
         className="
-          mt-10
+          mt-25
           grid
           grid-cols-1
           sm:grid-cols-2
