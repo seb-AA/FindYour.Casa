@@ -19,12 +19,10 @@ interface ImageUploadProps {
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multiple = false }) => {
   const handleUpload = useCallback(
     (result: any) => {
-      if (result.event === 'success') {
-        if (multiple) {
-          onChange([...((value as string[]) || []), result.info.secure_url]);
-        } else {
-          onChange(result.info.secure_url);
-        }
+      if (multiple) {
+        onChange([...((value as string[]) || []), result.info.secure_url]);
+      } else {
+        onChange(result.info.secure_url);
       }
     },
     [onChange, multiple, value]
@@ -35,16 +33,35 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multi
       {label && <div className="font-semibold text-lg">{label}</div>}
       <CldUploadWidget
         onUpload={handleUpload}
-        uploadPreset="FYC_TEST" // Replace with your upload preset
+        uploadPreset="FYC_TEST"
         options={{
-          cloudName: "do2if42ik", // Replace with your Cloudinary cloud name
           maxFiles: multiple ? undefined : 1,
+          styles: {
+            palette: {
+              window: "#F5F5F5",
+              sourceBg: "#FFFFFF",
+              windowBorder: "#90a0b3",
+              tabIcon: "#69778A",
+              inactiveTabIcon: "#69778A",
+              menuIcons: "#69778A",
+              link: "#F43F5E",
+              action: "#8F5DA5",
+              inProgress: "#0194c7",
+              complete: "#53ad9d",
+              error: "#c43737",
+              textDark: "#90A0B3",
+              textLight: "#FFFFFF",
+            },
+            frame: {
+              background: "#67676700",
+            },
+          },
         }}
       >
         {({ open }) => {
           return (
             <div
-              onClick={() => open?.()}
+              onClick={() => (open ? open() : {})}
               className="
                 relative
                 cursor-pointer
