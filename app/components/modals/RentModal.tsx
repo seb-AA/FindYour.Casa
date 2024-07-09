@@ -23,6 +23,7 @@ enum STEPS {
   IMAGES = 3,
   DESCRIPTION = 4,
   PRICE = 5,
+  AMENITIES = 6,
 }
 
 const RentModal = () => {
@@ -49,6 +50,14 @@ const RentModal = () => {
       price: 1,
       title: "",
       description: "",
+      agentWebsite: "",
+      notes: "",
+      hasSwimmingPool: false,
+      hasGarage: false,
+      numberOfOtherBuildings: 0,
+      numberOfHabitableBuildings: 0,
+      landSize: 0,
+      arableLandSize: 0,
     },
   });
 
@@ -247,6 +256,85 @@ const RentModal = () => {
           errors={errors}
           required
         />
+      </div>
+    );
+  }
+
+  if (step === STEPS.AMENITIES) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Amenities and Additional Details"
+          subtitle="Provide more information about your place"
+        />
+        <Input
+          id="agentWebsite"
+          label="Agent Website"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <hr />
+        <Input
+          id="notes"
+          label="Notes"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <hr />
+        <Input
+          id="hasSwimmingPool"
+          label="Swimming Pool (true/false)"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <hr />
+        <Input
+          id="hasGarage"
+          label="Garage (true/false)"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <hr />
+        <Input
+          id="numberOfOtherBuildings"
+          label="Number of Other Buildings"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <hr />
+        <Input
+          id="numberOfHabitableBuildings"
+          label="Number of Habitable Buildings"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <hr />
+        <Input
+          id="landSize"
+          label="Land Size (sq meters)"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <hr />
+        <Input
+          id="arableLandSize"
+          label="Arable Land Size (sq meters)"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+     ```typescript
       </div>
     );
   }
