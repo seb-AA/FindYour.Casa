@@ -279,7 +279,6 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
         <Heading
           title="Amenities and Additional Details"
           subtitle="Provide more information about your place"
-       ```tsx
         />
         <Input
           id="agentWebsite"
