@@ -15,7 +15,7 @@ interface ListingCardProps {
   data: Listing;
   reservation?: Reservation;
   onAction?: (id: string) => void;
-  onEdit?: (id: string) => void;
+  onEdit?: (listing: Listing) => void; // Add onEdit prop
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
@@ -53,9 +53,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
   const handleEdit = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
-      onEdit?.(actionId);
+      onEdit?.(data);
     },
-    [onEdit, actionId]
+    [onEdit, data]
   );
 
   const price = useMemo(() => {
@@ -126,23 +126,21 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <div className="font-semibold">$ {price}</div>
           {!reservation && <div className="font-light">night</div>}
         </div>
-        <div className="flex flex-row gap-2 mt-2">
-          {onEdit && (
-            <Button
-              small
-              label="Edit"
-              onClick={handleEdit}
-            />
-          )}
-          {onAction && actionLabel && (
-            <Button
-              small
-              label={actionLabel}
-              onClick={handleCancel}
-              disabled={disabled}
-            />
-          )}
-        </div>
+        {onAction && actionLabel && (
+          <Button
+            disabled={disabled}
+            small
+            label={actionLabel}
+            onClick={handleCancel}
+          />
+        )}
+        {onEdit && (
+          <Button
+            small
+            label="Edit"
+            onClick={handleEdit}
+          />
+        )}
       </div>
     </div>
   );

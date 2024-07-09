@@ -2,7 +2,7 @@
 
 import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
@@ -26,7 +26,7 @@ enum STEPS {
   AMENITIES = 6,
 }
 
-const RentModal = () => {
+const RentModal = ({ listing }: { listing?: FieldValues }) => {
   const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +40,7 @@ const RentModal = () => {
     formState: { errors },
     reset,
   } = useForm<FieldValues>({
-    defaultValues: {
+    defaultValues: listing || {
       category: "",
       location: null,
       guestCount: 1,
@@ -98,10 +98,13 @@ const RentModal = () => {
 
     setIsLoading(true);
 
-    axios
-      .post("/api/listings", data)
+    const request = listing
+      ? axios.patch(`/api/listings/${listing.id}`, data)
+      : axios.post("/api/listings", data);
+
+    request
       .then(() => {
-        toast.success("Listing created successfully");
+        toast.success("Listing saved successfully");
         router.refresh();
         reset();
         setStep(STEPS.CATEGORY);
@@ -117,11 +120,11 @@ const RentModal = () => {
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return "Publish";
+      return listing ? "Save" : "Publish";
     }
 
     return "Next";
-  }, [step]);
+  }, [step, listing]);
 
   const secondaryActionLabel = useMemo(() => {
     if (step === STEPS.CATEGORY) {
@@ -130,6 +133,12 @@ const RentModal = () => {
 
     return "Back";
   }, [step]);
+
+  useEffect(() => {
+    if (listing) {
+      reset(listing);
+    }
+  }, [listing, reset]);
 
   let bodyContent = (
     <div className="flex flex-col gap-4">
@@ -314,7 +323,8 @@ const RentModal = () => {
           type="number"
           disabled={isLoading}
           register={register}
-          errors={errors}
+          errors={
+errors}
         />
         <hr />
         <Input
@@ -334,7 +344,6 @@ const RentModal = () => {
           register={register}
           errors={errors}
         />
-     ```typescript
       </div>
     );
   }
@@ -368,7 +377,7 @@ const RentModal = () => {
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      title="Airbnb your home"
+      title={listing ? "Edit your listing" : "Airbnb your home"}
       body={bodyContent}
     />
   );
