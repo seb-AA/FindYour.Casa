@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
@@ -13,6 +15,7 @@ interface ListingCardProps {
   data: Listing;
   reservation?: Reservation;
   onAction?: (id: string) => void;
+  onEdit?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
@@ -23,6 +26,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   data,
   reservation,
   onAction,
+  onEdit,
   disabled,
   actionLabel,
   actionId = "",
@@ -44,6 +48,14 @@ const ListingCard: React.FC<ListingCardProps> = ({
       onAction?.(actionId);
     },
     [disabled, onAction, actionId]
+  );
+
+  const handleEdit = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      onEdit?.(actionId);
+    },
+    [onEdit, actionId]
   );
 
   const price = useMemo(() => {
@@ -114,14 +126,23 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <div className="font-semibold">$ {price}</div>
           {!reservation && <div className="font-light">night</div>}
         </div>
-        {onAction && actionLabel && (
-          <Button
-            disabled={disabled}
-            small
-            label={actionLabel}
-            onClick={handleCancel}
-          />
-        )}
+        <div className="flex flex-row gap-2 mt-2">
+          {onEdit && (
+            <Button
+              small
+              label="Edit"
+              onClick={handleEdit}
+            />
+          )}
+          {onAction && actionLabel && (
+            <Button
+              small
+              label={actionLabel}
+              onClick={handleCancel}
+              disabled={disabled}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

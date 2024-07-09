@@ -42,6 +42,13 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
     [router]
   );
 
+  const onEdit = useCallback(
+    (id: string) => {
+      router.push(`/edit-listing/${id}`);
+    },
+    [router]
+  );
+
   return (
     <Container>
       <Heading title="Properties" subtitle="List of your properties" />
@@ -64,6 +71,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
             data={listing}
             actionId={listing.id.toString()} // Convert id to string
             onAction={onCancel}
+            onEdit={onEdit}
             disabled={deletingId === listing.id.toString()} // Convert id to string
             actionLabel="Delete property"
             currentUser={currentUser}
