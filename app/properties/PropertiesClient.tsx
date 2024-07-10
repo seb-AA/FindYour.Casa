@@ -10,6 +10,7 @@ import Container from "../components/Container";
 import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
 import RentModal from "../components/modals/RentModal";
+import useRentModal from "@/app/hooks/useRentModal"; // Import the hook
 
 interface PropertiesClientProps {
   listings: Listing[];
@@ -23,6 +24,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [editingListing, setEditingListing] = useState<Listing | null>(null);
+  const rentModal = useRentModal(); // Use the hook
 
   const onCancel = useCallback(
     (id: string) => {
@@ -47,14 +49,16 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
   const onEdit = useCallback(
     (listing: Listing) => {
       setEditingListing(listing);
+      rentModal.onOpen(); // Open the modal when editing
     },
-    []
+    [rentModal]
   );
 
   const handleModalClose = useCallback(() => {
     setEditingListing(null);
+    rentModal.onClose(); // Close the modal
     router.refresh();
-  }, [router]);
+  }, [router, rentModal]);
 
   return (
     <Container>
@@ -85,13 +89,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           />
         ))}
       </div>
-      {editingListing && (
-        <RentModal
-          isOpen={!!editingListing}
-          onClose={handleModalClose}
-          listing={editingListing}
-        />
-      )}
+      {editingListing && <RentModal />}
     </Container>
   );
 };

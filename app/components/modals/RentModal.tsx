@@ -388,7 +388,7 @@ const RentModal: React.FC = () => {
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      title="Airbnb your home"
+      title="Add a Property"
       body={bodyContent}
     />
   );
