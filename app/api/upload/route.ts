@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 // Directory to save the uploaded files
-const uploadDir = path.join(process.cwd(), '/public/uploads');
+const uploadDir = path.join('/tmp/uploads');
 
 // Ensure the directory exists
 fs.mkdirSync(uploadDir, { recursive: true });
