@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import nextConnect from 'next-connect';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import formidable, { File as FormidableFile } from 'formidable';
@@ -10,11 +11,7 @@ const uploadDir = path.join(process.cwd(), '/public/uploads');
 // Ensure the directory exists
 fs.mkdirSync(uploadDir, { recursive: true });
 
-export const config = {
-  api: {
-    bodyParser: false, // Disallow body parsing, consume as stream
-  },
-};
+export const runtime = 'nodejs';
 
 const apiRoute = nextConnect<NextApiRequest, NextApiResponse>({
   onError(error, req, res) {
