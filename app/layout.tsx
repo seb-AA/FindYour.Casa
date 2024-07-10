@@ -30,7 +30,7 @@ export default async function RootLayout({
           <Toaster />
           <SearchModal />
           <RegisterModal />
-          <RentModal />
+          <RentModal isOpen={rentModal.isOpen} onClose={rentModal.onClose} />
           <LoginModal />
           <Navbar currentUser={currentUser} />
           <div>{children}</div>
