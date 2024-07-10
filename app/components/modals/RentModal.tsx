@@ -283,9 +283,9 @@ const RentModal: React.FC = () => {
 
   if (step === STEPS.AMENITIES) {
     bodyContent = (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 max-h-[50vh] overflow-y-auto">
         <Heading
-          title="Amenities and Additional Details"
+          title="Information and Amenities"
           subtitle="Provide more information about your place"
         />
         <Input
@@ -304,21 +304,41 @@ const RentModal: React.FC = () => {
           errors={errors}
         />
         <hr />
-        <Input
-          id="hasSwimmingPool"
-          label="Swimming Pool (true/false)"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium text-gray-900">Swimming Pool</span>
+          <Switch
+            checked={watch("hasSwimmingPool")}
+            onChange={(value) => setCustomValue("hasSwimmingPool", value)}
+            className={`${
+              watch("hasSwimmingPool") ? "bg-blue-600" : "bg-gray-200"
+            } relative inline-flex h-6 w-11 items-center rounded-full`}
+          >
+            <span className="sr-only">Swimming Pool</span>
+            <span
+              className={`${
+                watch("hasSwimmingPool") ? "translate-x-6" : "translate-x-1"
+              } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+            />
+          </Switch>
+        </div>
         <hr />
-        <Input
-          id="hasGarage"
-          label="Garage (true/false)"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium text-gray-900">Garage</span>
+          <Switch
+            checked={watch("hasGarage")}
+            onChange={(value) => setCustomValue("hasGarage", value)}
+            className={`${
+              watch("hasGarage") ? "bg-blue-600" : "bg-gray-200"
+            } relative inline-flex h-6 w-11 items-center rounded-full`}
+          >
+            <span className="sr-only">Garage</span>
+            <span
+              className={`${
+                watch("hasGarage") ? "translate-x-6" : "translate-x-1"
+              } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+            />
+          </Switch>
+        </div>
         <hr />
         <Input
           id="numberOfOtherBuildings"
