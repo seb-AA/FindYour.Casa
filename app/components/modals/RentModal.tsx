@@ -95,7 +95,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
         router.refresh();
         reset();
         setStep(STEPS.CATEGORY);
-        rentModal.onClose();
+        onClose();
       })
       .catch(() => {
         toast.error("Something went wrong");
