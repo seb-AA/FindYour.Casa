@@ -3,15 +3,10 @@ import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
 
-// Formidable configuration to handle file uploads
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 // Directory to save the uploaded files
 const uploadDir = path.join(process.cwd(), '/public/uploads');
+
+export const runtime = 'edge';
 
 export async function POST(request: Request) {
   return new Promise((resolve, reject) => {
