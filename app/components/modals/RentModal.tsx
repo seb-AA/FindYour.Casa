@@ -2,6 +2,7 @@
 
 import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
+import { Switch } from "@headlessui/react";
 import { useMemo, useState, useEffect } from "react";
 import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
@@ -65,8 +66,10 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
       numberOfHabitableBuildings: 0,
       landSize: 0,
       arableLandSize: 0,
+      isPublic: false,  // Add this line
     },
   });
+  
 
   const category = watch("category");
   const location = watch("location");
@@ -177,6 +180,25 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
             />
           </div>
         ))}
+      </div>
+      <div className="flex items-center mt-4">
+        <Switch
+          checked={watch("isPublic")}
+          onChange={(value) => setCustomValue("isPublic", value)}
+          className={`${
+            watch("isPublic") ? "bg-blue-600" : "bg-gray-200"
+          } relative inline-flex h-6 w-11 items-center rounded-full`}
+        >
+          <span className="sr-only">Public</span>
+          <span
+            className={`${
+              watch("isPublic") ? "translate-x-6" : "translate-x-1"
+            } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+          />
+        </Switch>
+        <span className="ml-3 text-sm font-medium text-gray-900">
+          {watch("isPublic") ? "Public" : "Private"}
+        </span>
       </div>
     </div>
   );
