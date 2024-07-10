@@ -68,6 +68,6 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
 
     return NextResponse.json(listing);
   } catch (error) {
-    return NextResponse.error({ status: 500, body: { error: error.message } });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
