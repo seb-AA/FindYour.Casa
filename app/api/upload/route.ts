@@ -1,6 +1,4 @@
-import { NextResponse } from 'next/server';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { IncomingMessage, ServerResponse } from 'http';
+import { NextResponse, NextRequest } from 'next/server';
 import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
@@ -13,24 +11,32 @@ fs.mkdirSync(uploadDir, { recursive: true });
 
 export const runtime = 'nodejs';
 
-export async function POST(req: IncomingMessage, res: ServerResponse) {
-  const form = formidable({ multiples: true, uploadDir });
-
+export async function POST(req: NextRequest) {
   return new Promise((resolve, reject) => {
-    form.on('fileBegin', (name, file) => {
-      const formidableFile = file as unknown as formidable.File;
-      formidableFile.filepath = path.join(uploadDir, formidableFile.originalFilename || '');
+    const form = formidable({ multiples: true, uploadDir });
+
+    // Convert NextRequest to a readable stream
+    const request = new ReadableStream({
+      start(controller) {
+        req.body.pipeThrough(new TextEncoderStream()).pipeTo(
+          new WritableStream({
+            write(chunk) {
+              controller.enqueue(chunk);
+            },
+            close() {
+              controller.close();
+            },
+          })
+        );
+      },
     });
 
-    form.parse(req, (err, fields, files) => {
+    form.parse(request, (err, fields, files) => {
       if (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Something went wrong' }));
-        return reject(err);
+        reject(NextResponse.json({ error: 'Something went wrong' }, { status: 500 }));
+        return;
       }
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ files }));
-      resolve({ fields, files });
+      resolve(NextResponse.json({ files }));
     });
   });
 }
