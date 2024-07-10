@@ -35,6 +35,7 @@ interface RentModalProps {
 const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const router = useRouter();
 
   const {
@@ -93,6 +94,10 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
   };
 
   const onNext = () => {
+    if (isUploading) {
+      toast.error("Please wait for the image upload to complete.");
+      return;
+    }
     setStep((prev) => prev + 1);
   };
 
