@@ -17,6 +17,18 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
+interface RentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  listing?: FieldValues;
+}
+
+const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
+  const [step, setStep] = useState(STEPS.CATEGORY);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const router = useRouter();
+
 enum STEPS {
   CATEGORY = 0,
   LOCATION = 1,
