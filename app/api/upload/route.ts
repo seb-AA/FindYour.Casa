@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
     form.on('fileBegin', (name, file) => {
       const formidableFile = file as unknown as FormidableFile;
-      formidableFile.path = path.join(uploadDir, formidableFile.name || '');
+      formidableFile.filepath = path.join(uploadDir, formidableFile.originalFilename || '');
     });
 
     form.parse(request, (err, fields, files) => {
