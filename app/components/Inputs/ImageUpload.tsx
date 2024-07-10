@@ -1,4 +1,7 @@
-import { useState } from 'react';
+'use client';
+
+import type { PutBlobResult } from '@vercel/blob';
+import { useState, useRef } from 'react';
 
 interface ImageUploadProps {
   onChange: (value: string[] | string) => void;
@@ -9,34 +12,42 @@ interface ImageUploadProps {
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multiple = false, setLoading }) => {
+  const inputFileRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (!files) return;
+    event.preventDefault();
+    if (!inputFileRef.current?.files) {
+      throw new Error("No file selected");
+    }
+
+    const files = Array.from(inputFileRef.current.files);
+    const uploadedFiles: string[] = [];
 
     setUploading(true);
     setLoading(true);
 
-    const formData = new FormData();
-    Array.from(files).forEach((file) => {
-      formData.append('file', file);
-    });
+    try {
+      for (const file of files) {
+        const response = await fetch(`/api/upload?filename=${file.name}`, {
+          method: 'POST',
+          body: file,
+        });
 
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
+        if (!response.ok) {
+          throw new Error('Upload failed');
+        }
 
-    const data = await response.json();
-    setUploading(false);
-    setLoading(false);
+        const newBlob = (await response.json()) as PutBlobResult;
+        uploadedFiles.push(newBlob.url);
+      }
 
-    if (response.ok) {
-      const uploadedFiles = data.files.map((file: any) => `/uploads/${file.newFilename}`);
       onChange(multiple ? uploadedFiles : uploadedFiles[0]);
-    } else {
-      console.error('Upload failed:', data.error);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUploading(false);
+      setLoading(false);
     }
   };
 
@@ -44,6 +55,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multi
     <div className="flex flex-col gap-2">
       {label && <div className="font-semibold text-lg">{label}</div>}
       <input
+        ref={inputFileRef}
         type="file"
         multiple={multiple}
         onChange={handleUpload}
