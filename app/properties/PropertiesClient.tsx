@@ -9,7 +9,6 @@ import { Listing, User } from "@prisma/client";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
-import RentModal from "../components/modals/RentModal";
 import useRentModal from "@/app/hooks/useRentModal"; // Import the hook
 
 interface PropertiesClientProps {
@@ -47,8 +46,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
 
   const onEdit = useCallback(
     (listing: Listing) => {
-      rentModal.setListing(listing); // Set the listing being edited
-      rentModal.onOpen(); // Open the modal
+      rentModal.onOpen('edit', listing); // Open the modal in edit mode with listing data
     },
     [rentModal]
   );
@@ -82,7 +80,6 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           />
         ))}
       </div>
-      <RentModal />
     </Container>
   );
 };

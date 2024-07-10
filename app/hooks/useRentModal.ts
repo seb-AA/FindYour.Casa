@@ -1,19 +1,20 @@
 import { create } from "zustand";
+import { FieldValues } from "react-hook-form";
 
 interface RentModalState {
   isOpen: boolean;
-  listing: any; // Use a proper type if you have one
-  onOpen: () => void;
+  mode: 'add' | 'edit';
+  listing: FieldValues | null;
+  onOpen: (mode: 'add' | 'edit', listing?: FieldValues | null) => void;
   onClose: () => void;
-  setListing: (listing: any) => void; // Use a proper type if you have one
 }
 
 const useRentModal = create<RentModalState>((set) => ({
   isOpen: false,
+  mode: 'add',
   listing: null,
-  onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false, listing: null }),
-  setListing: (listing) => set({ listing }),
+  onOpen: (mode, listing = null) => set({ isOpen: true, mode, listing }),
+  onClose: () => set({ isOpen: false, mode: 'add', listing: null }),
 }));
 
 export default useRentModal;

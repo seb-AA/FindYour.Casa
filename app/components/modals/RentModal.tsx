@@ -1,5 +1,3 @@
-"use client";
-
 import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
 import { Switch } from "@headlessui/react";
@@ -29,7 +27,6 @@ enum STEPS {
 
 const RentModal: React.FC = () => {
   const rentModal = useRentModal();
-  const { isOpen, onClose, listing } = rentModal;
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -43,7 +40,7 @@ const RentModal: React.FC = () => {
     formState: { errors },
     reset,
   } = useForm<FieldValues>({
-    defaultValues: listing || {
+    defaultValues: rentModal.listing || {
       category: "",
       location: null,
       guestCount: 1,
@@ -81,8 +78,8 @@ const RentModal: React.FC = () => {
 
     setIsLoading(true);
 
-    const request = listing
-      ? axios.patch(`/api/listings/${listing.id}`, data)
+    const request = rentModal.mode === 'edit'
+      ? axios.patch(`/api/listings/${rentModal.listing?.id}`, data)
       : axios.post("/api/listings", data);
 
     request
@@ -91,7 +88,7 @@ const RentModal: React.FC = () => {
         router.refresh();
         reset();
         setStep(STEPS.CATEGORY);
-        onClose();
+        rentModal.onClose();
       })
       .catch(() => {
         toast.error("Something went wrong");
@@ -128,11 +125,11 @@ const RentModal: React.FC = () => {
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return listing ? "Save" : "Publish";
+      return rentModal.mode === 'edit' ? "Save" : "Publish";
     }
 
     return "Next";
-  }, [step, listing]);
+  }, [step, rentModal.mode]);
 
   const secondaryActionLabel = useMemo(() => {
     if (step === STEPS.CATEGORY) {
@@ -143,10 +140,10 @@ const RentModal: React.FC = () => {
   }, [step]);
 
   useEffect(() => {
-    if (listing) {
-      reset(listing);
+    if (rentModal.listing) {
+      reset(rentModal.listing);
     }
-  }, [listing, reset]);
+  }, [rentModal.listing, reset]);
 
   let bodyContent = (
     <div className="flex flex-col gap-4">
@@ -456,13 +453,13 @@ const RentModal: React.FC = () => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={rentModal.isOpen}
+      onClose={rentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      title="Add a Property"
+      title={rentModal.mode === 'edit' ? "Edit Property" : "Add a Property"}
       body={bodyContent}
     />
   );
