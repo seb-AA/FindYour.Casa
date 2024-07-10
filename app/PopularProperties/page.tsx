@@ -31,6 +31,7 @@ const PopularProperties = async () => {
             xl:grid-cols-5
             2xl:grid-cols-6
             gap-8
+            mt-20
           "
         >
           {listings.map((listing) => (

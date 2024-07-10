@@ -20,9 +20,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
             <Logo />
             <Search />
             <div className="flex space-x-4 items-center">
-              <Link href="/">
-                <a className="text-gray-900 hover:text-gray-700">Home</a>
-              </Link>
               <Link href="/PopularProperties">
                 <a className="text-gray-900 hover:text-gray-700">Popular Properties</a>
               </Link>
