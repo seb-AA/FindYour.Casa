@@ -10,13 +10,8 @@ const uploadDir = path.join(process.cwd(), '/public/uploads');
 // Ensure the directory exists
 fs.mkdirSync(uploadDir, { recursive: true });
 
+// Use the segment export configuration
 export const runtime = 'nodejs';
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = formidable({ multiples: true, uploadDir });
