@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import formidable from 'formidable';
+import type { NextRequest } from 'next/server';
+import formidable, { File as FormidableFile } from 'formidable';
 import fs from 'fs';
 import path from 'path';
 
@@ -10,23 +10,23 @@ const uploadDir = path.join(process.cwd(), '/public/uploads');
 // Ensure the directory exists
 fs.mkdirSync(uploadDir, { recursive: true });
 
-// Use the segment export configuration
 export const runtime = 'nodejs';
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  const form = formidable({ multiples: true, uploadDir });
+export async function POST(req: NextRequest) {
+  return new Promise((resolve, reject) => {
+    const form = formidable({ multiples: true, uploadDir });
 
-  form.on('fileBegin', (name, file) => {
-    file.filepath = path.join(uploadDir, file.originalFilename || '');
+    form.on('fileBegin', (name, file) => {
+      const formidableFile = file as unknown as FormidableFile;
+      formidableFile.filepath = path.join(uploadDir, formidableFile.originalFilename || '');
+    });
+
+    form.parse(req, (err, fields, files) => {
+      if (err) {
+        reject(NextResponse.json({ error: 'Something went wrong' }, { status: 500 }));
+        return;
+      }
+      resolve(NextResponse.json({ files }));
+    });
   });
-
-  form.parse(req, (err, fields, files) => {
-    if (err) {
-      res.status(500).json({ error: 'Something went wrong' });
-      return;
-    }
-    res.status(200).json({ files });
-  });
-};
-
-export default handler;
+}
