@@ -1,5 +1,3 @@
-// components/Inputs/ImageUpload.tsx
-
 import { useState } from 'react';
 
 interface ImageUploadProps {
@@ -7,9 +5,10 @@ interface ImageUploadProps {
   value: string[] | string;
   label?: string;
   multiple?: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multiple = false }) => {
+const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multiple = false, setLoading }) => {
   const [uploading, setUploading] = useState(false);
 
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,6 +16,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multi
     if (!files) return;
 
     setUploading(true);
+    setLoading(true);
 
     const formData = new FormData();
     Array.from(files).forEach((file) => {
@@ -30,9 +30,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value, label, multi
 
     const data = await response.json();
     setUploading(false);
+    setLoading(false);
 
     if (response.ok) {
-      const uploadedFiles = data.files.map((file: { newFilename: string }) => `/uploads/${file.newFilename}`);
+      const uploadedFiles = data.files.map((file: any) => `/uploads/${file.newFilename}`);
       onChange(multiple ? uploadedFiles : uploadedFiles[0]);
     } else {
       console.error('Upload failed:', data.error);
