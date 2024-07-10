@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import nextConnect from 'next-connect';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import formidable, { File as FormidableFile } from 'formidable';
+import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
 
@@ -13,21 +12,17 @@ fs.mkdirSync(uploadDir, { recursive: true });
 
 export const runtime = 'nodejs';
 
-const apiRoute = nextConnect<NextApiRequest, NextApiResponse>({
-  onError(error, req, res) {
-    res.status(501).json({ error: `Sorry, something went wrong! ${error.message}` });
+export const config = {
+  api: {
+    bodyParser: false,
   },
-  onNoMatch(req, res) {
-    res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
-  },
-});
+};
 
-apiRoute.post((req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = formidable({ multiples: true, uploadDir });
 
   form.on('fileBegin', (name, file) => {
-    const formidableFile = file as unknown as FormidableFile;
-    formidableFile.filepath = path.join(uploadDir, formidableFile.originalFilename || '');
+    file.filepath = path.join(uploadDir, file.originalFilename || '');
   });
 
   form.parse(req, (err, fields, files) => {
@@ -37,6 +32,6 @@ apiRoute.post((req, res) => {
     }
     res.status(200).json({ files });
   });
-});
+};
 
-export default apiRoute;
+export default handler;
