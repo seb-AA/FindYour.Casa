@@ -7,8 +7,8 @@ const nextConfig = {
     domains: [
       "avatars.githubusercontent.com",
       "lh3.googleusercontent.com",
-      "res.cloudinary.com",
       "a0.muscache.com",
+      "iev9h9qu5zyvlgoc.public.blob.vercel-storage.com"  // Add your Blob storage domain here
     ],
   },
 };
