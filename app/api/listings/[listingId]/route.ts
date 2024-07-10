@@ -58,12 +58,36 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
   }
 
   try {
+    const {
+      guestCount,
+      roomCount,
+      bathroomCount,
+      price,
+      numberOfOtherBuildings,
+      numberOfHabitableBuildings,
+      landSize,
+      arableLandSize,
+      ...otherData
+    } = data;
+
+    const updateData = {
+      ...otherData,
+      guestCount: guestCount ? Number(guestCount) : undefined,
+      roomCount: roomCount ? Number(roomCount) : undefined,
+      bathroomCount: bathroomCount ? Number(bathroomCount) : undefined,
+      price: price ? Number(price) : undefined,
+      numberOfOtherBuildings: numberOfOtherBuildings ? Number(numberOfOtherBuildings) : undefined,
+      numberOfHabitableBuildings: numberOfHabitableBuildings ? Number(numberOfHabitableBuildings) : undefined,
+      landSize: landSize ? Number(landSize) : undefined,
+      arableLandSize: arableLandSize ? Number(arableLandSize) : undefined,
+    };
+
     const listing = await prisma.listing.updateMany({
       where: {
         id: numericListingId,
         userId: currentUser.id,
       },
-      data,
+      data: updateData,
     });
 
     if (listing.count === 0) {
