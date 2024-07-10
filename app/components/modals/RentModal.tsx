@@ -30,8 +30,9 @@ enum STEPS {
 interface RentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  listing?: FieldValues;
+  listing?: FieldValues | null;
 }
+
 
 const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
   const [step, setStep] = useState(STEPS.CATEGORY);
@@ -106,9 +107,9 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
   };
 
   const Map = useMemo(
-    () => dynamic(() => import("../Map"), { ssr: false }),
-    [location]
-  );
+  () => dynamic(() => import("../Map"), { ssr: false }),
+  [] 
+);
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {

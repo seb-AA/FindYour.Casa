@@ -89,13 +89,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           />
         ))}
       </div>
-      {editingListing && (
-        <RentModal
-          isOpen={rentModal.isOpen}
-          onClose={handleModalClose}
-          listing={editingListing}
-        />
-      )}
+      <RentModal isOpen={rentModal.isOpen} onClose={handleModalClose} listing={editingListing} />
     </Container>
   );
 };
