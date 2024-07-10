@@ -33,8 +33,8 @@ interface RentModalProps {
   listing?: FieldValues | null;
 }
 
-
 const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
+  const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -96,7 +96,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
         router.refresh();
         reset();
         setStep(STEPS.CATEGORY);
-        onClose();
+        rentModal.onClose();
       })
       .catch(() => {
         toast.error("Something went wrong");
@@ -107,9 +107,9 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
   };
 
   const Map = useMemo(
-  () => dynamic(() => import("../Map"), { ssr: false }),
-  [] 
-);
+    () => dynamic(() => import("../Map"), { ssr: false }),
+    [location]
+  );
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -133,11 +133,11 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return "Publish";
+      return listing ? "Save" : "Publish";
     }
 
     return "Next";
-  }, [step]);
+  }, [step, listing]);
 
   const secondaryActionLabel = useMemo(() => {
     if (step === STEPS.CATEGORY) {
@@ -146,6 +146,12 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
 
     return "Back";
   }, [step]);
+
+  useEffect(() => {
+    if (listing) {
+      reset(listing);
+    }
+  }, [listing, reset]);
 
   let bodyContent = (
     <div className="flex flex-col gap-4">
@@ -291,7 +297,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
 
   if (step === STEPS.AMENITIES) {
     bodyContent = (
-      <div className="flex flex-col gap-8 max-h-[50vh] overflow-y-auto">
+      <div className="flex flex-col gap-8">
         <Heading
           title="Information and Amenities"
           subtitle="Provide more information about your place"
@@ -319,7 +325,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
             watch("hasSwimmingPool") ? "bg-blue-600" : "bg-gray-200"
           } relative inline-flex h-6 w-11 items-center rounded-full`}
         >
-          <span className="sr-only">Has Swimming Pool</span>
+          <span className="sr-only">Swimming Pool</span>
           <span
             className={`${
               watch("hasSwimmingPool") ? "translate-x-6" : "translate-x-1"
@@ -327,7 +333,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
           />
         </Switch>
         <span className="ml-3 text-sm font-medium text-gray-900">
-          {watch("hasSwimmingPool") ? "Yes" : "No"} Swimming Pool
+          {watch("hasSwimmingPool") ? "Has Swimming Pool" : "No Swimming Pool"}
         </span>
         <hr />
         <Switch
@@ -337,7 +343,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
             watch("hasGarage") ? "bg-blue-600" : "bg-gray-200"
           } relative inline-flex h-6 w-11 items-center rounded-full`}
         >
-          <span className="sr-only">Has Garage</span>
+          <span className="sr-only">Garage</span>
           <span
             className={`${
               watch("hasGarage") ? "translate-x-6" : "translate-x-1"
@@ -345,19 +351,17 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
           />
         </Switch>
         <span className="ml-3 text-sm font-medium text-gray-900">
-          {watch("hasGarage") ? "Yes" : "No"} Garage
+          {watch("hasGarage") ? "Has Garage" : "No Garage"}
         </span>
-        {watch("hasGarage") && (
-          <Input
-            id="numberOfGarageSpaces"
-            label="Number of Garage Spaces"
-            type="number"
-            disabled={isLoading}
-            register={register}
-            errors={errors}
-            required
-          />
-        )}
+        <Input
+          id="numberOfGarageSpaces"
+          label="Number of Garage Spaces"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required={watch("hasGarage")}
+        />
         <hr />
         <Switch
           checked={watch("hasOtherBuildings")}
@@ -366,7 +370,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
             watch("hasOtherBuildings") ? "bg-blue-600" : "bg-gray-200"
           } relative inline-flex h-6 w-11 items-center rounded-full`}
         >
-          <span className="sr-only">Has Other Buildings</span>
+          <span className="sr-only">Other Buildings</span>
           <span
             className={`${
               watch("hasOtherBuildings") ? "translate-x-6" : "translate-x-1"
@@ -374,30 +378,26 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
           />
         </Switch>
         <span className="ml-3 text-sm font-medium text-gray-900">
-          {watch("hasOtherBuildings") ? "Yes" : "No"} Other Buildings
+          {watch("hasOtherBuildings") ? "Has Other Buildings" : "No Other Buildings"}
         </span>
-        {watch("hasOtherBuildings") && (
-          <>
-            <Input
-              id="numberOfOtherBuildings"
-              label="Number of Other Buildings"
-              type="number"
-              disabled={isLoading}
-              register={register}
-              errors={errors}
-              required
-            />
-            <Input
-              id="numberOfHabitableBuildings"
-              label="Number of Habitable Buildings"
-              type="number"
-              disabled={isLoading}
-              register={register}
-              errors={errors}
-              required
-            />
-          </>
-        )}
+        <Input
+          id="numberOfOtherBuildings"
+          label="Number of Other Buildings"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required={watch("hasOtherBuildings")}
+        />
+        <Input
+          id="numberOfHabitableBuildings"
+          label="Number of Habitable Buildings"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required={watch("hasOtherBuildings")}
+        />
         <hr />
         <Switch
           checked={watch("hasArableLand")}
@@ -406,7 +406,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
             watch("hasArableLand") ? "bg-blue-600" : "bg-gray-200"
           } relative inline-flex h-6 w-11 items-center rounded-full`}
         >
-          <span className="sr-only">Has Arable Land</span>
+          <span className="sr-only">Arable Land</span>
           <span
             className={`${
               watch("hasArableLand") ? "translate-x-6" : "translate-x-1"
@@ -414,31 +414,26 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
           />
         </Switch>
         <span className="ml-3 text-sm font-medium text-gray-900">
-          {watch("hasArableLand") ? "Yes" : "No"} Arable Land
+          {watch("hasArableLand") ? "Has Arable Land" : "No Arable Land"}
         </span>
-        {watch("hasArableLand") && (
-          <>
-            <Input
-              id="arableLandSize"
-              label="Arable Land Size"
-              type="number"
-              disabled={isLoading}
-              register={register}
-              errors={errors}
-              required
-            />
-            <select
-              id="arableLandUnit"
-              {...register("arableLandUnit")}
-              disabled={isLoading}
-              className="mt-2 block w-full p-2 border rounded"
-            >
-              <option value="sqm">Square Meters</option>
-              <option value="ac">Acres</option>
-              <option value="ha">Hectares</option>
-            </select>
-          </>
-        )}
+        <Input
+          id="arableLandSize"
+          label="Arable Land Size"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required={watch("hasArableLand")}
+        />
+        <Input
+          id="arableLandUnit"
+          label="Arable Land Unit"
+          type="text"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required={watch("hasArableLand")}
+        />
       </div>
     );
   }
