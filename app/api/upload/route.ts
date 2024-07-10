@@ -12,13 +12,15 @@ fs.mkdirSync(uploadDir, { recursive: true });
 export const runtime = 'nodejs';
 
 export async function POST(req: NextRequest) {
-  const buffers = [];
-
-  for await (const chunk of req.body) {
-    buffers.push(chunk);
+  const reader = req.body.getReader();
+  const chunks: Uint8Array[] = [];
+  
+  let done, value;
+  while (!({ done, value } = await reader.read()).done) {
+    chunks.push(value);
   }
-
-  const body = Buffer.concat(buffers);
+  
+  const body = Buffer.concat(chunks);
 
   return new Promise((resolve, reject) => {
     const form = formidable({ multiples: true, uploadDir });
