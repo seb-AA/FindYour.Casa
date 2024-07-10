@@ -8,7 +8,6 @@ import LoginModal from "./components/modals/LoginModal";
 import RegisterModal from "./components/modals/RegisterModal";
 import RentModal from "./components/modals/RentModal";
 import SearchModal from "./components/modals/SearchModal";
-import useRentModal from "@/app/hooks/useRentModal"; // Import the hook
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -23,7 +22,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
-  const rentModal = useRentModal(); // Use the hook
 
   return (
     <html lang="en">
@@ -32,7 +30,7 @@ export default async function RootLayout({
           <Toaster />
           <SearchModal />
           <RegisterModal />
-          <RentModal isOpen={rentModal.isOpen} onClose={rentModal.onClose} />
+          <RentModal />
           <LoginModal />
           <Navbar currentUser={currentUser} />
           <div>{children}</div>

@@ -1,21 +1,21 @@
 "use client";
 
-import useRentModal from "@/app/hooks/useRentModal";
-import Modal from "./Modal";
-import { Switch } from "@headlessui/react";
 import { useMemo, useState, useEffect } from "react";
-import Heading from "../Heading";
-import { categories } from "../navbar/Categories";
-import CategoryInput from "../Inputs/CategoryInput";
+import { Switch } from "@headlessui/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import CountrySelect from "../Inputs/CountrySelect";
 import dynamic from "next/dynamic";
-import Counter from "../Inputs/Counter";
-import ImageUpload from "../Inputs/ImageUpload";
-import Input from "../Inputs/Input";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Modal from "./Modal";
+import useRentModal from "@/app/hooks/useRentModal";
+import Heading from "../Heading";
+import { categories } from "../navbar/Categories";
+import CategoryInput from "../Inputs/CategoryInput";
+import CountrySelect from "../Inputs/CountrySelect";
+import Counter from "../Inputs/Counter";
+import ImageUpload from "../Inputs/ImageUpload";
+import Input from "../Inputs/Input";
 
 enum STEPS {
   CATEGORY = 0,
@@ -27,13 +27,8 @@ enum STEPS {
   PRICE = 6,
 }
 
-interface RentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  listing?: FieldValues | null;
-}
-
-const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
+const RentModal: React.FC = () => {
+  const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -47,7 +42,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
     formState: { errors },
     reset,
   } = useForm<FieldValues>({
-    defaultValues: listing || {
+    defaultValues: {
       category: "",
       location: null,
       guestCount: 1,
@@ -85,8 +80,8 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
 
     setIsLoading(true);
 
-    const request = listing
-      ? axios.patch(`/api/listings/${listing.id}`, data)
+    const request = data.id
+      ? axios.patch(`/api/listings/${data.id}`, data)
       : axios.post("/api/listings", data);
 
     request
@@ -95,7 +90,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
         router.refresh();
         reset();
         setStep(STEPS.CATEGORY);
-        onClose();
+        rentModal.onClose();
       })
       .catch(() => {
         toast.error("Something went wrong");
@@ -132,11 +127,11 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return listing ? "Save" : "Publish";
+      return "Publish";
     }
 
     return "Next";
-  }, [step, listing]);
+  }, [step]);
 
   const secondaryActionLabel = useMemo(() => {
     if (step === STEPS.CATEGORY) {
@@ -145,12 +140,6 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
 
     return "Back";
   }, [step]);
-
-  useEffect(() => {
-    if (listing) {
-      reset(listing);
-    }
-  }, [listing, reset]);
 
   let bodyContent = (
     <div className="flex flex-col gap-4">
@@ -460,8 +449,8 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={rentModal.isOpen}
+      onClose={rentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}

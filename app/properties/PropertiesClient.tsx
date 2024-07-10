@@ -9,8 +9,8 @@ import { Listing, User } from "@prisma/client";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
+import useRentModal from "@/app/hooks/useRentModal";
 import RentModal from "../components/modals/RentModal";
-import useRentModal from "@/app/hooks/useRentModal"; // Import the hook
 
 interface PropertiesClientProps {
   listings: Listing[];
@@ -24,7 +24,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [editingListing, setEditingListing] = useState<Listing | null>(null);
-  const rentModal = useRentModal(); // Use the hook
+  const rentModal = useRentModal();
 
   const onCancel = useCallback(
     (id: string) => {
@@ -49,14 +49,14 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
   const onEdit = useCallback(
     (listing: Listing) => {
       setEditingListing(listing);
-      rentModal.onOpen(); // Open the modal when editing
+      rentModal.onOpen();
     },
     [rentModal]
   );
 
   const handleModalClose = useCallback(() => {
     setEditingListing(null);
-    rentModal.onClose(); // Close the modal
+    rentModal.onClose();
     router.refresh();
   }, [router, rentModal]);
 
@@ -89,7 +89,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           />
         ))}
       </div>
-      <RentModal isOpen={rentModal.isOpen} onClose={handleModalClose} listing={editingListing || undefined} />
+      <RentModal />
     </Container>
   );
 };
