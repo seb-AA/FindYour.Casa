@@ -34,7 +34,6 @@ interface RentModalProps {
 }
 
 const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
-  const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
