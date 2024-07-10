@@ -1,4 +1,4 @@
-// app/PopularProperties.tsx
+// app/PopularProperties/page.tsx
 "use client";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
