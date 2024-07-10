@@ -6,7 +6,14 @@ import path from 'path';
 // Directory to save the uploaded files
 const uploadDir = path.join(process.cwd(), '/public/uploads');
 
-export const runtime = 'edge';
+// Ensure the directory exists
+fs.mkdirSync(uploadDir, { recursive: true });
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export async function POST(request: Request) {
   return new Promise((resolve, reject) => {
