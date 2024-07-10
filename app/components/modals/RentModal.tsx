@@ -27,13 +27,8 @@ enum STEPS {
   AMENITIES = 6,
 }
 
-interface RentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  listing?: FieldValues;
-}
-
-const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
+const RentModal: React.FC = () => {
+  const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -47,7 +42,7 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
     formState: { errors },
     reset,
   } = useForm<FieldValues>({
-    defaultValues: listing || {
+    defaultValues: {
       category: "",
       location: null,
       guestCount: 1,
@@ -66,10 +61,9 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
       numberOfHabitableBuildings: 0,
       landSize: 0,
       arableLandSize: 0,
-      isPublic: false,  // Add this line
+      isPublic: false,
     },
   });
-  
 
   const category = watch("category");
   const location = watch("location");
@@ -83,20 +77,18 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
     if (step !== STEPS.PRICE) {
       return onNext();
     }
-  
+
     setIsLoading(true);
-  
-    const request = listing
-      ? axios.patch(`/api/listings/${listing.id}`, data)
-      : axios.post("/api/listings", data);
-  
+
+    const request = axios.post("/api/listings", data);
+
     request
       .then(() => {
         toast.success("Listing saved successfully");
         router.refresh();
         reset();
         setStep(STEPS.CATEGORY);
-        onClose();
+        rentModal.onClose();
       })
       .catch(() => {
         toast.error("Something went wrong");
@@ -105,7 +97,6 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
         setIsLoading(false);
       });
   };
-  
 
   const Map = useMemo(
     () => dynamic(() => import("../Map"), { ssr: false }),
@@ -134,11 +125,11 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return listing ? "Save" : "Publish";
+      return "Publish";
     }
 
     return "Next";
-  }, [step, listing]);
+  }, [step]);
 
   const secondaryActionLabel = useMemo(() => {
     if (step === STEPS.CATEGORY) {
@@ -147,12 +138,6 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
 
     return "Back";
   }, [step]);
-
-  useEffect(() => {
-    if (listing) {
-      reset(listing);
-    }
-  }, [listing, reset]);
 
   let bodyContent = (
     <div className="flex flex-col gap-4">
@@ -397,8 +382,8 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={rentModal.isOpen}
+      onClose={rentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
