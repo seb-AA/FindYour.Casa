@@ -19,7 +19,6 @@ export async function DELETE(request: Request, { params }: { params: IListingPar
     throw new Error("Invalid ID");
   }
 
-  // Convert listingId to number
   const numericListingId = Number(listingId);
 
   if (isNaN(numericListingId)) {
@@ -50,7 +49,6 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
     throw new Error("Invalid ID");
   }
 
-  // Convert listingId to number
   const numericListingId = Number(listingId);
 
   if (isNaN(numericListingId)) {
@@ -68,6 +66,7 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
 
     return NextResponse.json(listing);
   } catch (error) {
+    console.error("Failed to update listing:", error);
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     } else {
