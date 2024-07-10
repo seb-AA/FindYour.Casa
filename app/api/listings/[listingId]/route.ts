@@ -68,6 +68,10 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
 
     return NextResponse.json(listing);
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    } else {
+      return NextResponse.json({ error: "Unknown error" }, { status: 500 });
+    }
   }
 }
