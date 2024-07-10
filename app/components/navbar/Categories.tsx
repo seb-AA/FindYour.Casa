@@ -12,11 +12,13 @@ import {
   GiForestCamp,
   GiIsland,
   GiWindmill,
+  GiAtom,
 } from "react-icons/gi";
 import { FaSkiing } from "react-icons/fa";
+import { PiFarmFill } from "react-icons/pi";
 import { BsSnow } from "react-icons/bs";
 import { IoDiamond } from "react-icons/io5";
-import { MdOutlineVilla } from "react-icons/md";
+import { MdOutlineVilla, MdOutlineApartment } from "react-icons/md";
 import CategoryBox from "../CategoryBox";
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -97,6 +99,21 @@ export const categories = [
     label: "Lux",
     icon: <IoDiamond />,
     description: "This property is brand new and luxurious!",
+  },
+  {
+    label: "Apartment",
+    icon: <MdOutlineApartment />,
+    description: "This property is an apartment!",
+  },
+  {
+    label: "Farm",
+    icon: <PiFarmFill />,
+    description: "This property is a farm!",
+  },
+  {
+    label: "Has it All",
+    icon: <GiAtom  />,
+    description: "This property has it all!",
   },
 ];
 
