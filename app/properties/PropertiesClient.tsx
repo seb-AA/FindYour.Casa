@@ -9,7 +9,6 @@ import { Listing, User } from "@prisma/client";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
-import RentModal from "../components/modals/RentModal";
 import useRentModal from "@/app/hooks/useRentModal"; // Import the hook
 
 interface PropertiesClientProps {
@@ -89,7 +88,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           />
         ))}
       </div>
-      {editingListing && <RentModal />}
+      {editingListing && <RentModal listing={editingListing} />}
     </Container>
   );
 };

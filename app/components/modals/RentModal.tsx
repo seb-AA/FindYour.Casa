@@ -27,11 +27,18 @@ enum STEPS {
   PRICE = 6,
 }
 
-const RentModal: React.FC = () => {
+interface RentModalProps {
+  listing?: FieldValues;
+}
+
+const RentModal: React.FC<RentModalProps> = ({ listing }) => {
   const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [arableLandEnabled, setArableLandEnabled] = useState(false);
+  const [garageEnabled, setGarageEnabled] = useState(false);
+  const [otherBuildingsEnabled, setOtherBuildingsEnabled] = useState(false);
   const router = useRouter();
 
   const {
@@ -42,7 +49,7 @@ const RentModal: React.FC = () => {
     formState: { errors },
     reset,
   } = useForm<FieldValues>({
-    defaultValues: {
+    defaultValues: listing || {
       category: "",
       location: null,
       guestCount: 1,
@@ -57,13 +64,26 @@ const RentModal: React.FC = () => {
       notes: "",
       hasSwimmingPool: false,
       hasGarage: false,
+      numberOfGarageSpaces: 0,
+      hasArableLand: false,
+      arableLandSize: 0,
+      arableLandUnit: "sqm",
+      hasOtherBuildings: false,
       numberOfOtherBuildings: 0,
       numberOfHabitableBuildings: 0,
       landSize: 0,
-      arableLandSize: 0,
       isPublic: false,
     },
   });
+
+  useEffect(() => {
+    if (listing) {
+      reset(listing);
+      setArableLandEnabled(listing.hasArableLand || false);
+      setGarageEnabled(listing.hasGarage || false);
+      setOtherBuildingsEnabled(listing.hasOtherBuildings || false);
+    }
+  }, [listing, reset]);
 
   const category = watch("category");
   const location = watch("location");
@@ -80,7 +100,9 @@ const RentModal: React.FC = () => {
 
     setIsLoading(true);
 
-    const request = axios.post("/api/listings", data);
+    const request = listing
+      ? axios.patch(`/api/listings/${listing.id}`, data)
+      : axios.post("/api/listings", data);
 
     request
       .then(() => {
@@ -125,11 +147,11 @@ const RentModal: React.FC = () => {
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return "Publish";
+      return listing ? "Save" : "Publish";
     }
 
     return "Next";
-  }, [step]);
+  }, [step, listing]);
 
   const secondaryActionLabel = useMemo(() => {
     if (step === STEPS.CATEGORY) {
@@ -325,51 +347,120 @@ const RentModal: React.FC = () => {
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium text-gray-900">Garage</span>
           <Switch
-            checked={watch("hasGarage")}
-            onChange={(value) => setCustomValue("hasGarage", value)}
+            checked={garageEnabled}
+            onChange={(value) => {
+              setGarageEnabled(value);
+              setCustomValue("hasGarage", value);
+            }}
             className={`${
-              watch("hasGarage") ? "bg-blue-600" : "bg-gray-200"
+              garageEnabled ? "bg-blue-600" : "bg-gray-200"
             } relative inline-flex h-6 w-11 items-center rounded-full`}
           >
             <span className="sr-only">Garage</span>
             <span
               className={`${
-                watch("hasGarage") ? "translate-x-6" : "translate-x-1"
+                garageEnabled ? "translate-x-6" : "translate-x-1"
               } inline-block h-4 w-4 transform rounded-full bg-white transition`}
             />
           </Switch>
         </div>
+        {garageEnabled && (
+          <Input
+            id="numberOfGarageSpaces"
+            label="Number of Garage Spaces"
+            type="number"
+            disabled={isLoading}
+            register={register}
+            errors={errors}
+          />
+        )}
         <hr />
-        <Input
-          id="numberOfOtherBuildings"
-          label="Number of Other Buildings"
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium text-gray-900">Arable Land</span>
+          <Switch
+            checked={arableLandEnabled}
+            onChange={(value) => {
+              setArableLandEnabled(value);
+              setCustomValue("hasArableLand", value);
+            }}
+            className={`${
+              arableLandEnabled ? "bg-blue-600" : "bg-gray-200"
+            } relative inline-flex h-6 w-11 items-center rounded-full`}
+          >
+            <span className="sr-only">Arable Land</span>
+            <span
+              className={`${
+                arableLandEnabled ? "translate-x-6" : "translate-x-1"
+              } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+            />
+          </Switch>
+        </div>
+        {arableLandEnabled && (
+          <>
+            <Input
+              id="arableLandSize"
+              label="Arable Land Size"
+              type="number"
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+            />
+            <select
+              id="arableLandUnit"
+              {...register("arableLandUnit")}
+              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            >
+              <option value="sqm">Square Meters</option>
+              <option value="ac">Acres</option>
+              <option value="ha">Hectares</option>
+            </select>
+          </>
+        )}
         <hr />
-        <Input
-          id="numberOfHabitableBuildings"
-          label="Number of Habitable Buildings"
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium text-gray-900">Other Buildings</span>
+          <Switch
+            checked={otherBuildingsEnabled}
+            onChange={(value) => {
+              setOtherBuildingsEnabled(value);
+              setCustomValue("hasOtherBuildings", value);
+            }}
+            className={`${
+              otherBuildingsEnabled ? "bg-blue-600" : "bg-gray-200"
+            } relative inline-flex h-6 w-11 items-center rounded-full`}
+          >
+            <span className="sr-only">Other Buildings</span>
+            <span
+              className={`${
+                otherBuildingsEnabled ? "translate-x-6" : "translate-x-1"
+              } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+            />
+          </Switch>
+        </div>
+        {otherBuildingsEnabled && (
+          <>
+            <Input
+              id="numberOfOtherBuildings"
+              label="Number of Other Buildings"
+              type="number"
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+            />
+            <Input
+              id="numberOfHabitableBuildings"
+              label="Number of Habitable Buildings"
+              type="number"
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+            />
+          </>
+        )}
         <hr />
         <Input
           id="landSize"
           label="Land Size (sq meters)"
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        <hr />
-        <Input
-          id="arableLandSize"
-          label="Arable Land Size (sq meters)"
           type="number"
           disabled={isLoading}
           register={register}
@@ -408,7 +499,7 @@ const RentModal: React.FC = () => {
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      title="Add a Property"
+      title={listing ? "Edit Property" : "Add a Property"}
       body={bodyContent}
     />
   );
