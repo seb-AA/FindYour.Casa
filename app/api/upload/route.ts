@@ -11,12 +11,6 @@ fs.mkdirSync(uploadDir, { recursive: true });
 
 export const runtime = 'nodejs';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(req: NextRequest) {
   const buffers = [];
 
