@@ -1,77 +1,32 @@
-import getCurrentUser from "@/app/actions/getCurrentUser";
-import { NextResponse } from "next/server";
-import prisma from "@/app/libs/prismadb";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import formidable, { File as FormidableFile } from 'formidable';
+import fs from 'fs';
+import path from 'path';
 
-interface IListingParams {
-  listingId?: string;
-}
+// Directory to save the uploaded files
+const uploadDir = path.join(process.cwd(), '/public/uploads');
 
-export async function DELETE(request: Request, { params }: { params: IListingParams }) {
-  const currentUser = await getCurrentUser();
+// Ensure the directory exists
+fs.mkdirSync(uploadDir, { recursive: true });
 
-  if (!currentUser) {
-    return NextResponse.error();
-  }
+export const runtime = 'nodejs';
 
-  const { listingId } = params;
+export async function POST(req: NextRequest) {
+  return new Promise((resolve, reject) => {
+    const form = formidable({ multiples: true, uploadDir });
 
-  if (!listingId || typeof listingId !== "string") {
-    throw new Error("Invalid ID");
-  }
-
-  // Convert listingId to number
-  const numericListingId = Number(listingId);
-
-  if (isNaN(numericListingId)) {
-    throw new Error("Invalid listingId format");
-  }
-
-  const listing = await prisma.listing.deleteMany({
-    where: {
-      id: numericListingId,
-      userId: currentUser.id,
-    },
-  });
-
-  return NextResponse.json(listing);
-}
-
-export async function PATCH(request: Request, { params }: { params: IListingParams }) {
-  const currentUser = await getCurrentUser();
-
-  if (!currentUser) {
-    return NextResponse.error();
-  }
-
-  const { listingId } = params;
-  const data = await request.json();
-
-  if (!listingId || typeof listingId !== "string") {
-    throw new Error("Invalid ID");
-  }
-
-  // Convert listingId to number
-  const numericListingId = Number(listingId);
-
-  if (isNaN(numericListingId)) {
-    throw new Error("Invalid listingId format");
-  }
-
-  try {
-    const listing = await prisma.listing.updateMany({
-      where: {
-        id: numericListingId,
-        userId: currentUser.id,
-      },
-      data,
+    form.on('fileBegin', (name, file) => {
+      const formidableFile = file as unknown as FormidableFile;
+      formidableFile.filepath = path.join(uploadDir, formidableFile.originalFilename || '');
     });
 
-    return NextResponse.json(listing);
-  } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    } else {
-      return NextResponse.json({ error: "Unknown error" }, { status: 500 });
-    }
-  }
+    form.parse(req, (err, fields, files) => {
+      if (err) {
+        reject(NextResponse.json({ error: 'Something went wrong' }, { status: 500 }));
+        return;
+      }
+      resolve(NextResponse.json({ files }));
+    });
+  });
 }
