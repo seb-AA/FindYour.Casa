@@ -13,9 +13,9 @@ import {
   GiIsland,
   GiWindmill,
   GiAtom,
+  GiFarmTractor,
 } from "react-icons/gi";
 import { FaSkiing } from "react-icons/fa";
-import { PiFarmFill } from "react-icons/pi";
 import { BsSnow } from "react-icons/bs";
 import { IoDiamond } from "react-icons/io5";
 import { MdOutlineVilla, MdOutlineApartment } from "react-icons/md";
@@ -107,7 +107,7 @@ export const categories = [
   },
   {
     label: "Farm",
-    icon: <PiFarmFill />,
+    icon: <GiFarmTractor />,
     description: "This property is a farm!",
   },
   {
