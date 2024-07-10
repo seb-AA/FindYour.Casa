@@ -9,6 +9,7 @@ export interface IListingParams {
   endDate?: string;
   locationValue?: string;
   category?: string;
+  isPublic?: boolean;  // Add this line
 }
 
 export default async function getListings(params: IListingParams) {
@@ -22,6 +23,7 @@ export default async function getListings(params: IListingParams) {
       endDate,
       locationValue,
       category,
+      isPublic,  // Add this line
     } = params;
 
     let query: any = {};
@@ -67,6 +69,10 @@ export default async function getListings(params: IListingParams) {
           },
         },
       };
+    }
+
+    if (typeof isPublic === 'boolean') {  // Add this block
+      query.isPublic = isPublic;
     }
 
     const listings = await prisma.listing.findMany({
