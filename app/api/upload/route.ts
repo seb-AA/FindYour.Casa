@@ -12,6 +12,10 @@ fs.mkdirSync(uploadDir, { recursive: true });
 export const runtime = 'nodejs';
 
 export async function POST(req: NextRequest) {
+  if (!req.body) {
+    return NextResponse.json({ error: 'Request body is empty' }, { status: 400 });
+  }
+
   const reader = req.body.getReader();
   const chunks: Uint8Array[] = [];
   
