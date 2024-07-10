@@ -23,8 +23,8 @@ enum STEPS {
   INFO = 2,
   IMAGES = 3,
   DESCRIPTION = 4,
-  PRICE = 5,
-  AMENITIES = 6,
+  AMENITIES = 5,
+  PRICE = 6,
 }
 
 const RentModal: React.FC = () => {

@@ -2,7 +2,7 @@
 
 import Container from "../Container";
 
-import { TbBeach, TbMountain, TbPool } from "react-icons/tb";
+import { TbBeach, TbMountain } from "react-icons/tb";
 import {
   GiBarn,
   GiBoatFishing,
@@ -44,11 +44,6 @@ export const categories = [
     label: "Countryside",
     icon: <TbMountain />,
     description: "This property is in the countryside!",
-  },
-  {
-    label: "Pools",
-    icon: <TbPool />,
-    description: "This property has a beautiful pool!",
   },
   {
     label: "Islands",
