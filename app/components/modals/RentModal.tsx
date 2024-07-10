@@ -79,6 +79,34 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
   const imageSrc = watch("imageSrc");
   const photos = watch("photos");
 
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    if (step !== STEPS.PRICE) {
+      return onNext();
+    }
+  
+    setIsLoading(true);
+  
+    const request = listing
+      ? axios.patch(`/api/listings/${listing.id}`, data)
+      : axios.post("/api/listings", data);
+  
+    request
+      .then(() => {
+        toast.success("Listing saved successfully");
+        router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
+        onClose();
+      })
+      .catch(() => {
+        toast.error("Something went wrong");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+  
+
   const Map = useMemo(
     () => dynamic(() => import("../Map"), { ssr: false }),
     [location]
