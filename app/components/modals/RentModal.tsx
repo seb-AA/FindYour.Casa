@@ -241,14 +241,6 @@ const RentModal: React.FC<RentModalProps> = ({ isOpen, onClose, listing }) => {
           setLoading={setIsUploading}
           onChange={(value) => setCustomValue("imageSrc", value)}
         />
-        <hr />
-        <ImageUpload
-          label="Additional Photos"
-          multiple
-          value={photos}
-          setLoading={setIsUploading}
-          onChange={(value) => setCustomValue("photos", value)}
-        />
       </div>
     );
   }
