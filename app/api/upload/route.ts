@@ -21,7 +21,9 @@ export async function POST(req: NextRequest) {
   
   let done, value;
   while (!({ done, value } = await reader.read()).done) {
-    chunks.push(value);
+    if (value) {
+      chunks.push(value);
+    }
   }
   
   const body = Buffer.concat(chunks);
