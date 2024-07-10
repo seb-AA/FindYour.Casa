@@ -46,13 +46,15 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
   const data = await request.json();
 
   if (!listingId || typeof listingId !== "string") {
-    throw new Error("Invalid ID");
+    console.error("Invalid ID:", listingId);
+    return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
   }
 
   const numericListingId = Number(listingId);
 
   if (isNaN(numericListingId)) {
-    throw new Error("Invalid listingId format");
+    console.error("Invalid listingId format:", listingId);
+    return NextResponse.json({ error: "Invalid listingId format" }, { status: 400 });
   }
 
   try {
@@ -63,6 +65,11 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       },
       data,
     });
+
+    if (listing.count === 0) {
+      console.error("No listings updated for ID:", numericListingId);
+      return NextResponse.json({ error: "No listings updated" }, { status: 404 });
+    }
 
     return NextResponse.json(listing);
   } catch (error) {
