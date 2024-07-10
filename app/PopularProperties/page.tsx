@@ -4,6 +4,7 @@ import ClientOnly from "@/app/components/ClientOnly";
 import Container from "@/app/components/Container";
 import EmptyState from "@/app/components/EmptyState";
 import ListingCard from "@/app/components/listings/ListingCard";
+import Navbar from "@/app/components/navbar/Navbar";
 
 const PopularProperties = async () => {
   const listings = await getListings({ isPublic: true });
@@ -12,6 +13,7 @@ const PopularProperties = async () => {
   if (listings.length === 0) {
     return (
       <ClientOnly>
+        <Navbar currentUser={currentUser} />
         <EmptyState showReset />
       </ClientOnly>
     );
