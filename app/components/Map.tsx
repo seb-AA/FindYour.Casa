@@ -8,7 +8,7 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import marketIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x.src,
   iconUrl: marketIcon.src,
@@ -21,9 +21,9 @@ interface MapProps {
 }
 
 const Map: React.FC<MapProps> = ({ center, onClickMap }) => {
-  const map = useMapEvents({
-    click: (e) => {
-      onClickMap && onClickMap([e.latlng.lat, e.latlng.lng]);
+  const mapEvents = useMapEvents({
+    click(e) {
+      onClickMap?.([e.latlng.lat, e.latlng.lng]);
     },
   });
 
