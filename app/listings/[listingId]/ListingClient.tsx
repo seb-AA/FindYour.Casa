@@ -25,9 +25,9 @@ const ListingClient: React.FC<IListingClientProps> = ({
     return categories.find((item) => item.label === listing.category);
   }, [listing.category]);
 
-  const locationCoordinates = useMemo(() => {
+  const locationCoordinates: [number, number] = useMemo(() => {
     if (listing.latitude !== null && listing.longitude !== null) {
-      return [listing.latitude, listing.longitude] as [number, number];
+      return [listing.latitude, listing.longitude];
     }
     return [51.505, -0.09]; // Default coordinates (e.g., London)
   }, [listing.latitude, listing.longitude]);

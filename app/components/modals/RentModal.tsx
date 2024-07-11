@@ -8,7 +8,6 @@ import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import CountrySelect from "../Inputs/CountrySelect";
 import dynamic from "next/dynamic";
 import Counter from "../Inputs/Counter";
 import ImageUpload from "../Inputs/ImageUpload";
@@ -229,7 +228,7 @@ const RentModal: React.FC = () => {
           title="Where's your place located?"
           subtitle="Click on the map to set the location"
         />
-        <Map center={[latitude, longitude]} onClickMap={handleMapClick} />
+        <Map center={[latitude ?? 51.505, longitude ?? -0.09]} onClickMap={handleMapClick} />
       </div>
     );
   }
