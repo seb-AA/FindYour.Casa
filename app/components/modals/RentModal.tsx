@@ -208,10 +208,20 @@ const RentModal: React.FC = () => {
           onChange={(value) => setCustomValue("location", value)}
           value={location}
         />
-        <Map center={location?.latlng} />
+        <Input
+          id="radius"
+          label="Search Radius (km)"
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          onChange={(e) => setCustomValue("radius", e.target.value)}
+        />
+        <Map center={location?.latlng} radius={watch("radius")} />
       </div>
     );
   }
+  
 
   if (step === STEPS.INFO) {
     bodyContent = (

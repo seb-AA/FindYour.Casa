@@ -1,7 +1,7 @@
 "use client";
 
 import L from "leaflet";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Circle } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
@@ -18,9 +18,10 @@ L.Icon.Default.mergeOptions({
 
 interface MapProps {
   center?: number[];
+  radius?: number;
 }
 
-const Map: React.FC<MapProps> = ({ center }) => {
+const Map: React.FC<MapProps> = ({ center, radius }) => {
   return (
     <MapContainer
       center={(center as L.LatLngExpression) || [51.505, -0.09]}
@@ -30,6 +31,9 @@ const Map: React.FC<MapProps> = ({ center }) => {
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {center && <Marker position={center as L.LatLngExpression} />}
+      {center && radius && (
+        <Circle center={center as L.LatLngExpression} radius={radius * 1000} />
+      )}
     </MapContainer>
   );
 };
