@@ -65,6 +65,8 @@ model Listing {
   landSize             Float?    
   arableLandSize       Float?
   arableLandSizeUnit   String?
+  hasOtherBuildings         Boolean?
+  hasArableLand             Boolean?
   isPublic             Boolean  @default(false)    
 
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -67,8 +67,9 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       numberOfHabitableBuildings,
       landSize,
       arableLandSize,
-      location, // Ensure this field is correct
-      garageSpaces, // Ensure this field is correct
+      arableLandSizeUnit,
+      hasOtherBuildings,
+      hasArableLand,
       ...otherData
     } = data;
 
@@ -82,8 +83,9 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       numberOfHabitableBuildings: numberOfHabitableBuildings ? Number(numberOfHabitableBuildings) : undefined,
       landSize: landSize ? Number(landSize) : undefined,
       arableLandSize: arableLandSize ? Number(arableLandSize) : undefined,
-      locationValue: location ? JSON.stringify(location.latlng) : undefined, // Convert to string
-      garageSpaces: garageSpaces ? Number(garageSpaces) : undefined, // Ensure this field is correct
+      arableLandSizeUnit,
+      hasOtherBuildings: hasOtherBuildings ? Boolean(hasOtherBuildings) : undefined,
+      hasArableLand: hasArableLand ? Boolean(hasArableLand) : undefined,
     };
 
     const listing = await prisma.listing.updateMany({
