@@ -43,7 +43,6 @@ const SearchModal = () => {
       dynamic(() => import("../Map"), {
         ssr: false,
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]
   );
 
@@ -122,6 +121,17 @@ const SearchModal = () => {
     return "Back";
   }, [step]);
 
+  const getLocationLatLng = () => {
+    if (!location || !location.latlng) {
+      return undefined;
+    }
+    const latLngArray = location.latlng.split(",").map(Number);
+    if (latLngArray.length !== 2) {
+      return undefined;
+    }
+    return [latLngArray[0], latLngArray[1]] as [number, number];
+  };
+
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
@@ -133,7 +143,7 @@ const SearchModal = () => {
         onChange={(value) => setLocation(value as CountrySelectValue)}
       />
       <hr />
-      <Map center={location?.latlng} />
+      <Map center={getLocationLatLng()} />
     </div>
   );
 
@@ -176,7 +186,7 @@ const SearchModal = () => {
           }}
           value={bathroomCount}
           title="Bathrooms"
-          subtitle="How many bahtrooms do you need?"
+          subtitle="How many bathrooms do you need?"
         />
       </div>
     );
