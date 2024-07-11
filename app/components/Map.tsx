@@ -21,13 +21,16 @@ interface MapProps {
   onClickMap?: (coords: number[]) => void;
 }
 
-const Map: React.FC<MapProps> = ({ center, onClickMap }) => {
+const MapEvents: React.FC<{ onClickMap: (coords: number[]) => void }> = ({ onClickMap }) => {
   useMapEvents({
     click(e) {
-      onClickMap?.([e.latlng.lat, e.latlng.lng]);
+      onClickMap([e.latlng.lat, e.latlng.lng]);
     },
   });
+  return null;
+};
 
+const Map: React.FC<MapProps> = ({ center, onClickMap }) => {
   return (
     <MapContainer
       center={(center as L.LatLngExpression) || [51.505, -0.09]}
@@ -37,6 +40,7 @@ const Map: React.FC<MapProps> = ({ center, onClickMap }) => {
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {center && <Marker position={center as L.LatLngExpression} />}
+      {onClickMap && <MapEvents onClickMap={onClickMap} />}
     </MapContainer>
   );
 };
