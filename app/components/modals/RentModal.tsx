@@ -1,5 +1,3 @@
-"use client"
-
 import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
 import { Switch } from "@headlessui/react";
@@ -72,6 +70,10 @@ const RentModal: React.FC = () => {
   const bathroomCount = watch("bathroomCount");
   const imageSrc = watch("imageSrc");
   const photos = watch("photos");
+
+  const handleMapClick = (coords: number[]) => {
+    setCustomValue("location", { latlng: coords });
+  };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (step !== STEPS.PRICE) {
@@ -146,10 +148,6 @@ const RentModal: React.FC = () => {
       reset(rentModal.listing);
     }
   }, [rentModal.listing, reset]);
-
-  const handleMapClick = (coords: number[]) => {
-    setCustomValue("location", { latlng: coords });
-  };
 
   let bodyContent = (
     <div className="flex flex-col gap-4">
