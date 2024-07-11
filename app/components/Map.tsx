@@ -31,19 +31,18 @@ const MapEvents: React.FC<{ onClickMap: (coords: number[]) => void }> = ({ onCli
 };
 
 const Map: React.FC<MapProps> = ({ center, onClickMap }) => {
-  const defaultCenter: L.LatLngExpression = [51.505, -0.09]; // Default center coordinates
-  const mapCenter = center && center.length === 2 ? (center as L.LatLngExpression) : defaultCenter;
+  const defaultCenter: L.LatLngExpression = [51.505, -0.09];
 
   return (
     <MapContainer
-      center={mapCenter}
+      center={(center as L.LatLngExpression) || defaultCenter}
       zoom={center ? 7 : 3}
       scrollWheelZoom={true}
       zoomControl={true}
       className="h-[35vh] rounded-lg z-0 mb-20 w-full"
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {center && <Marker position={mapCenter} />}
+      {center && <Marker position={center as L.LatLngExpression} />}
       {onClickMap && <MapEvents onClickMap={onClickMap} />}
     </MapContainer>
   );
