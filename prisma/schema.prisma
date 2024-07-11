@@ -69,6 +69,7 @@ model Listing {
   hasOtherBuildings         Boolean?  
   hasArableLand             Boolean?  
   isPublic                  Boolean   @default(false)
+  extractedInfo             String?
 
   user                      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations              Reservation[]

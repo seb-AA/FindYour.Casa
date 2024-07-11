@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
+import fetch from "node-fetch";
 
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
@@ -32,6 +33,18 @@ export async function POST(request: Request) {
     isPublic,
   } = body;
 
+  let extractedInfo = "";
+
+  if (agentWebsite) {
+    try {
+      const response = await fetch(`https://r.jina.ai/${agentWebsite}`);
+      const data = await response.json();
+      extractedInfo = data.content || "";
+    } catch (error) {
+      console.error("Failed to fetch data from agent website:", error);
+    }
+  }
+
   const listing = await prisma.listing.create({
     data: {
       title,
@@ -53,6 +66,7 @@ export async function POST(request: Request) {
       landSize,
       arableLandSize,
       isPublic,
+      extractedInfo,  // Store the extracted information
       userId: currentUser.id,
     },
   });

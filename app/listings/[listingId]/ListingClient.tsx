@@ -26,11 +26,11 @@ const ListingClient: React.FC<IListingClientProps> = ({
     return categories.find((item) => item.label === listing.category);
   }, [listing.category]);
 
-  const locationCoordinates: [number, number] = useMemo(() => {
+  const locationCoordinates = useMemo(() => {
     if (listing.latitude !== null && listing.longitude !== null) {
-      return [listing.latitude, listing.longitude];
+      return [listing.latitude, listing.longitude] as [number, number];
     }
-    return [51.505, -0.09]; // Default coordinates (e.g., London)
+    return undefined;
   }, [listing.latitude, listing.longitude]);
 
   const { getByLatLng } = useCountries();
@@ -53,8 +53,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
         <ListingHead
           title={listing.title}
           imageSrc={listing.imageSrc}
-          latitude={listing.latitude ?? 51.505}  // Default to 51.505 if null
-          longitude={listing.longitude ?? -0.09}  // Default to -0.09 if null
+          latitude={listing.latitude ?? 0}  // Default to 0 if null
+          longitude={listing.longitude ?? 0}  // Default to 0 if null
           id={listing.id}
           currentUser={currentUser}
         />
@@ -71,7 +71,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
               region={location?.region || "Unknown"}
               country={location?.country || "Unknown"}
               agentWebsite={listing.agentWebsite || undefined}
-              notes={undefined}  // Pass notes as undefined here
+              notes={listing.notes || undefined}
+              extractedInfo={listing.extractedInfo || undefined}  // Display extracted information
               hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
               hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
               numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
@@ -79,14 +80,6 @@ const ListingClient: React.FC<IListingClientProps> = ({
               landSize={listing.landSize !== null ? listing.landSize : undefined}
               arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
             />
-          </div>
-          <div>
-            {listing.notes && (
-              <div className="p-4 border rounded-md shadow-sm">
-                <h2 className="text-lg font-semibold mb-2">Notes</h2>
-                <p>{listing.notes}</p>
-              </div>
-            )}
           </div>
         </div>
         {locationCoordinates && <Map center={locationCoordinates} />}
