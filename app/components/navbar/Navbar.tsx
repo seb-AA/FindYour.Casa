@@ -18,13 +18,13 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
         <Container>
           <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
             <Logo />
-            {/*<Search />*/}
-            <div className="flex space-x-4 items-center">
+            <div className="flex space-x-4 justify-items-center">
               <Link href="/PopularProperties">
                 <a className="text-gray-900 hover:text-gray-700">Popular Properties</a>
               </Link>
               <UserMenu currentUser={currentUser} />
             </div>
+            {/*<Search />*/}
           </div>
         </Container>
       </div>
