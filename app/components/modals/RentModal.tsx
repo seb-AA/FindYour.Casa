@@ -291,7 +291,7 @@ const RentModal: React.FC = () => {
 
   if (step === STEPS.AMENITIES) {
     bodyContent = (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 max-h-[60vh] overflow-y-auto">
         <Heading
           title="Information and Amenities"
           subtitle="Provide more information about your place"
