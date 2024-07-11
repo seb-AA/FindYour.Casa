@@ -6,16 +6,25 @@ import { useCallback, useMemo } from "react";
 import { format } from "date-fns";
 
 import useCountries from "@/app/hooks/useCountries";
-import { Listing, Reservation, User } from "@prisma/client";
+import { Reservation, User } from "@prisma/client";
 
 import HeartButton from "../HeartButton";
 import Button from "../Button";
 
+interface ExtendedListing {
+  id: string;
+  imageSrc: string;
+  locationValue: string;
+  category: string;
+  price: number;
+  radius?: number;
+}
+
 interface ListingCardProps {
-  data: Listing;
+  data: ExtendedListing;
   reservation?: Reservation;
   onAction?: (id: string) => void;
-  onEdit?: (listing: Listing) => void;
+  onEdit?: (listing: ExtendedListing) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
@@ -120,7 +129,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           {location?.region}, {location?.label}
         </div>
         <div className="font-light text-neutral-500">
-          {reservationDate || `${data.category} - ${data.radius} km radius`}
+          {reservationDate || `${data.category} - ${data.radius || 0} km radius`}
         </div>
         <div className="flex flex-row items-center gap-1">
           <div className="font-semibold">$ {price}</div>
