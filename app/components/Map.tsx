@@ -34,8 +34,8 @@ const Map: React.FC<MapProps> = ({ center, onClickMap }) => {
   return (
     <MapContainer
       center={(center as L.LatLngExpression) || [51.505, -0.09]}
-      zoom={center ? 13 : 2}
-      scrollWheelZoom={false}
+      zoom={center ? 13 : 7}
+      scrollWheelZoom={true}
       className="h-[35vh] rounded-lg z-0 mb-20 w-full"
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
