@@ -29,7 +29,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
     if (listing.latitude !== null && listing.longitude !== null) {
       return [listing.latitude, listing.longitude] as [number, number];
     }
-    return undefined;
+    return [51.505, -0.09]; // Default coordinates (e.g., London)
   }, [listing.latitude, listing.longitude]);
 
   return (
@@ -38,8 +38,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
         <ListingHead
           title={listing.title}
           imageSrc={listing.imageSrc}
-          latitude={listing.latitude ?? 0}  // Use default value if null
-          longitude={listing.longitude ?? 0}  // Use default value if null
+          latitude={listing.latitude ?? 51.505}  // Default to 51.505 if null
+          longitude={listing.longitude ?? -0.09}  // Default to -0.09 if null
           id={listing.id}
           currentUser={currentUser}
         />
@@ -51,8 +51,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
             roomCount={listing.roomCount}
             guestCount={listing.guestCount}
             bathroomCount={listing.bathroomCount}
-            latitude={listing.latitude ?? 0}  // Use default value if null
-            longitude={listing.longitude ?? 0}  // Use default value if null
+            latitude={listing.latitude ?? 51.505}  // Default to 51.505 if null
+            longitude={listing.longitude ?? -0.09}  // Default to -0.09 if null
             agentWebsite={listing.agentWebsite || undefined}
             notes={listing.notes || undefined}
             hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
@@ -62,7 +62,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
             landSize={listing.landSize !== null ? listing.landSize : undefined}
             arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
           />
-          {locationCoordinates && <Map center={locationCoordinates} />}
+          <Map center={locationCoordinates} />
         </div>
       </div>
     </Container>

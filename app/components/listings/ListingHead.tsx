@@ -30,7 +30,7 @@ const ListingHead: React.FC<IListingHeadProps> = ({
     <>
       <Heading
         title={title}
-        subtitle={`${location?.region}, ${location?.label}`}
+        subtitle={`${location?.region || 'Unknown'}, ${location?.label || 'Unknown'}`}
       />
       <div
         className="

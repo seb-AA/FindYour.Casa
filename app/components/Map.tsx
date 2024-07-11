@@ -31,9 +31,11 @@ const MapEvents: React.FC<{ onClickMap: (coords: number[]) => void }> = ({ onCli
 };
 
 const Map: React.FC<MapProps> = ({ center, onClickMap }) => {
+  const defaultCenter: [number, number] = [51.505, -0.09]; // Default coordinates (e.g., London)
+
   return (
     <MapContainer
-      center={center || [51.505, -0.09]}
+      center={center || defaultCenter}
       zoom={center ? 7 : 3}
       scrollWheelZoom={true}
       zoomControl={true}
