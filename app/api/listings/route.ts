@@ -32,6 +32,10 @@ export async function POST(request: Request) {
     isPublic,
   } = body;
 
+  if (!location || !location.lat || !location.lng) {
+    return NextResponse.error();
+  }
+
   const listing = await prisma.listing.create({
     data: {
       title,
@@ -41,7 +45,8 @@ export async function POST(request: Request) {
       roomCount,
       bathroomCount,
       guestCount,
-      locationValue: location.value,
+      latitude: location.lat,
+      longitude: location.lng,
       price: parseInt(price, 10),
       agentWebsite,
       notes,
