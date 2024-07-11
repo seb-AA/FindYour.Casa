@@ -18,9 +18,16 @@ const useCountries = () => {
     return country;
   };
 
+  const getByLatLng = (lat: number, lng: number) => {
+    return formattedCountries.find(
+      (country) => country.latlng[0] === lat && country.latlng[1] === lng
+    );
+  };
+
   return {
     getAll,
     getByValue,
+    getByLatLng,
   };
 };
 
