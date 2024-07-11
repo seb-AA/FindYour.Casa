@@ -67,9 +67,7 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       numberOfHabitableBuildings,
       landSize,
       arableLandSize,
-      arableLandSizeUnit,
-      hasOtherBuildings,
-      hasArableLand,
+      garageSpaces,
       ...otherData
     } = data;
 
@@ -83,9 +81,7 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       numberOfHabitableBuildings: numberOfHabitableBuildings ? Number(numberOfHabitableBuildings) : undefined,
       landSize: landSize ? Number(landSize) : undefined,
       arableLandSize: arableLandSize ? Number(arableLandSize) : undefined,
-      arableLandSizeUnit,
-      hasOtherBuildings: hasOtherBuildings ? Boolean(hasOtherBuildings) : undefined,
-      hasArableLand: hasArableLand ? Boolean(hasArableLand) : undefined,
+      garageSpaces: garageSpaces ? Number(garageSpaces) : undefined,
     };
 
     const listing = await prisma.listing.updateMany({

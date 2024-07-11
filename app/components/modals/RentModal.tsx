@@ -82,26 +82,40 @@ const RentModal: React.FC = () => {
 
     setIsLoading(true);
 
-    const request = rentModal.mode === "edit"
-      ? axios.patch(`/api/listings/${rentModal.listing?.id}`, data)
-      : axios.post("/api/listings", data);
-
-    request
-      .then(() => {
-        toast.success("Listing saved successfully");
-        router.refresh();
-        reset();
-        setStep(STEPS.CATEGORY);
-        rentModal.onClose();
-      })
-      .catch(() => {
-        toast.error("Something went wrong");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+  // Ensure fields that should be numbers are converted to numbers
+  const preparedData = {
+    ...data,
+    guestCount: Number(data.guestCount),
+    roomCount: Number(data.roomCount),
+    bathroomCount: Number(data.bathroomCount),
+    price: Number(data.price),
+    numberOfOtherBuildings: data.numberOfOtherBuildings ? Number(data.numberOfOtherBuildings) : null,
+    numberOfHabitableBuildings: data.numberOfHabitableBuildings ? Number(data.numberOfHabitableBuildings) : null,
+    landSize: data.landSize ? Number(data.landSize) : null,
+    arableLandSize: data.arableLandSize ? Number(data.arableLandSize) : null,
+    garageSpaces: data.garageSpaces ? Number(data.garageSpaces) : null,
+    locationValue: JSON.stringify(data.location.latlng) 
   };
 
+  const request = rentModal.mode === "edit"
+    ? axios.patch(`/api/listings/${rentModal.listing?.id}`, preparedData)
+    : axios.post("/api/listings", preparedData);
+
+  request
+    .then(() => {
+      toast.success("Listing saved successfully");
+      router.refresh();
+      reset();
+      setStep(STEPS.CATEGORY);
+      rentModal.onClose();
+    })
+    .catch(() => {
+      toast.error("Something went wrong");
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+};
   const Map = useMemo(
     () => dynamic(() => import("../Map"), { ssr: false }),
     [location]

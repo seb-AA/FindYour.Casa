@@ -43,34 +43,34 @@ model Account {
 }
 
 model Listing {
-  id                   Int       @id @default(autoincrement())
-  userId               Int
-  title                String
-  description          String
-  imageSrc             String
-  category             String
-  roomCount            Int
-  bathroomCount        Int
-  guestCount           Int
-  locationValue        String
-  price                Int
-  createdAt            DateTime  @default(now())
-  agentWebsite         String?   
-  notes                String?   
-  hasSwimmingPool      Boolean?  
-  hasGarage            Boolean?  
-  garageSpaces         Int?
-  numberOfOtherBuildings Int?    
+  id                        Int       @id @default(autoincrement())
+  userId                    Int
+  title                     String
+  description               String
+  imageSrc                  String
+  category                  String
+  roomCount                 Int
+  bathroomCount             Int
+  guestCount                Int
+  locationValue             String
+  price                     Int
+  createdAt                 DateTime  @default(now())
+  agentWebsite              String?   
+  notes                     String?   
+  hasSwimmingPool           Boolean?  
+  hasGarage                 Boolean?  
+  numberOfOtherBuildings    Int?    
   numberOfHabitableBuildings Int? 
-  landSize             Float?    
-  arableLandSize       Float?
-  arableLandSizeUnit   String?
-  hasOtherBuildings         Boolean?
-  hasArableLand             Boolean?
-  isPublic             Boolean  @default(false)    
+  landSize                  Float?    
+  arableLandSize            Float?
+  arableLandSizeUnit        String?   
+  garageSpaces              Int?      
+  hasOtherBuildings         Boolean?  
+  hasArableLand             Boolean?  
+  isPublic                  Boolean   @default(false)
 
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  reservations  Reservation[]
+  user                      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reservations              Reservation[]
 }
 
 model Reservation {
