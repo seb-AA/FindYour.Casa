@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
 
@@ -19,7 +18,8 @@ export async function POST(request: Request) {
     roomCount,
     bathroomCount,
     guestCount,
-    location,
+    latitude,
+    longitude,
     price,
     agentWebsite,
     notes,
@@ -32,10 +32,6 @@ export async function POST(request: Request) {
     isPublic,
   } = body;
 
-  if (!location || !location.lat || !location.lng) {
-    return NextResponse.error();
-  }
-
   const listing = await prisma.listing.create({
     data: {
       title,
@@ -45,8 +41,8 @@ export async function POST(request: Request) {
       roomCount,
       bathroomCount,
       guestCount,
-      latitude: location.lat,
-      longitude: location.lng,
+      latitude,
+      longitude,
       price: parseInt(price, 10),
       agentWebsite,
       notes,
