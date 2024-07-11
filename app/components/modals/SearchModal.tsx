@@ -67,7 +67,8 @@ const SearchModal = () => {
 
     const updatedQuery: any = {
       ...currentQuery,
-      locationValue: location?.value,
+      latitude: location?.latlng[0],
+      longitude: location?.latlng[1],
       guestCount,
       roomCount,
       bathroomCount,
@@ -182,7 +183,7 @@ const SearchModal = () => {
           }}
           value={bathroomCount}
           title="Bathrooms"
-          subtitle="How many bahtrooms do you need?"
+          subtitle="How many bathrooms do you need?"
         />
       </div>
     );
