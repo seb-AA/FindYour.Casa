@@ -12,7 +12,7 @@ interface IListingClientProps {
   reservations?: Reservation[];
   listing: Listing & {
     user: User;
-    extractedInfo?: string;
+    extractedInfo?: string | null;
   };
   currentUser?: User | null;
 }

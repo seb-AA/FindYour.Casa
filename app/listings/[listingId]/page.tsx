@@ -32,16 +32,10 @@ const ListingPage = async ({ params }: { params: IParams }) => {
     );
   }
 
-  // Ensure extractedInfo is never null
-  const listingData = {
-    ...listing,
-    extractedInfo: listing.extractedInfo ?? null,
-  };
-
   return (
     <ClientOnly>
       <ListingClient
-        listing={listingData}
+        listing={listing}
         currentUser={currentUser}
         reservations={reservations}
       />
