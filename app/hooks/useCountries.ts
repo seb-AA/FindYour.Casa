@@ -20,7 +20,7 @@ const useCountries = () => {
   };
 
   const getByLatLng = async (latitude: number, longitude: number) => {
-    const apiKey = "YOUR_OPENCAGE_API_KEY";  // Replace with your OpenCage API key
+    const apiKey = process.env.NEXT_PUBLIC_OPENCAGE_API_KEY;
     const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`);
 
     const { city, state, country } = response.data.results[0].components;
