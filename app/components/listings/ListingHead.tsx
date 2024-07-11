@@ -8,22 +8,24 @@ import HeartButton from "../HeartButton";
 
 interface IListingHeadProps {
   title: string;
-  locationValue: string;
+  latitude: number;
+  longitude: number;
   imageSrc: string;
-  id: number;  // Changed from string to number
+  id: number;
   currentUser?: User | null;
 }
 
 const ListingHead: React.FC<IListingHeadProps> = ({
   title,
-  locationValue,
+  latitude,
+  longitude,
   imageSrc,
   id,
   currentUser,
 }) => {
-  const { getByValue } = useCountries();
+  const { getByLatLng } = useCountries();
 
-  const location = getByValue(locationValue);
+  const location = getByLatLng(latitude, longitude);
 
   return (
     <>

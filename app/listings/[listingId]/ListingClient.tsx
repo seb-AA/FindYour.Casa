@@ -26,13 +26,11 @@ const ListingClient: React.FC<IListingClientProps> = ({
   }, [listing.category]);
 
   const locationCoordinates = useMemo(() => {
-    try {
-      return JSON.parse(listing.locationValue);
-    } catch (error) {
-      console.error("Error parsing locationValue:", error);
-      return undefined;
+    if (listing.latitude !== null && listing.longitude !== null) {
+      return [listing.latitude, listing.longitude] as [number, number];
     }
-  }, [listing.locationValue]);
+    return undefined;
+  }, [listing.latitude, listing.longitude]);
 
   return (
     <Container>
@@ -40,7 +38,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
         <ListingHead
           title={listing.title}
           imageSrc={listing.imageSrc}
-          locationValue={listing.locationValue}
+          latitude={listing.latitude}
+          longitude={listing.longitude}
           id={listing.id}
           currentUser={currentUser}
         />
@@ -52,7 +51,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
             roomCount={listing.roomCount}
             guestCount={listing.guestCount}
             bathroomCount={listing.bathroomCount}
-            locationValue={listing.locationValue}
+            latitude={listing.latitude}
+            longitude={listing.longitude}
             agentWebsite={listing.agentWebsite || undefined}
             notes={listing.notes || undefined}
             hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}

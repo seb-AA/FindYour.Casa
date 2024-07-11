@@ -12,15 +12,13 @@ const useCountries = () => {
   const getAll = () => formattedCountries;
 
   const getByValue = (value: string) => {
-    const country = formattedCountries.find(
-      (country) => country.value === value
-    );
-    return country;
+    return formattedCountries.find((country) => country.value === value);
   };
 
-  const getByLatLng = (lat: number, lng: number) => {
+  const getByLatLng = (latitude: number, longitude: number) => {
     return formattedCountries.find(
-      (country) => country.latlng[0] === lat && country.latlng[1] === lng
+      (country) =>
+        country.latlng[0] === latitude && country.latlng[1] === longitude
     );
   };
 

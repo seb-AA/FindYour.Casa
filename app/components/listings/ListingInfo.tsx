@@ -8,7 +8,8 @@ interface ListingInfoProps {
   roomCount: number;
   guestCount: number;
   bathroomCount: number;
-  locationValue: string;
+  latitude: number;
+  longitude: number;
   agentWebsite?: string | null;
   notes?: string | null;
   hasSwimmingPool?: boolean;
@@ -26,7 +27,8 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   roomCount,
   guestCount,
   bathroomCount,
-  locationValue,
+  latitude,
+  longitude,
   agentWebsite,
   notes,
   hasSwimmingPool,
@@ -48,7 +50,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         <span className="font-semibold">Hosted by:</span> {user.name}
       </div>
       <div>
-        <span className="font-semibold">Location:</span> {locationValue}
+        <span className="font-semibold">Location:</span> {latitude}, {longitude}
       </div>
       <div>
         <span className="font-semibold">Rooms:</span> {roomCount}
