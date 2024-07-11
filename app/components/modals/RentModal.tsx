@@ -94,7 +94,7 @@ const RentModal: React.FC = () => {
       landSize: data.landSize ? Number(data.landSize) : null,
       arableLandSize: data.arableLandSize ? Number(data.arableLandSize) : null,
       garageSpaces: data.garageSpaces ? Number(data.garageSpaces) : null,
-      locationValue: JSON.stringify(data.location.latlng) // Convert location to string
+      locationValue: JSON.stringify(data.locationValue.latlng) // Convert location to string
     };
 
     const request = rentModal.mode === "edit"
