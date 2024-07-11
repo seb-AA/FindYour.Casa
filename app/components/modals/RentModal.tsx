@@ -8,6 +8,7 @@ import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import CountrySelect from "../Inputs/CountrySelect";
 import dynamic from "next/dynamic";
 import Counter from "../Inputs/Counter";
 import ImageUpload from "../Inputs/ImageUpload";
@@ -43,7 +44,7 @@ const RentModal: React.FC = () => {
   } = useForm<FieldValues>({
     defaultValues: rentModal.listing || {
       category: "",
-      locationValue: null,
+      location: null,
       guestCount: 1,
       roomCount: 1,
       bathroomCount: 1,
@@ -63,13 +64,11 @@ const RentModal: React.FC = () => {
       arableLandSize: 0,
       arableLandSizeUnit: "",
       isPublic: false,
-      hasOtherBuildings: false,
-      hasArableLand: false,
     },
   });
 
   const category = watch("category");
-  const locationValue = watch("locationValue");
+  const location = watch("location");
   const guestCount = watch("guestCount");
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
@@ -95,6 +94,7 @@ const RentModal: React.FC = () => {
       landSize: data.landSize ? Number(data.landSize) : null,
       arableLandSize: data.arableLandSize ? Number(data.arableLandSize) : null,
       garageSpaces: data.garageSpaces ? Number(data.garageSpaces) : null,
+      locationValue: JSON.stringify(data.locationValue.latlng)
     };
 
     const request = rentModal.mode === "edit"
@@ -119,7 +119,7 @@ const RentModal: React.FC = () => {
 
   const Map = useMemo(
     () => dynamic(() => import("../Map"), { ssr: false }),
-    [locationValue]
+    [location]
   );
 
   const setCustomValue = (id: string, value: any) => {
@@ -131,7 +131,7 @@ const RentModal: React.FC = () => {
   };
 
   const handleMapClick = (coords: number[]) => {
-    setCustomValue("locationValue", coords.join(","));
+    setCustomValue("location", { latlng: coords });
   };
 
   const onBack = () => {
@@ -225,14 +225,7 @@ const RentModal: React.FC = () => {
           title="Where's your place located?"
           subtitle="Click on the map to set the location"
         />
-        {locationValue ? (
-          <Map
-            center={locationValue.split(",").map(Number)}
-            onClickMap={handleMapClick}
-          />
-        ) : (
-          <p>Please select a location on the map.</p>
-        )}
+        <Map center={location?.latlng} onClickMap={handleMapClick} />
       </div>
     );
   }
@@ -482,10 +475,10 @@ const RentModal: React.FC = () => {
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
-      title="Rent your place"
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
-      secondaryAction={onBack}
+      secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
+      title={rentModal.mode === "edit" ? "Edit Property" : "Add a Property"}
       body={bodyContent}
     />
   );
