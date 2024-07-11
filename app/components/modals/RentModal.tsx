@@ -8,6 +8,7 @@ import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import CountrySelect from "../Inputs/CountrySelect";
 import dynamic from "next/dynamic";
 import Counter from "../Inputs/Counter";
 import ImageUpload from "../Inputs/ImageUpload";
@@ -95,7 +96,6 @@ const RentModal: React.FC = () => {
       landSize: data.landSize ? Number(data.landSize) : null,
       arableLandSize: data.arableLandSize ? Number(data.arableLandSize) : null,
       garageSpaces: data.garageSpaces ? Number(data.garageSpaces) : null,
-      locationValue: data.locationValue ? JSON.stringify(data.locationValue.latlng) : null,
     };
 
     const request = rentModal.mode === "edit"
@@ -132,7 +132,7 @@ const RentModal: React.FC = () => {
   };
 
   const handleMapClick = (coords: number[]) => {
-    setCustomValue("locationValue", { latlng: coords });
+    setCustomValue("locationValue", coords.join(","));
   };
 
   const onBack = () => {
@@ -168,6 +168,13 @@ const RentModal: React.FC = () => {
       reset(rentModal.listing);
     }
   }, [rentModal.listing, reset]);
+
+  const getLocationLatLng = (): [number, number] | undefined => {
+    if (locationValue) {
+      return locationValue.split(",").map(Number) as [number, number];
+    }
+    return undefined;
+  };
 
   let bodyContent = (
     <div className="flex flex-col gap-4">
@@ -226,10 +233,7 @@ const RentModal: React.FC = () => {
           title="Where's your place located?"
           subtitle="Click on the map to set the location"
         />
-        <Map
-          center={locationValue ? locationValue.split(",").map(Number) as [number, number] : [51.505, -0.09]}
-          onClickMap={handleMapClick}
-        />
+        <Map center={getLocationLatLng()} onClickMap={handleMapClick} />
       </div>
     );
   }
