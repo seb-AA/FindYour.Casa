@@ -4,7 +4,7 @@ import prisma from "@/app/libs/prismadb";
 import fetch from "node-fetch";
 
 const JINA_API_URL = "https://r.jina.ai/";
-const JINA_API_KEY = process.env.JINA_API_KEY; // Store your API key in .env.local
+const JINA_API_KEY = process.env.JINA_API_KEY;
 
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
@@ -36,14 +36,14 @@ export async function POST(request: Request) {
     isPublic,
   } = body;
 
-  // Fetch extracted information from Jina AI's reader API
   let extractedInfo = null;
-  if (agentWebsite) {
+  if (agentWebsite && JINA_API_KEY) {
     try {
       const response = await fetch(`${JINA_API_URL}${agentWebsite}`, {
         method: "GET",
         headers: {
-          "x-api-key": JINA_API_KEY,
+          "Authorization": `Bearer ${JINA_API_KEY}`,
+          "X-With-Generated-Alt": "true"
         },
       });
       const data = await response.json();
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
       arableLandSize: arableLandSize ? Number(arableLandSize) : null,
       isPublic,
       userId: currentUser.id,
-      extractedInfo, // Store the extracted info
+      extractedInfo,
     },
   });
 
@@ -113,14 +113,14 @@ export async function PATCH(request: Request) {
     isPublic,
   } = body;
 
-  // Fetch extracted information from Jina AI's reader API
   let extractedInfo = null;
-  if (agentWebsite) {
+  if (agentWebsite && JINA_API_KEY) {
     try {
       const response = await fetch(`${JINA_API_URL}${agentWebsite}`, {
         method: "GET",
         headers: {
-          "x-api-key": JINA_API_KEY,
+          "Authorization": `Bearer ${JINA_API_KEY}`,
+          "X-With-Generated-Alt": "true"
         },
       });
       const data = await response.json();
@@ -153,7 +153,7 @@ export async function PATCH(request: Request) {
       arableLandSize: arableLandSize ? Number(arableLandSize) : null,
       isPublic,
       userId: currentUser.id,
-      extractedInfo, // Store the extracted info
+      extractedInfo,
     },
   });
 
