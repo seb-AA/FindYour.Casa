@@ -6,7 +6,7 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import Map from "@/app/components/Map";
 import { categories } from "@/app/components/navbar/Categories";
 import { Listing, Reservation, User } from "@prisma/client";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 import useCountries from "@/app/hooks/useCountries";
 
 interface IListingClientProps {
@@ -34,7 +34,18 @@ const ListingClient: React.FC<IListingClientProps> = ({
   }, [listing.latitude, listing.longitude]);
 
   const { getByLatLng } = useCountries();
-  const location = getByLatLng(listing.latitude, listing.longitude);
+  const [location, setLocation] = useState<{ city: string; region: string; country: string } | null>(null);
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      if (listing.latitude && listing.longitude) {
+        const loc = await getByLatLng(listing.latitude, listing.longitude);
+        setLocation(loc);
+      }
+    };
+
+    fetchLocation();
+  }, [listing.latitude, listing.longitude, getByLatLng]);
 
   return (
     <Container>
@@ -57,7 +68,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
             bathroomCount={listing.bathroomCount}
             city={location?.city || "Unknown"}
             region={location?.region || "Unknown"}
-            country={location.country || "Unknown"}
+            country={location?.country || "Unknown"}
             agentWebsite={listing.agentWebsite || undefined}
             notes={listing.notes || undefined}
             hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
@@ -67,7 +78,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
             landSize={listing.landSize !== null ? listing.landSize : undefined}
             arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
           />
-          <Map center={locationCoordinates} />
+          {locationCoordinates && <Map center={locationCoordinates} />}
         </div>
       </div>
     </Container>
