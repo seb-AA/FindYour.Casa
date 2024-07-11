@@ -121,15 +121,11 @@ const SearchModal = () => {
     return "Back";
   }, [step]);
 
-  const getLocationLatLng = () => {
-    if (!location || !location.latlng) {
-      return undefined;
+  const getLocationLatLng = (): [number, number] | undefined => {
+    if (location && location.latlng && location.latlng.length === 2) {
+      return location.latlng as [number, number];
     }
-    const latLngArray = location.latlng.split(",").map(Number);
-    if (latLngArray.length !== 2) {
-      return undefined;
-    }
-    return [latLngArray[0], latLngArray[1]] as [number, number];
+    return undefined;
   };
 
   let bodyContent = (
@@ -186,7 +182,7 @@ const SearchModal = () => {
           }}
           value={bathroomCount}
           title="Bathrooms"
-          subtitle="How many bathrooms do you need?"
+          subtitle="How many bahtrooms do you need?"
         />
       </div>
     );
