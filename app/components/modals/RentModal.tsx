@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useMemo, useEffect } from "react";
 import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
@@ -44,7 +42,7 @@ const RentModal: React.FC = () => {
   } = useForm<FieldValues>({
     defaultValues: rentModal.listing || {
       category: "",
-      location: null,
+      locationValue: null,
       guestCount: 1,
       roomCount: 1,
       bathroomCount: 1,
@@ -64,11 +62,13 @@ const RentModal: React.FC = () => {
       arableLandSize: 0,
       arableLandSizeUnit: "",
       isPublic: false,
+      hasOtherBuildings: false,
+      hasArableLand: false,
     },
   });
 
   const category = watch("category");
-  const location = watch("location");
+  const locationValue = watch("locationValue");
   const guestCount = watch("guestCount");
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
@@ -94,7 +94,6 @@ const RentModal: React.FC = () => {
       landSize: data.landSize ? Number(data.landSize) : null,
       arableLandSize: data.arableLandSize ? Number(data.arableLandSize) : null,
       garageSpaces: data.garageSpaces ? Number(data.garageSpaces) : null,
-      locationValue: JSON.stringify(data.locationValue.latlng) // Convert location to string
     };
 
     const request = rentModal.mode === "edit"
@@ -119,7 +118,7 @@ const RentModal: React.FC = () => {
 
   const Map = useMemo(
     () => dynamic(() => import("../Map"), { ssr: false }),
-    [location]
+    [locationValue]
   );
 
   const setCustomValue = (id: string, value: any) => {
@@ -131,7 +130,7 @@ const RentModal: React.FC = () => {
   };
 
   const handleMapClick = (coords: number[]) => {
-    setCustomValue("location", { latlng: coords });
+    setCustomValue("locationValue", coords.join(","));
   };
 
   const onBack = () => {
@@ -225,7 +224,7 @@ const RentModal: React.FC = () => {
           title="Where's your place located?"
           subtitle="Click on the map to set the location"
         />
-        <Map center={location?.latlng} onClickMap={handleMapClick} />
+        <Map center={locationValue?.split(",").map(Number)} onClickMap={handleMapClick} />
       </div>
     );
   }
