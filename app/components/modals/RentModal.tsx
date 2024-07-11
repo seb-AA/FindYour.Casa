@@ -147,6 +147,10 @@ const RentModal: React.FC = () => {
     }
   }, [rentModal.listing, reset]);
 
+  const handleMapClick = (coords: number[]) => {
+    setCustomValue("location", { latlng: coords });
+  };
+
   let bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
@@ -202,26 +206,12 @@ const RentModal: React.FC = () => {
       <div className="flex flex-col gap-8">
         <Heading
           title="Where's your place located?"
-          subtitle="Exact address will be shared with guests after booking is confirmed"
+          subtitle="Click on the map to set the location"
         />
-        <CountrySelect
-          onChange={(value) => setCustomValue("location", value)}
-          value={location}
-        />
-        <Input
-          id="radius"
-          label="Search Radius (km)"
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          onChange={(e) => setCustomValue("radius", e.target.value)}
-        />
-        <Map center={location?.latlng} radius={watch("radius")} />
+        <Map center={location?.latlng} onClickMap={handleMapClick} />
       </div>
     );
   }
-  
 
   if (step === STEPS.INFO) {
     bodyContent = (
