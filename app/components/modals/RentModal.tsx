@@ -42,7 +42,7 @@ const RentModal: React.FC = () => {
     formState: { errors },
     reset,
   } = useForm<FieldValues>({
-    defaultValues: {
+    defaultValues: rentModal.listing || {
       category: "",
       location: null,
       guestCount: 1,
@@ -83,14 +83,8 @@ const RentModal: React.FC = () => {
     setIsLoading(true);
 
     const request = rentModal.mode === "edit"
-      ? axios.patch(`/api/listings/${rentModal.listing?.id}`, {
-          ...data,
-          location: location ? JSON.stringify(location.latlng) : undefined,
-        })
-      : axios.post("/api/listings", {
-          ...data,
-          location: location ? JSON.stringify(location.latlng) : undefined,
-        });
+      ? axios.patch(`/api/listings/${rentModal.listing?.id}`, data)
+      : axios.post("/api/listings", data);
 
     request
       .then(() => {
@@ -155,11 +149,7 @@ const RentModal: React.FC = () => {
 
   useEffect(() => {
     if (rentModal.listing) {
-      const { location, ...rest } = rentModal.listing;
-      reset({
-        ...rest,
-        location: location ? { latlng: JSON.parse(location) } : null,
-      });
+      reset(rentModal.listing);
     }
   }, [rentModal.listing, reset]);
 
