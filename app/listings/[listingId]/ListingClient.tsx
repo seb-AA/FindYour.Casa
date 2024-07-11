@@ -32,14 +32,17 @@ const ListingClient: React.FC<IListingClientProps> = ({
     return undefined;
   }, [listing.latitude, listing.longitude]);
 
+  const latitude = listing.latitude ?? 0; // Provide a default value if null
+  const longitude = listing.longitude ?? 0; // Provide a default value if null
+
   return (
     <Container>
       <div className="flex flex-col gap-6 w-full mt-30">
         <ListingHead
           title={listing.title}
           imageSrc={listing.imageSrc}
-          latitude={listing.latitude}
-          longitude={listing.longitude}
+          latitude={latitude}
+          longitude={longitude}
           id={listing.id}
           currentUser={currentUser}
         />
@@ -51,8 +54,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
             roomCount={listing.roomCount}
             guestCount={listing.guestCount}
             bathroomCount={listing.bathroomCount}
-            latitude={listing.latitude}
-            longitude={listing.longitude}
+            latitude={latitude}
+            longitude={longitude}
             agentWebsite={listing.agentWebsite || undefined}
             notes={listing.notes || undefined}
             hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
