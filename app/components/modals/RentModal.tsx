@@ -1,9 +1,8 @@
-"use client"
-
+import { useState } from "react";
 import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
 import { Switch } from "@headlessui/react";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
@@ -73,10 +72,6 @@ const RentModal: React.FC = () => {
   const imageSrc = watch("imageSrc");
   const photos = watch("photos");
 
-  const handleMapClick = (coords: number[]) => {
-    setCustomValue("location", { latlng: coords });
-  };
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (step !== STEPS.PRICE) {
       return onNext();
@@ -115,6 +110,10 @@ const RentModal: React.FC = () => {
       shouldDirty: true,
       shouldTouch: true,
     });
+  };
+
+  const handleMapClick = (coords: number[]) => {
+    setCustomValue("location", { latlng: coords });
   };
 
   const onBack = () => {
