@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import { format } from "date-fns";
 
 import useCountries from "@/app/hooks/useCountries";
@@ -34,8 +34,18 @@ const ListingCard: React.FC<ListingCardProps> = ({
 }) => {
   const router = useRouter();
   const { getByLatLng } = useCountries();
+  const [location, setLocation] = useState<{ city: string; region: string; country: string } | null>(null);
 
-  const location = data.latitude && data.longitude ? getByLatLng(data.latitude, data.longitude) : undefined;
+  useEffect(() => {
+    const fetchLocation = async () => {
+      if (data.latitude && data.longitude) {
+        const locationData = await getByLatLng(data.latitude, data.longitude);
+        setLocation(locationData);
+      }
+    };
+
+    fetchLocation();
+  }, [data.latitude, data.longitude, getByLatLng]);
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -117,7 +127,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
         </div>
         <div className="font-semibold text-lg">
-          {location?.region}, {location?.label}
+          {location?.region || 'Unknown'}, {location?.country || 'Unknown'}
         </div>
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}

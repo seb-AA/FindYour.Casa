@@ -6,7 +6,7 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import Map from "@/app/components/Map";
 import { categories } from "@/app/components/navbar/Categories";
 import { Listing, Reservation, User } from "@prisma/client";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 import useCountries from "@/app/hooks/useCountries";
 
 interface IListingClientProps {
@@ -27,7 +27,16 @@ const ListingClient: React.FC<IListingClientProps> = ({
   }, [listing.category]);
 
   const { getByLatLng } = useCountries();
-  const location = getByLatLng(listing.latitude, listing.longitude);
+  const [location, setLocation] = useState<{ city: string; region: string; country: string } | null>(null);
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      const locationData = await getByLatLng(listing.latitude ?? 51.505, listing.longitude ?? -0.09);
+      setLocation(locationData);
+    };
+
+    fetchLocation();
+  }, [listing.latitude, listing.longitude, getByLatLng]);
 
   const locationCoordinates: [number, number] = useMemo(() => {
     if (listing.latitude !== null && listing.longitude !== null) {
@@ -48,25 +57,27 @@ const ListingClient: React.FC<IListingClientProps> = ({
           currentUser={currentUser}
         />
         <div className="grid grid-cols-1 gap-6 w-full">
-          <ListingInfo
-            user={listing.user}
-            category={category}
-            description={listing.description}
-            roomCount={listing.roomCount}
-            guestCount={listing.guestCount}
-            bathroomCount={listing.bathroomCount}
-            city={location?.city || "Unknown City"}  // Updated
-            region={location?.region || "Unknown Region"}  // Updated
-            country={location?.country || "Unknown Country"}  // Updated
-            agentWebsite={listing.agentWebsite || undefined}
-            notes={listing.notes || undefined}
-            hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
-            hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
-            numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
-            numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
-            landSize={listing.landSize !== null ? listing.landSize : undefined}
-            arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
-          />
+          {location && (
+            <ListingInfo
+              user={listing.user}
+              category={category}
+              description={listing.description}
+              roomCount={listing.roomCount}
+              guestCount={listing.guestCount}
+              bathroomCount={listing.bathroomCount}
+              city={location.city}
+              region={location.region}
+              country={location.country}
+              agentWebsite={listing.agentWebsite || undefined}
+              notes={listing.notes || undefined}
+              hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
+              hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
+              numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
+              numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
+              landSize={listing.landSize !== null ? listing.landSize : undefined}
+              arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
+            />
+          )}
           <Map center={locationCoordinates} />
         </div>
       </div>
