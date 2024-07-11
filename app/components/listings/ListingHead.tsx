@@ -11,7 +11,7 @@ interface IListingHeadProps {
   latitude: number;
   longitude: number;
   imageSrc: string;
-  id: number;
+  id: number;  // Changed from string to number
   currentUser?: User | null;
 }
 
@@ -24,7 +24,6 @@ const ListingHead: React.FC<IListingHeadProps> = ({
   currentUser,
 }) => {
   const { getByLatLng } = useCountries();
-
   const location = getByLatLng(latitude, longitude);
 
   return (

@@ -32,17 +32,14 @@ const ListingClient: React.FC<IListingClientProps> = ({
     return undefined;
   }, [listing.latitude, listing.longitude]);
 
-  const latitude = listing.latitude ?? 0; // Provide a default value if null
-  const longitude = listing.longitude ?? 0; // Provide a default value if null
-
   return (
     <Container>
       <div className="flex flex-col gap-6 w-full mt-30">
         <ListingHead
           title={listing.title}
           imageSrc={listing.imageSrc}
-          latitude={latitude}
-          longitude={longitude}
+          latitude={listing.latitude ?? 0}  // Use default value if null
+          longitude={listing.longitude ?? 0}  // Use default value if null
           id={listing.id}
           currentUser={currentUser}
         />
@@ -54,8 +51,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
             roomCount={listing.roomCount}
             guestCount={listing.guestCount}
             bathroomCount={listing.bathroomCount}
-            latitude={latitude}
-            longitude={longitude}
+            latitude={listing.latitude ?? 0}  // Use default value if null
+            longitude={listing.longitude ?? 0}  // Use default value if null
             agentWebsite={listing.agentWebsite || undefined}
             notes={listing.notes || undefined}
             hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
@@ -65,7 +62,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
             landSize={listing.landSize !== null ? listing.landSize : undefined}
             arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
           />
-          <Map center={locationCoordinates} />
+          {locationCoordinates && <Map center={locationCoordinates} />}
         </div>
       </div>
     </Container>
