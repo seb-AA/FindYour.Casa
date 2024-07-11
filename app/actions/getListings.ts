@@ -7,9 +7,10 @@ export interface IListingParams {
   bathroomCount?: number;
   startDate?: string;
   endDate?: string;
-  locationValue?: string;
+  latitude?: number;
+  longitude?: number;
   category?: string;
-  isPublic?: boolean;  // Add this line
+  isPublic?: boolean;
 }
 
 export default async function getListings(params: IListingParams) {
@@ -21,9 +22,10 @@ export default async function getListings(params: IListingParams) {
       bathroomCount,
       startDate,
       endDate,
-      locationValue,
+      latitude,
+      longitude,
       category,
-      isPublic,  // Add this line
+      isPublic,
     } = params;
 
     let query: any = {};
@@ -36,8 +38,9 @@ export default async function getListings(params: IListingParams) {
       query.category = category;
     }
 
-    if (locationValue) {
-      query.locationValue = locationValue;
+    if (latitude && longitude) {
+      query.latitude = latitude;
+      query.longitude = longitude;
     }
 
     if (guestCount) {
@@ -71,7 +74,7 @@ export default async function getListings(params: IListingParams) {
       };
     }
 
-    if (typeof isPublic === 'boolean') {  // Add this block
+    if (typeof isPublic === 'boolean') {
       query.isPublic = isPublic;
     }
 
