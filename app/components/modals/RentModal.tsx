@@ -81,7 +81,7 @@ const RentModal: React.FC = () => {
 
     setIsLoading(true);
 
-    const request = rentModal.mode === 'edit'
+    const request = rentModal.mode === "edit"
       ? axios.patch(`/api/listings/${rentModal.listing?.id}`, data)
       : axios.post("/api/listings", data);
 
@@ -132,7 +132,7 @@ const RentModal: React.FC = () => {
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return rentModal.mode === 'edit' ? "Save" : "Publish";
+      return rentModal.mode === "edit" ? "Save" : "Publish";
     }
 
     return "Next";
