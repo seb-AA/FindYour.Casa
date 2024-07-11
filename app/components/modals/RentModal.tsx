@@ -8,6 +8,7 @@ import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import CountrySelect from "../Inputs/CountrySelect";
 import dynamic from "next/dynamic";
 import Counter from "../Inputs/Counter";
 import ImageUpload from "../Inputs/ImageUpload";
@@ -43,7 +44,8 @@ const RentModal: React.FC = () => {
   } = useForm<FieldValues>({
     defaultValues: rentModal.listing || {
       category: "",
-      locationValue: null,
+      latitude: null,
+      longitude: null,
       guestCount: 1,
       roomCount: 1,
       bathroomCount: 1,
@@ -63,13 +65,12 @@ const RentModal: React.FC = () => {
       arableLandSize: 0,
       arableLandSizeUnit: "",
       isPublic: false,
-      hasOtherBuildings: false,
-      hasArableLand: false,
     },
   });
 
   const category = watch("category");
-  const locationValue = watch("locationValue");
+  const latitude = watch("latitude");
+  const longitude = watch("longitude");
   const guestCount = watch("guestCount");
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
@@ -95,7 +96,8 @@ const RentModal: React.FC = () => {
       landSize: data.landSize ? Number(data.landSize) : null,
       arableLandSize: data.arableLandSize ? Number(data.arableLandSize) : null,
       garageSpaces: data.garageSpaces ? Number(data.garageSpaces) : null,
-      locationValue: data.locationValue ? JSON.stringify(data.locationValue.latlng) : null,
+      latitude: data.latitude ? Number(data.latitude) : null,
+      longitude: data.longitude ? Number(data.longitude) : null,
     };
 
     const request = rentModal.mode === "edit"
@@ -120,7 +122,7 @@ const RentModal: React.FC = () => {
 
   const Map = useMemo(
     () => dynamic(() => import("../Map"), { ssr: false }),
-    [locationValue]
+    [latitude, longitude]
   );
 
   const setCustomValue = (id: string, value: any) => {
@@ -132,7 +134,8 @@ const RentModal: React.FC = () => {
   };
 
   const handleMapClick = (coords: number[]) => {
-    setCustomValue("locationValue", { latlng: coords });
+    setCustomValue("latitude", coords[0]);
+    setCustomValue("longitude", coords[1]);
   };
 
   const onBack = () => {
@@ -226,10 +229,7 @@ const RentModal: React.FC = () => {
           title="Where's your place located?"
           subtitle="Click on the map to set the location"
         />
-        <Map
-          center={locationValue ? locationValue.split(",").map(Number) as [number, number] : [51.505, -0.09]}
-          onClickMap={handleMapClick}
-        />
+        <Map center={[latitude, longitude]} onClickMap={handleMapClick} />
       </div>
     );
   }
@@ -319,7 +319,7 @@ const RentModal: React.FC = () => {
         />
         <Input
           id="agentWebsite"
-          label="Link to Listing"
+          label="Agent Website"
           disabled={isLoading}
           register={register}
           errors={errors}

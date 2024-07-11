@@ -52,7 +52,8 @@ model Listing {
   roomCount                 Int
   bathroomCount             Int
   guestCount                Int
-  locationValue             String
+  latitude                  Float?
+  longitude                 Float?
   price                     Int
   createdAt                 DateTime  @default(now())
   agentWebsite              String?   

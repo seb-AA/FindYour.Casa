@@ -18,10 +18,10 @@ L.Icon.Default.mergeOptions({
 
 interface MapProps {
   center?: [number, number];
-  onClickMap?: (coords: [number, number]) => void;
+  onClickMap?: (coords: number[]) => void;
 }
 
-const MapEvents: React.FC<{ onClickMap: (coords: [number, number]) => void }> = ({ onClickMap }) => {
+const MapEvents: React.FC<{ onClickMap: (coords: number[]) => void }> = ({ onClickMap }) => {
   useMapEvents({
     click(e) {
       onClickMap([e.latlng.lat, e.latlng.lng]);
@@ -30,10 +30,10 @@ const MapEvents: React.FC<{ onClickMap: (coords: [number, number]) => void }> = 
   return null;
 };
 
-const Map: React.FC<MapProps> = ({ center = [51.505, -0.09], onClickMap }) => {
+const Map: React.FC<MapProps> = ({ center, onClickMap }) => {
   return (
     <MapContainer
-      center={center}
+      center={center || [51.505, -0.09]}
       zoom={center ? 7 : 3}
       scrollWheelZoom={true}
       zoomControl={true}

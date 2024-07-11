@@ -6,35 +6,6 @@ interface IListingParams {
   listingId?: string;
 }
 
-export async function DELETE(request: Request, { params }: { params: IListingParams }) {
-  const currentUser = await getCurrentUser();
-
-  if (!currentUser) {
-    return NextResponse.error();
-  }
-
-  const { listingId } = params;
-
-  if (!listingId || typeof listingId !== "string") {
-    throw new Error("Invalid ID");
-  }
-
-  const numericListingId = Number(listingId);
-
-  if (isNaN(numericListingId)) {
-    throw new Error("Invalid listingId format");
-  }
-
-  const listing = await prisma.listing.deleteMany({
-    where: {
-      id: numericListingId,
-      userId: currentUser.id,
-    },
-  });
-
-  return NextResponse.json(listing);
-}
-
 export async function PATCH(request: Request, { params }: { params: IListingParams }) {
   const currentUser = await getCurrentUser();
 
@@ -67,8 +38,8 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       numberOfHabitableBuildings,
       landSize,
       arableLandSize,
-      garageSpaces,
-      locationValue,
+      latitude,
+      longitude,
       ...otherData
     } = data;
 
@@ -82,8 +53,8 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       numberOfHabitableBuildings: numberOfHabitableBuildings ? Number(numberOfHabitableBuildings) : undefined,
       landSize: landSize ? Number(landSize) : undefined,
       arableLandSize: arableLandSize ? Number(arableLandSize) : undefined,
-      garageSpaces: garageSpaces ? Number(garageSpaces) : undefined,
-      locationValue: locationValue ? locationValue : undefined,
+      latitude: latitude ? Number(latitude) : undefined,
+      longitude: longitude ? Number(longitude) : undefined,
     };
 
     const listing = await prisma.listing.updateMany({
