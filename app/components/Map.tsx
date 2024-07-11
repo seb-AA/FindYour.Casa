@@ -17,11 +17,11 @@ L.Icon.Default.mergeOptions({
 });
 
 interface MapProps {
-  center?: number[];
-  onClickMap?: (coords: number[]) => void;
+  center?: [number, number];
+  onClickMap?: (coords: [number, number]) => void;
 }
 
-const MapEvents: React.FC<{ onClickMap: (coords: number[]) => void }> = ({ onClickMap }) => {
+const MapEvents: React.FC<{ onClickMap: (coords: [number, number]) => void }> = ({ onClickMap }) => {
   useMapEvents({
     click(e) {
       onClickMap([e.latlng.lat, e.latlng.lng]);
@@ -30,19 +30,17 @@ const MapEvents: React.FC<{ onClickMap: (coords: number[]) => void }> = ({ onCli
   return null;
 };
 
-const Map: React.FC<MapProps> = ({ center, onClickMap }) => {
-  const defaultCenter: L.LatLngExpression = [51.505, -0.09];
-
+const Map: React.FC<MapProps> = ({ center = [51.505, -0.09], onClickMap }) => {
   return (
     <MapContainer
-      center={(center as L.LatLngExpression) || defaultCenter}
+      center={center}
       zoom={center ? 7 : 3}
       scrollWheelZoom={true}
       zoomControl={true}
       className="h-[35vh] rounded-lg z-0 mb-20 w-full"
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {center && <Marker position={center as L.LatLngExpression} />}
+      {center && <Marker position={center} />}
       {onClickMap && <MapEvents onClickMap={onClickMap} />}
     </MapContainer>
   );
