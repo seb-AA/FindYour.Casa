@@ -2,10 +2,9 @@
 
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-
 import "leaflet/dist/leaflet.css";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import marketIcon from "leaflet/dist/images/marker-icon.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 // @ts-ignore
@@ -13,7 +12,7 @@ delete (L.Icon.Default.prototype as any)._getIconUrl;
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x.src,
-  iconUrl: marketIcon.src,
+  iconUrl: markerIcon.src,
   shadowUrl: markerShadow.src,
 });
 
@@ -23,7 +22,7 @@ interface MapProps {
 }
 
 const Map: React.FC<MapProps> = ({ center, onClickMap }) => {
-  const mapEvents = useMapEvents({
+  useMapEvents({
     click(e) {
       onClickMap?.([e.latlng.lat, e.latlng.lng]);
     },
