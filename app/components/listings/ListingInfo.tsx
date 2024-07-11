@@ -65,14 +65,6 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       <div className="col-span-1">
         <span className="font-semibold">Guests:</span> {guestCount}
       </div>
-      {agentWebsite && (
-        <div className="col-span-1">
-          <span className="font-semibold">Agent Website:</span>{" "}
-          <a href={agentWebsite} target="_blank" rel="noopener noreferrer">
-            {agentWebsite}
-          </a>
-        </div>
-      )}
       {notes && (
         <div className="col-span-1">
           <span className="font-semibold">Notes:</span> {notes}
@@ -110,6 +102,14 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       {arableLandSize && (
         <div className="col-span-1">
           <span className="font-semibold">Size of Arable Land:</span> {arableLandSize} sq meters
+        </div>
+      )}
+      {agentWebsite && (
+        <div className="col-span-1">
+          <span className="font-semibold">Actual Listing:</span>{" "}
+          <a href={agentWebsite} target="_blank" rel="noopener noreferrer">
+            {agentWebsite}
+          </a>
         </div>
       )}
     </div>
