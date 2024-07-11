@@ -113,7 +113,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             right-3
           "
           >
-            <HeartButton listingId={data.id.toString()} currentUser={currentUser} />
+            <HeartButton listingId={data.id} currentUser={currentUser} />
           </div>
         </div>
         <div className="font-semibold text-lg">
