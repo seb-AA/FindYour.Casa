@@ -12,6 +12,7 @@ interface IListingClientProps {
   reservations?: Reservation[];
   listing: Listing & {
     user: User;
+    extractedInfo?: string;
   };
   currentUser?: User | null;
 }
@@ -38,33 +39,49 @@ const ListingClient: React.FC<IListingClientProps> = ({
         <ListingHead
           title={listing.title}
           imageSrc={listing.imageSrc}
-          latitude={listing.latitude ?? 0}  // Default to 0 if null
-          longitude={listing.longitude ?? 0}  // Default to 0 if null
+          latitude={listing.latitude ?? 0}
+          longitude={listing.longitude ?? 0}
           id={listing.id}
           currentUser={currentUser}
         />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-          <ListingInfo
-            user={listing.user}
-            category={category}
-            description={listing.description}
-            roomCount={listing.roomCount}
-            guestCount={listing.guestCount}
-            bathroomCount={listing.bathroomCount}
-            latitude={listing.latitude ?? 0}  // Default to 0 if null
-            longitude={listing.longitude ?? 0}  // Default to 0 if null
-            agentWebsite={listing.agentWebsite || undefined}
-            notes={listing.notes || undefined}
-            extractedInfo={listing.extractedInfo || undefined}  // Pass the extracted information
-            hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
-            hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
-            numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
-            numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
-            landSize={listing.landSize !== null ? listing.landSize : undefined}
-            arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
-          />
-          {locationCoordinates && <Map center={locationCoordinates} />}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+          <div className="flex flex-col gap-6">
+            <ListingInfo
+              user={listing.user}
+              category={category}
+              description={listing.description}
+              roomCount={listing.roomCount}
+              guestCount={listing.guestCount}
+              bathroomCount={listing.bathroomCount}
+              latitude={listing.latitude ?? 0}
+              longitude={listing.longitude ?? 0}
+              agentWebsite={listing.agentWebsite || undefined}
+              notes={listing.notes || undefined}
+              extractedInfo={listing.extractedInfo || undefined}
+              hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
+              hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
+              numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
+              numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
+              landSize={listing.landSize !== null ? listing.landSize : undefined}
+              arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
+            />
+          </div>
+          <div className="flex flex-col gap-6">
+            {listing.notes && (
+              <div>
+                <h3 className="text-lg font-semibold">Notes</h3>
+                <p>{listing.notes}</p>
+              </div>
+            )}
+            {listing.extractedInfo && (
+              <div>
+                <h3 className="text-lg font-semibold">Extracted Information</h3>
+                <p>{listing.extractedInfo}</p>
+              </div>
+            )}
+          </div>
         </div>
+        {locationCoordinates && <Map center={locationCoordinates} />}
       </div>
     </Container>
   );
