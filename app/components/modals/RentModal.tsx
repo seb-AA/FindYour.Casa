@@ -425,15 +425,6 @@ const RentModal: React.FC = () => {
           errors={errors}
           required={watch("hasArableLand")}
         />
-        <Input
-          id="arableLandSizeUnit"
-          label="Arable Land Unit"
-          type="text"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required={watch("hasArableLand")}
-        />
       </div>
     );
   }
