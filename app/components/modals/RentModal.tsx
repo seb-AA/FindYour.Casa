@@ -81,8 +81,14 @@ const RentModal: React.FC = () => {
     setIsLoading(true);
 
     const request = rentModal.mode === "edit"
-      ? axios.patch(`/api/listings/${rentModal.listing?.id}`, data)
-      : axios.post("/api/listings", data);
+      ? axios.patch(`/api/listings/${rentModal.listing?.id}`, {
+          ...data,
+          location: location ? JSON.stringify(location.latlng) : undefined,
+        })
+      : axios.post("/api/listings", {
+          ...data,
+          location: location ? JSON.stringify(location.latlng) : undefined,
+        });
 
     request
       .then(() => {
@@ -348,7 +354,7 @@ const RentModal: React.FC = () => {
           {watch("hasGarage") ? "Has Garage" : "No Garage"}
         </span>
         <Input
-          id="numberOfGarageSpaces"
+          id="garageSpaces"
           label="Number of Garage Spaces"
           type="number"
           disabled={isLoading}
@@ -420,7 +426,7 @@ const RentModal: React.FC = () => {
           required={watch("hasArableLand")}
         />
         <Input
-          id="arableLandUnit"
+          id="arableLandSizeUnit"
           label="Arable Land Unit"
           type="text"
           disabled={isLoading}
