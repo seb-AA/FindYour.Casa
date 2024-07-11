@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useMemo, useEffect } from "react";
 import useRentModal from "@/app/hooks/useRentModal";
@@ -42,7 +42,7 @@ const RentModal: React.FC = () => {
     formState: { errors },
     reset,
   } = useForm<FieldValues>({
-    defaultValues: rentModal.listing || {
+    defaultValues: {
       category: "",
       location: null,
       guestCount: 1,
@@ -57,10 +57,12 @@ const RentModal: React.FC = () => {
       notes: "",
       hasSwimmingPool: false,
       hasGarage: false,
+      garageSpaces: 0,
       numberOfOtherBuildings: 0,
       numberOfHabitableBuildings: 0,
       landSize: 0,
       arableLandSize: 0,
+      arableLandSizeUnit: "",
       isPublic: false,
     },
   });
@@ -153,7 +155,11 @@ const RentModal: React.FC = () => {
 
   useEffect(() => {
     if (rentModal.listing) {
-      reset(rentModal.listing);
+      const { location, ...rest } = rentModal.listing;
+      reset({
+        ...rest,
+        location: location ? { latlng: JSON.parse(location) } : null,
+      });
     }
   }, [rentModal.listing, reset]);
 
@@ -420,6 +426,15 @@ const RentModal: React.FC = () => {
           id="arableLandSize"
           label="Arable Land Size"
           type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required={watch("hasArableLand")}
+        />
+        <Input
+          id="arableLandSizeUnit"
+          label="Arable Land Unit"
+          type="text"
           disabled={isLoading}
           register={register}
           errors={errors}

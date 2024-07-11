@@ -59,17 +59,17 @@ model Listing {
   notes                String?   
   hasSwimmingPool      Boolean?  
   hasGarage            Boolean?  
+  garageSpaces         Int?
   numberOfOtherBuildings Int?    
   numberOfHabitableBuildings Int? 
   landSize             Float?    
   arableLandSize       Float?
-  isPublic      Boolean  @default(false)    
+  arableLandSizeUnit   String?
+  isPublic             Boolean  @default(false)    
 
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations  Reservation[]
 }
-
-
 
 model Reservation {
   id         Int      @id @default(autoincrement())
