@@ -39,13 +39,13 @@ const ListingClient: React.FC<IListingClientProps> = ({
         <ListingHead
           title={listing.title}
           imageSrc={listing.imageSrc}
-          latitude={listing.latitude ?? 0}
-          longitude={listing.longitude ?? 0}
+          latitude={listing.latitude ?? 0}  // Default to 0 if null
+          longitude={listing.longitude ?? 0}  // Default to 0 if null
           id={listing.id}
           currentUser={currentUser}
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-          <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+          <div className="col-span-2 flex flex-col gap-6">
             <ListingInfo
               user={listing.user}
               category={category}
@@ -53,11 +53,11 @@ const ListingClient: React.FC<IListingClientProps> = ({
               roomCount={listing.roomCount}
               guestCount={listing.guestCount}
               bathroomCount={listing.bathroomCount}
-              latitude={listing.latitude ?? 0}
-              longitude={listing.longitude ?? 0}
+              latitude={listing.latitude ?? 0}  // Default to 0 if null
+              longitude={listing.longitude ?? 0}  // Default to 0 if null
               agentWebsite={listing.agentWebsite || undefined}
               notes={listing.notes || undefined}
-              extractedInfo={listing.extractedInfo || undefined}
+              extractedInfo={listing.extractedInfo || undefined}  // Display extracted information
               hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
               hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
               numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
@@ -66,7 +66,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
               arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
             />
           </div>
-          <div className="flex flex-col gap-6">
+          <div className="col-span-1 flex flex-col gap-6">
             {listing.notes && (
               <div>
                 <h3 className="text-lg font-semibold">Notes</h3>
@@ -80,8 +80,10 @@ const ListingClient: React.FC<IListingClientProps> = ({
               </div>
             )}
           </div>
+          <div className="col-span-3">
+            {locationCoordinates && <Map center={locationCoordinates} />}
+          </div>
         </div>
-        {locationCoordinates && <Map center={locationCoordinates} />}
       </div>
     </Container>
   );

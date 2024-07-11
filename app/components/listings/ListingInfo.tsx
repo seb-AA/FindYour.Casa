@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { User } from "@prisma/client";
+import useCountries from "@/app/hooks/useCountries";
 
 interface ListingInfoProps {
   user: User;
@@ -40,6 +41,22 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   landSize,
   arableLandSize,
 }) => {
+  const { getByLatLng } = useCountries();
+  const [location, setLocation] = useState<{ city: string, region: string, country: string } | null>(null);
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      try {
+        const loc = await getByLatLng(latitude, longitude);
+        setLocation(loc);
+      } catch (error) {
+        console.error("Error fetching location data:", error);
+      }
+    };
+
+    fetchLocation();
+  }, [latitude, longitude]);  // Run only once after the initial render
+
   return (
     <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-6">
       <div className="col-span-2">
@@ -53,7 +70,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           <span className="font-semibold">Hosted by:</span> {user.name}
         </div>
         <div>
-          <span className="font-semibold">Location:</span> {latitude}, {longitude}
+          <span className="font-semibold">Location:</span> {location ? `${location.city}, ${location.region}, ${location.country}` : "Loading..."}
         </div>
         <div>
           <span className="font-semibold">Rooms:</span> {roomCount}
