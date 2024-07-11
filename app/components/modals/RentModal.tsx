@@ -1,10 +1,7 @@
-"use client"
-
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
 import { Switch } from "@headlessui/react";
-import { useMemo, useEffect } from "react";
 import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
@@ -462,7 +459,7 @@ const RentModal: React.FC = () => {
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      title={rentModal.mode === 'edit' ? "Edit Property" : "Add a Property"}
+      title={rentModal.mode === "edit" ? "Edit Property" : "Add a Property"}
       body={bodyContent}
     />
   );
