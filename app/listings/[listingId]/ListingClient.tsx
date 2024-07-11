@@ -58,28 +58,38 @@ const ListingClient: React.FC<IListingClientProps> = ({
           id={listing.id}
           currentUser={currentUser}
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-          <ListingInfo
-            user={listing.user}
-            category={category}
-            description={listing.description}
-            roomCount={listing.roomCount}
-            guestCount={listing.guestCount}
-            bathroomCount={listing.bathroomCount}
-            city={location?.city || "Unknown"}
-            region={location?.region || "Unknown"}
-            country={location?.country || "Unknown"}
-            agentWebsite={listing.agentWebsite || undefined}
-            notes={listing.notes || undefined}
-            hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
-            hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
-            numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
-            numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
-            landSize={listing.landSize !== null ? listing.landSize : undefined}
-            arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
-          />
-          {locationCoordinates && <Map center={locationCoordinates} />}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+          <div className="md:col-span-2">
+            <ListingInfo
+              user={listing.user}
+              category={category}
+              description={listing.description}
+              roomCount={listing.roomCount}
+              guestCount={listing.guestCount}
+              bathroomCount={listing.bathroomCount}
+              city={location?.city || "Unknown"}
+              region={location?.region || "Unknown"}
+              country={location?.country || "Unknown"}
+              agentWebsite={listing.agentWebsite || undefined}
+              notes={undefined}  // Pass notes as undefined here
+              hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
+              hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
+              numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
+              numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
+              landSize={listing.landSize !== null ? listing.landSize : undefined}
+              arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
+            />
+          </div>
+          <div>
+            {listing.notes && (
+              <div className="p-4 border rounded-md shadow-sm">
+                <h2 className="text-lg font-semibold mb-2">Notes</h2>
+                <p>{listing.notes}</p>
+              </div>
+            )}
+          </div>
         </div>
+        {locationCoordinates && <Map center={locationCoordinates} />}
       </div>
     </Container>
   );
