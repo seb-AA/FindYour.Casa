@@ -1,6 +1,5 @@
 import React from "react";
 import { User } from "@prisma/client";
-import { FaSwimmingPool, FaCar, FaHome, FaWarehouse, FaTree, FaRulerCombined } from "react-icons/fa";
 
 interface ListingInfoProps {
   user: User;
@@ -9,11 +8,11 @@ interface ListingInfoProps {
   roomCount: number;
   guestCount: number;
   bathroomCount: number;
-  city: string;
-  region: string;
-  country: string;
+  latitude: number;
+  longitude: number;
   agentWebsite?: string | null;
   notes?: string | null;
+  extractedInfo?: string;  // Add the extractedInfo property
   hasSwimmingPool?: boolean;
   hasGarage?: boolean;
   numberOfOtherBuildings?: number;
@@ -29,11 +28,11 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   roomCount,
   guestCount,
   bathroomCount,
-  city,
-  region,
-  country,
+  latitude,
+  longitude,
   agentWebsite,
   notes,
+  extractedInfo,  // Use the extractedInfo property
   hasSwimmingPool,
   hasGarage,
   numberOfOtherBuildings,
@@ -42,77 +41,80 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   arableLandSize,
 }) => {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2">
-        <div>{category?.icon}</div>
-        <div className="text-lg font-semibold">{category?.label}</div>
-      </div>
-      <div>{description}</div>
-      <hr />
-      <div>
-        <span className="font-semibold">Hosted by:</span> {user.name}
-      </div>
-      <div>
-        <span className="font-semibold">Location:</span> {city}, {region}, {country}
-      </div>
-      <div>
-        <span className="font-semibold">Rooms:</span> {roomCount}
-      </div>
-      <div>
-        <span className="font-semibold">Bathrooms:</span> {bathroomCount}
-      </div>
-      <div>
-        <span className="font-semibold">Guests:</span> {guestCount}
-      </div>
-      {agentWebsite && (
+    <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-6">
+      <div className="col-span-2">
+        <div className="flex items-center gap-2">
+          <div>{category?.icon}</div>
+          <div className="text-lg font-semibold">{category?.label}</div>
+        </div>
+        <div>{description}</div>
+        <hr />
         <div>
-          <span className="font-semibold">Agent Website:</span>{" "}
-          <a href={agentWebsite} target="_blank" rel="noopener noreferrer">
-            {agentWebsite}
-          </a>
+          <span className="font-semibold">Hosted by:</span> {user.name}
         </div>
-      )}
-      {notes && (
         <div>
-          <span className="font-semibold">Notes:</span> {notes}
+          <span className="font-semibold">Location:</span> {latitude}, {longitude}
         </div>
-      )}
-      {hasSwimmingPool && (
-        <div className="flex items-center gap-2">
-          <FaSwimmingPool />
-          <span className="font-semibold">Swimming Pool:</span> Yes
+        <div>
+          <span className="font-semibold">Rooms:</span> {roomCount}
         </div>
-      )}
-      {hasGarage && (
-        <div className="flex items-center gap-2">
-          <FaCar />
-          <span className="font-semibold">Garage:</span> Yes
+        <div>
+          <span className="font-semibold">Bathrooms:</span> {bathroomCount}
         </div>
-      )}
-      {numberOfOtherBuildings && (
-        <div className="flex items-center gap-2">
-          <FaWarehouse />
-          <span className="font-semibold">Number of Other Buildings:</span> {numberOfOtherBuildings}
+        <div>
+          <span className="font-semibold">Guests:</span> {guestCount}
         </div>
-      )}
-      {numberOfHabitableBuildings && (
-        <div className="flex items-center gap-2">
-          <FaHome />
-          <span className="font-semibold">Number of Habitable Buildings:</span> {numberOfHabitableBuildings}
-        </div>
-      )}
-      {landSize && (
-        <div className="flex items-center gap-2">
-          <FaTree />
-          <span className="font-semibold">Size of Land:</span> {landSize} sq meters
-        </div>
-      )}
-      {arableLandSize && (
-        <div className="flex items-center gap-2">
-          <FaRulerCombined />
-          <span className="font-semibold">Size of Arable Land:</span> {arableLandSize} sq meters
-        </div>
-      )}
+        {agentWebsite && (
+          <div>
+            <span className="font-semibold">Agent Website:</span>{" "}
+            <a href={agentWebsite} target="_blank" rel="noopener noreferrer">
+              {agentWebsite}
+            </a>
+          </div>
+        )}
+        {extractedInfo && (
+          <div>
+            <span className="font-semibold">Extracted Info:</span> {extractedInfo}
+          </div>
+        )}
+        {hasSwimmingPool && (
+          <div>
+            <span className="font-semibold">Swimming Pool:</span> Yes
+          </div>
+        )}
+        {hasGarage && (
+          <div>
+            <span className="font-semibold">Garage:</span> Yes
+          </div>
+        )}
+        {numberOfOtherBuildings && (
+          <div>
+            <span className="font-semibold">Number of Other Buildings:</span> {numberOfOtherBuildings}
+          </div>
+        )}
+        {numberOfHabitableBuildings && (
+          <div>
+            <span className="font-semibold">Number of Habitable Buildings:</span> {numberOfHabitableBuildings}
+          </div>
+        )}
+        {landSize && (
+          <div>
+            <span className="font-semibold">Size of Land:</span> {landSize} sq meters
+          </div>
+        )}
+        {arableLandSize && (
+          <div>
+            <span className="font-semibold">Size of Arable Land:</span> {arableLandSize} sq meters
+          </div>
+        )}
+      </div>
+      <div className="col-span-1">
+        {notes && (
+          <div>
+            <span className="font-semibold">Notes:</span> {notes}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
