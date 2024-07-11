@@ -7,6 +7,7 @@ import Map from "@/app/components/Map";
 import { categories } from "@/app/components/navbar/Categories";
 import { Listing, Reservation, User } from "@prisma/client";
 import { useMemo } from "react";
+import useCountries from "@/app/hooks/useCountries";
 
 interface IListingClientProps {
   reservations?: Reservation[];
@@ -24,6 +25,9 @@ const ListingClient: React.FC<IListingClientProps> = ({
   const category = useMemo(() => {
     return categories.find((item) => item.label === listing.category);
   }, [listing.category]);
+
+  const { getByLatLng } = useCountries();
+  const location = getByLatLng(listing.latitude, listing.longitude);
 
   const locationCoordinates: [number, number] = useMemo(() => {
     if (listing.latitude !== null && listing.longitude !== null) {
@@ -51,8 +55,9 @@ const ListingClient: React.FC<IListingClientProps> = ({
             roomCount={listing.roomCount}
             guestCount={listing.guestCount}
             bathroomCount={listing.bathroomCount}
-            latitude={listing.latitude ?? 51.505}  // Default to 51.505 if null
-            longitude={listing.longitude ?? -0.09}  // Default to -0.09 if null
+            city={location?.city || "Unknown City"}  // Updated
+            region={location?.region || "Unknown Region"}  // Updated
+            country={location?.country || "Unknown Country"}  // Updated
             agentWebsite={listing.agentWebsite || undefined}
             notes={listing.notes || undefined}
             hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}

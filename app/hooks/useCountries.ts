@@ -1,4 +1,5 @@
 import countries from "world-countries";
+import axios from "axios";
 
 const formattedCountries = countries.map((country: any) => ({
   label: country.name.common,
@@ -18,10 +19,17 @@ const useCountries = () => {
     return country;
   };
 
-  const getByLatLng = (latitude: number, longitude: number) => {
-    return formattedCountries.find(
-      (country) => country.latlng[0] === latitude && country.latlng[1] === longitude
-    );
+  const getByLatLng = async (latitude: number, longitude: number) => {
+    const apiKey = "YOUR_OPENCAGE_API_KEY";  // Replace with your OpenCage API key
+    const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`);
+
+    const { city, state, country } = response.data.results[0].components;
+
+    return {
+      city,
+      region: state,
+      country,
+    };
   };
 
   return {
