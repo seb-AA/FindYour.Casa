@@ -3,7 +3,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
 import fetch from "node-fetch";
 
-const JINA_API_KEY = process.env.JINA_API_KEY;
+const JINA_API_KEY = process.env.NEXT_PULIC_JINA_API_KEY;
 const JINA_API_URL = "https://r.jina.ai/";
 
 export async function POST(request: Request) {
