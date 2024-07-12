@@ -66,18 +66,6 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         <div>
           <span className="font-semibold">Guests:</span> {guestCount}
         </div>
-        {agentWebsite && (
-          <div>
-            <a
-              href={agentWebsite}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Visit Listing
-            </a>
-          </div>
-        )}
         {extractedInfo && (
           <div>
             <span className="font-semibold">Extracted Info:</span> {extractedInfo}

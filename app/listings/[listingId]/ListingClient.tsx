@@ -77,14 +77,15 @@ const ListingClient: React.FC<IListingClientProps> = ({
                 <p>{listing.extractedInfo}</p>
               </div>
             )}
-            <button
+          </div>
+          <div className="col-span-3">
+          <button
               onClick={() => window.open(`/listings/${listing.id}`, '_blank')}
               className="w-full bg-blue-500 text-white py-2 px-4 rounded-md"
             >
               View Listing
             </button>
-          </div>
-          <div className="col-span-3">
+            <br></br>
             {locationCoordinates && <Map center={locationCoordinates} />}
           </div>
         </div>
