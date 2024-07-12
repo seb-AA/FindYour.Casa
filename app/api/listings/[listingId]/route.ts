@@ -61,8 +61,8 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
         });
 
         if (response.ok) {
-          const responseData = await response.json();
-          extractedInfo = responseData.content; // Adjust based on actual structure of response
+          const responseData = await response.text();
+          extractedInfo = responseData; // Store the text response as extractedInfo
         }
       } catch (error) {
         console.error("Error fetching data from Jina API:", error);
