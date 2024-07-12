@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
   let extractedInfo = null;
 
-  if (agentWebsite && JINA_API_KEY) {
+  if (agentWebsite) {
     try {
       const response = await fetch(`${JINA_API_URL}${agentWebsite}`, {
         method: "GET",
@@ -119,7 +119,7 @@ export async function PATCH(request: Request) {
 
   let extractedInfo = null;
 
-  if (agentWebsite && JINA_API_KEY) {
+  if (agentWebsite) {
     try {
       const response = await fetch(`${JINA_API_URL}${agentWebsite}`, {
         method: "GET",
