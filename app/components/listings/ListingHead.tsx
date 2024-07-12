@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import useCountries from "@/app/hooks/useCountries";
 import { User } from "@prisma/client";
 import Heading from "../Heading";
 import Image from "next/image";
@@ -24,23 +22,11 @@ const ListingHead: React.FC<IListingHeadProps> = ({
   id,
   currentUser,
 }) => {
-  const { getByLatLng } = useCountries();
-  const [location, setLocation] = useState<{ city: string; region: string; country: string } | null>(null);
-
-  useEffect(() => {
-    const fetchLocation = async () => {
-      const locationData = await getByLatLng(latitude, longitude);
-      setLocation(locationData);
-    };
-
-    fetchLocation();
-  }, [latitude, longitude, getByLatLng]);
-
   return (
     <>
       <Heading
         title={title}
-        subtitle={`${location?.region || 'Unknown'}, ${location?.country || 'Unknown'}`}
+        subtitle={`Coordinates: ${latitude}, ${longitude}`}
       />
       <div
         className="

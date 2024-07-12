@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { User } from "@prisma/client";
 import useCountries from "@/app/hooks/useCountries";
 
@@ -41,25 +41,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   landSize,
   arableLandSize,
 }) => {
-  const [location, setLocation] = useState<{ city?: string; region?: string; country?: string } | null>(null);
-  const { getByLatLng } = useCountries();
-
-  useEffect(() => {
-    let isMounted = true;
-    const fetchLocation = async () => {
-      if (latitude && longitude) {
-        const loc = await getByLatLng(latitude, longitude);
-        if (isMounted) {
-          setLocation(loc);
-        }
-      }
-    };
-
-    fetchLocation();
-    return () => {
-      isMounted = false;
-    };
-  }, [latitude, longitude, getByLatLng]);
+  const location = { city: 'Unknown', region: 'Unknown', country: 'Unknown' }; // Placeholder for location data
 
   return (
     <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-6">
@@ -74,7 +56,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           <span className="font-semibold">Hosted by:</span> {user.name}
         </div>
         <div>
-          <span className="font-semibold">Location:</span> {location ? `${location.city}, ${location.region}, ${location.country}` : "Loading..."}
+          <span className="font-semibold">Location:</span> {latitude}, {longitude}
         </div>
         <div>
           <span className="font-semibold">Rooms:</span> {roomCount}
