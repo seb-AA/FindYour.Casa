@@ -63,10 +63,18 @@ const ListingClient: React.FC<IListingClientProps> = ({
               landSize={listing.landSize !== null ? listing.landSize : undefined}
               arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
             />
-            {listing.notes && (
+          </div>
+          <div className="col-span-3 mt-6">
+          {listing.notes && (
               <div className="p-4 bg-gray-100 rounded-md">
                 <h3 className="text-lg font-semibold mb-2">Notes</h3>
                 <p>{listing.notes}</p>
+              </div>
+            )}
+            {listing.extractedInfo && (
+              <div className="p-4 bg-gray-100 rounded-md">
+                <h3 className="text-lg font-semibold mb-2">Extracted Information</h3>
+                <p>{listing.extractedInfo}</p>
               </div>
             )}
             <button
@@ -75,16 +83,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
             >
               View Listing
             </button>
-          </div>
-          <div className="col-span-1 flex flex-col gap-8">
-            {listing.extractedInfo && (
-              <div className="p-4 bg-gray-100 rounded-md">
-                <h3 className="text-lg font-semibold mb-2">Extracted Information</h3>
-                <p>{listing.extractedInfo}</p>
-              </div>
-            )}
-          </div>
-          <div className="col-span-3 mt-6">
+            <br></br>
             {locationCoordinates && <Map center={locationCoordinates} />}
           </div>
         </div>
