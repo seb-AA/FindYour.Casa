@@ -82,6 +82,7 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
           method: "GET",
           headers: {
             "X-With-Generated-Alt": "true",
+            "X-Return-Format": "text",
             Authorization: `Bearer ${JINA_API_KEY}`,
           },
         });
