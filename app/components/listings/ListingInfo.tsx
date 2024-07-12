@@ -74,7 +74,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
               rel="noopener noreferrer"
               className="inline-block mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
-              Visit Website
+              Visit Listing
             </a>
           </div>
         )}

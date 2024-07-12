@@ -3,8 +3,8 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
 import fetch from "node-fetch";
 
+const JINA_API_KEY = process.env.JINA_API_KEY;
 const JINA_API_URL = "https://r.jina.ai/";
-const JINA_API_KEY = "jina_25f1655f667f4d2cba6d3320aa2a4451rOFbRpymoxLZ5ycfl4g0QqcJxDSg";
 
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
@@ -37,19 +37,23 @@ export async function POST(request: Request) {
   } = body;
 
   let extractedInfo = null;
+
   if (agentWebsite && JINA_API_KEY) {
     try {
       const response = await fetch(`${JINA_API_URL}${agentWebsite}`, {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${JINA_API_KEY}`,
-          "X-With-Generated-Alt": "true"
+          "X-With-Generated-Alt": "true",
+          Authorization: `Bearer ${JINA_API_KEY}`,
         },
       });
-      const data = await response.json();
-      extractedInfo = data.content; // Adjust this based on the actual structure of the response
+
+      if (response.ok) {
+        const data = await response.json();
+        extractedInfo = data.content; // Adjust this line based on the actual structure of the response
+      }
     } catch (error) {
-      console.error("Error fetching extracted info:", error);
+      console.error("Error fetching data from Jina API:", error);
     }
   }
 
@@ -67,15 +71,15 @@ export async function POST(request: Request) {
       price: parseInt(price, 10),
       agentWebsite,
       notes,
+      extractedInfo, // Include extracted info here
       hasSwimmingPool,
       hasGarage,
-      numberOfOtherBuildings: numberOfOtherBuildings ? Number(numberOfOtherBuildings) : null,
-      numberOfHabitableBuildings: numberOfHabitableBuildings ? Number(numberOfHabitableBuildings) : null,
-      landSize: landSize ? Number(landSize) : null,
-      arableLandSize: arableLandSize ? Number(arableLandSize) : null,
+      numberOfOtherBuildings,
+      numberOfHabitableBuildings,
+      landSize,
+      arableLandSize,
       isPublic,
       userId: currentUser.id,
-      extractedInfo,
     },
   });
 
@@ -114,19 +118,23 @@ export async function PATCH(request: Request) {
   } = body;
 
   let extractedInfo = null;
+
   if (agentWebsite && JINA_API_KEY) {
     try {
       const response = await fetch(`${JINA_API_URL}${agentWebsite}`, {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${JINA_API_KEY}`,
-          "X-With-Generated-Alt": "true"
+          "X-With-Generated-Alt": "true",
+          Authorization: `Bearer ${JINA_API_KEY}`,
         },
       });
-      const data = await response.json();
-      extractedInfo = data.content; // Adjust this based on the actual structure of the response
+
+      if (response.ok) {
+        const data = await response.json();
+        extractedInfo = data.content; // Adjust this line based on the actual structure of the response
+      }
     } catch (error) {
-      console.error("Error fetching extracted info:", error);
+      console.error("Error fetching data from Jina API:", error);
     }
   }
 
@@ -145,15 +153,15 @@ export async function PATCH(request: Request) {
       price: parseInt(price, 10),
       agentWebsite,
       notes,
+      extractedInfo, // Include extracted info here
       hasSwimmingPool,
       hasGarage,
-      numberOfOtherBuildings: numberOfOtherBuildings ? Number(numberOfOtherBuildings) : null,
-      numberOfHabitableBuildings: numberOfHabitableBuildings ? Number(numberOfHabitableBuildings) : null,
-      landSize: landSize ? Number(landSize) : null,
-      arableLandSize: arableLandSize ? Number(arableLandSize) : null,
+      numberOfOtherBuildings,
+      numberOfHabitableBuildings,
+      landSize,
+      arableLandSize,
       isPublic,
       userId: currentUser.id,
-      extractedInfo,
     },
   });
 
