@@ -7,6 +7,7 @@ import Map from "@/app/components/Map";
 import { categories } from "@/app/components/navbar/Categories";
 import { Listing, Reservation, User } from "@prisma/client";
 import { useMemo } from "react";
+import Button from "@/app/components/Button";
 
 interface IListingClientProps {
   reservations?: Reservation[];
@@ -62,6 +63,11 @@ const ListingClient: React.FC<IListingClientProps> = ({
               numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
               landSize={listing.landSize !== null ? listing.landSize : undefined}
               arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
+            />
+            <Button
+              label="View Listing"
+              onClick={() => window.open(`/listings/${listing.id}`, '_blank')}
+              fullWidth
             />
           </div>
           <div className="col-span-1 flex flex-col gap-6">
