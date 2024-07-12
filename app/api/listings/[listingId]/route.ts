@@ -2,12 +2,35 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import fetch from "node-fetch";
+import { Configuration, OpenAIApi } from "openai";
 
 const JINA_API_KEY = process.env.NEXT_PUBLIC_JINA_API_KEY;
 const JINA_API_URL = "https://r.jina.ai/";
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+const configuration = new Configuration({
+  apiKey: OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
 
 interface IListingParams {
   listingId?: string;
+}
+
+async function summarizeContent(content: string): Promise<string> {
+  const messages = [
+    { role: "system", content: "Extract the key information from the following text and format it as structured data:" },
+    { role: "user", content },
+  ];
+
+  const completion = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages,
+    max_tokens: 1024,
+    temperature: 0.7,
+  });
+
+  return completion.data.choices[0].message?.content.trim() || "";
 }
 
 export async function PATCH(request: Request, { params }: { params: IListingParams }) {
@@ -62,7 +85,7 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
 
         if (response.ok) {
           const responseData = await response.text();
-          extractedInfo = responseData; // Store the text response as extractedInfo
+          extractedInfo = await summarizeContent(responseData);
         }
       } catch (error) {
         console.error("Error fetching data from Jina API:", error);
@@ -81,7 +104,7 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       arableLandSize: arableLandSize ? Number(arableLandSize) : undefined,
       latitude: latitude ? Number(latitude) : undefined,
       longitude: longitude ? Number(longitude) : undefined,
-      extractedInfo,
+      extractedInfo, // Include summarized extracted info here
     };
 
     const listing = await prisma.listing.updateMany({

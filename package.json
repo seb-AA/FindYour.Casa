@@ -31,6 +31,7 @@
     "next-auth": "^4.22.1",
     "next-cloudinary": "^4.28.0",
     "next-connect": "^1.0.0",
+    "openai": "^4.52.7",
     "path": "^0.12.7",
     "postcss": "8.4.23",
     "query-string": "^8.1.0",
