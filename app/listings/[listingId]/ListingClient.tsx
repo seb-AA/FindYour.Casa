@@ -35,7 +35,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
 
   return (
     <Container>
-      <div className="flex flex-col gap-6 w-full mt-30">
+      <div className="flex flex-col gap-8 w-full mt-12">
         <ListingHead
           title={listing.title}
           imageSrc={listing.imageSrc}
@@ -44,8 +44,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
           id={listing.id}
           currentUser={currentUser}
         />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-          <div className="col-span-2 flex flex-col gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+          <div className="col-span-2 flex flex-col gap-8">
             <ListingInfo
               user={listing.user}
               category={category}
@@ -64,28 +64,27 @@ const ListingClient: React.FC<IListingClientProps> = ({
               arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
             />
           </div>
-          <div className="col-span-1 flex flex-col gap-6">
+          <div className="col-span-1 flex flex-col gap-8">
             {listing.notes && (
-              <div>
-                <h3 className="text-lg font-semibold">Notes</h3>
+              <div className="p-4 bg-gray-100 rounded-md">
+                <h3 className="text-lg font-semibold mb-2">Notes</h3>
                 <p>{listing.notes}</p>
               </div>
             )}
             {listing.extractedInfo && (
-              <div>
-                <h3 className="text-lg font-semibold">Extracted Information</h3>
+              <div className="p-4 bg-gray-100 rounded-md">
+                <h3 className="text-lg font-semibold mb-2">Extracted Information</h3>
                 <p>{listing.extractedInfo}</p>
               </div>
             )}
-          </div>
-          <div className="col-span-3">
-          <button
+            <button
               onClick={() => window.open(`/listings/${listing.id}`, '_blank')}
               className="w-full bg-blue-500 text-white py-2 px-4 rounded-md"
             >
               View Listing
             </button>
-            <br></br>
+          </div>
+          <div className="col-span-3 mt-6">
             {locationCoordinates && <Map center={locationCoordinates} />}
           </div>
         </div>
