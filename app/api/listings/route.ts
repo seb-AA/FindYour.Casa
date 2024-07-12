@@ -2,31 +2,28 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import fetch from "node-fetch";
-import { Configuration, OpenAIApi } from "openai";
+import OpenAI from "openai";
 
 const JINA_API_KEY = process.env.NEXT_PUBLIC_JINA_API_KEY;
 const JINA_API_URL = "https://r.jina.ai/";
 const OPENAI_API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
 
 async function summarizeContent(content: string): Promise<string> {
-  const messages = [
-    { role: "system", content: "Extract the key information from the following text and format it as structured data:" },
-    { role: "user", content },
-  ];
-
-  const completion = await openai.createChatCompletion({
+  const completion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
-    messages,
+    messages: [
+      { role: "system", content: "Extract the key information from the following text and format it as structured data:" },
+      { role: "user", content },
+    ],
     max_tokens: 1024,
     temperature: 0.7,
   });
 
-  return completion.data.choices[0].message?.content.trim() || "";
+  return completion.choices[0].message?.content.trim() || "";
 }
 
 export async function POST(request: Request) {
