@@ -28,11 +28,12 @@ async function summarizeContent(content: string): Promise<string> {
   });
 
   const choices = completion.choices;
-  if (!choices || choices.length === 0) {
-    throw new Error("No completion choices returned from OpenAI.");
+  if (!choices || choices.length === 0 || !choices[0].message) {
+    console.log("null");
+    return "null";
   }
 
-  return choices[0].message?.content.trim() || "";
+  return choices[0].message.content?.trim() ?? "null";
 }
 
 export async function PATCH(request: Request, { params }: { params: IListingParams }) {
