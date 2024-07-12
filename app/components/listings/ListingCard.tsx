@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState, useEffect } from "react";
+import { useCallback, useMemo } from "react";
 import { format } from "date-fns";
 
-import useCountries from "@/app/hooks/useCountries";
 import { Listing, Reservation, User } from "@prisma/client";
 
 import HeartButton from "../HeartButton";
@@ -33,19 +32,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
   currentUser,
 }) => {
   const router = useRouter();
-  const { getByLatLng } = useCountries();
-  const [location, setLocation] = useState<{ city: string; region: string; country: string } | null>(null);
-
-  useEffect(() => {
-    const fetchLocation = async () => {
-      if (data.latitude && data.longitude) {
-        const locationData = await getByLatLng(data.latitude, data.longitude);
-        setLocation(locationData);
-      }
-    };
-
-    fetchLocation();
-  }, [data.latitude, data.longitude, getByLatLng]);
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -127,7 +113,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
         </div>
         <div className="font-semibold text-lg">
-          {location?.region || 'Unknown'}, {location?.country || 'Unknown'}
+          Latitude: {data.latitude}, Longitude: {data.longitude}
         </div>
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}
