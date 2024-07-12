@@ -39,8 +39,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
         <ListingHead
           title={listing.title}
           imageSrc={listing.imageSrc}
-          latitude={listing.latitude ?? 0}  // Default to 0 if null
-          longitude={listing.longitude ?? 0}  // Default to 0 if null
+          latitude={listing.latitude ?? 0}
+          longitude={listing.longitude ?? 0}
           id={listing.id}
           currentUser={currentUser}
         />
@@ -53,11 +53,11 @@ const ListingClient: React.FC<IListingClientProps> = ({
               roomCount={listing.roomCount}
               guestCount={listing.guestCount}
               bathroomCount={listing.bathroomCount}
-              latitude={listing.latitude ?? 0}  // Default to 0 if null
-              longitude={listing.longitude ?? 0}  // Default to 0 if null
+              latitude={listing.latitude ?? 0}
+              longitude={listing.longitude ?? 0}
               agentWebsite={listing.agentWebsite || undefined}
               notes={listing.notes || undefined}
-              extractedInfo={listing.extractedInfo || undefined}  // Display extracted information
+              extractedInfo={listing.extractedInfo || undefined}
               hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
               hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
               numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}

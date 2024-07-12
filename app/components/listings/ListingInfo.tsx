@@ -41,21 +41,25 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   landSize,
   arableLandSize,
 }) => {
+  const [location, setLocation] = useState<{ city?: string; region?: string; country?: string } | null>(null);
   const { getByLatLng } = useCountries();
-  const [location, setLocation] = useState<{ city: string, region: string, country: string } | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchLocation = async () => {
-      try {
+      if (latitude && longitude) {
         const loc = await getByLatLng(latitude, longitude);
-        setLocation(loc);
-      } catch (error) {
-        console.error("Error fetching location data:", error);
+        if (isMounted) {
+          setLocation(loc);
+        }
       }
     };
 
     fetchLocation();
-  }, [latitude, longitude]);  // Run only once after the initial render
+    return () => {
+      isMounted = false;
+    };
+  }, [latitude, longitude, getByLatLng]);
 
   return (
     <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-6">
