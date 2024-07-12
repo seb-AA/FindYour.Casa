@@ -48,7 +48,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
             currentUser={currentUser}
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-            <div className="col-span-2 flex flex-col gap-8">
+            <div className="col-span-3 flex flex-col gap-8">
               <ListingInfo
                 user={listing.user}
                 category={category}
@@ -69,20 +69,20 @@ const ListingClient: React.FC<IListingClientProps> = ({
             </div>
             <div className="col-span-3 mt-6">
               {listing.notes && (
-                <div className="p-4 bg-gray-100 rounded-md">
+                <div className="p-4 bg-gray-100 rounded-md mb-2">
                   <h3 className="text-lg font-semibold mb-2">Notes</h3>
                   <p>{listing.notes}</p>
                 </div>
               )}
               {listing.extractedInfo && (
-                <div className="p-4 bg-gray-100 rounded-md">
+                <div className="p-4 bg-gray-100 rounded-md mb-2">
                   <h3 className="text-lg font-semibold mb-2">Extracted Information</h3>
                   <p>{listing.extractedInfo}</p>
                 </div>
               )}
               <button
                 onClick={() => window.open(`/listings/${listing.id}`, '_blank')}
-                className="w-full bg-blue-500 text-white py-2 px-4 rounded-md"
+                className="w-full bg-blue-500 text-white py-2 px-4 rounded-md mb-2"
               >
                 View Listing
               </button>
