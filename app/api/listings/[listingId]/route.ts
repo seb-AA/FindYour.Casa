@@ -6,7 +6,7 @@ import { Configuration, OpenAIApi } from "openai";
 
 const JINA_API_KEY = process.env.NEXT_PUBLIC_JINA_API_KEY;
 const JINA_API_URL = "https://r.jina.ai/";
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 
 const configuration = new Configuration({
   apiKey: OPENAI_API_KEY,
