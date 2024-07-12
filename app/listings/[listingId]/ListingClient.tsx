@@ -56,8 +56,6 @@ const ListingClient: React.FC<IListingClientProps> = ({
               latitude={listing.latitude ?? 0}
               longitude={listing.longitude ?? 0}
               agentWebsite={listing.agentWebsite || undefined}
-              notes={listing.notes || undefined}
-              extractedInfo={listing.extractedInfo || undefined}
               hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
               hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
               numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
