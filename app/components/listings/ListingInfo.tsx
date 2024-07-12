@@ -1,6 +1,5 @@
 import React from "react";
 import { User } from "@prisma/client";
-import useCountries from "@/app/hooks/useCountries";
 
 interface ListingInfoProps {
   user: User;
@@ -69,9 +68,14 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         </div>
         {agentWebsite && (
           <div>
-            <span className="font-semibold">Agent Website:</span>{" "}
-            <a href={agentWebsite} target="_blank" rel="noopener noreferrer">
-              {agentWebsite}
+            <span className="font-semibold">Agent Website:</span>
+            <a
+              href={agentWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Visit Website
             </a>
           </div>
         )}
