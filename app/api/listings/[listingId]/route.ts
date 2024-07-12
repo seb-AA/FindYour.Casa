@@ -84,13 +84,18 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       extractedInfo,
     };
 
-    const listing = await prisma.listing.update({
+    const listing = await prisma.listing.updateMany({
       where: {
         id: numericListingId,
         userId: currentUser.id,
       },
       data: updateData,
     });
+
+    if (listing.count === 0) {
+      console.error("No listings updated for ID:", numericListingId);
+      return NextResponse.json({ error: "No listings updated" }, { status: 404 });
+    }
 
     return NextResponse.json(listing);
   } catch (error) {
