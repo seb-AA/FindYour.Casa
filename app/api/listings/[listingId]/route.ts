@@ -1,6 +1,10 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
+import fetch from "node-fetch";
+
+const JINA_API_KEY = process.env.NEXT_PUBLIC_JINA_API_KEY;
+const JINA_API_URL = "https://r.jina.ai/";
 
 interface IListingParams {
   listingId?: string;
@@ -40,8 +44,30 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       arableLandSize,
       latitude,
       longitude,
+      agentWebsite,
       ...otherData
     } = data;
+
+    let extractedInfo = null;
+
+    if (agentWebsite) {
+      try {
+        const response = await fetch(`${JINA_API_URL}${agentWebsite}`, {
+          method: "GET",
+          headers: {
+            "X-With-Generated-Alt": "true",
+            Authorization: `Bearer ${JINA_API_KEY}`,
+          },
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+          extractedInfo = responseData.content; // Adjust based on actual structure of response
+        }
+      } catch (error) {
+        console.error("Error fetching data from Jina API:", error);
+      }
+    }
 
     const updateData = {
       ...otherData,
@@ -55,20 +81,16 @@ export async function PATCH(request: Request, { params }: { params: IListingPara
       arableLandSize: arableLandSize ? Number(arableLandSize) : undefined,
       latitude: latitude ? Number(latitude) : undefined,
       longitude: longitude ? Number(longitude) : undefined,
+      extractedInfo,
     };
 
-    const listing = await prisma.listing.updateMany({
+    const listing = await prisma.listing.update({
       where: {
         id: numericListingId,
         userId: currentUser.id,
       },
       data: updateData,
     });
-
-    if (listing.count === 0) {
-      console.error("No listings updated for ID:", numericListingId);
-      return NextResponse.json({ error: "No listings updated" }, { status: 404 });
-    }
 
     return NextResponse.json(listing);
   } catch (error) {
