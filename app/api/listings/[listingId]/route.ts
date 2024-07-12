@@ -27,7 +27,12 @@ async function summarizeContent(content: string): Promise<string> {
     temperature: 0.7,
   });
 
-  return completion.choices[0].message?.content.trim() || "";
+  const choices = completion.choices;
+  if (!choices || choices.length === 0) {
+    throw new Error("No completion choices returned from OpenAI.");
+  }
+
+  return choices[0].message?.content.trim() || "";
 }
 
 export async function PATCH(request: Request, { params }: { params: IListingParams }) {
