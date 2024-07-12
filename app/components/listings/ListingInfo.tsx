@@ -68,7 +68,6 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         </div>
         {agentWebsite && (
           <div>
-            <span className="font-semibold">Agent Website:</span>
             <a
               href={agentWebsite}
               target="_blank"
