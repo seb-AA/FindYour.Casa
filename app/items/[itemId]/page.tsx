@@ -8,10 +8,20 @@ import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import { User } from "@prisma/client";
 
+interface Item {
+  id: number;
+  name: string;
+  description: string;
+  notes?: string | null;
+  extractedInfo?: string | null;
+  image?: string | null;
+  link?: string | null;
+}
+
 const ItemPage = () => {
   const router = useRouter();
   const { itemId } = router.query;
-  const [item, setItem] = useState(null);
+  const [item, setItem] = useState<Item | null>(null);
 
   useEffect(() => {
     if (itemId) {
