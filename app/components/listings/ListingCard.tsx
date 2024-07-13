@@ -112,9 +112,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
             <HeartButton listingId={data.id} currentUser={currentUser} />
           </div>
         </div>
-        <div className="font-semibold text-lg">
-          Latitude: {data.latitude}, Longitude: {data.longitude}
-        </div>
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}
         </div>
