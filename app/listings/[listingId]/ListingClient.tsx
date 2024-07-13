@@ -4,7 +4,6 @@ import Container from "@/app/components/Container";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import Map from "@/app/components/Map";
-import Navbar from "@/app/components/navbar/Navbar";
 import { categories } from "@/app/components/navbar/Categories";
 import { Listing, Reservation, User } from "@prisma/client";
 import { useMemo } from "react";
@@ -36,7 +35,6 @@ const ListingClient: React.FC<IListingClientProps> = ({
 
   return (
     <>
-      <Navbar />
       <div className="pt-20">
         <Container>
           <div className="flex flex-col gap-8 w-full mt-12">
