@@ -68,7 +68,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
                   arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
                 />
               </div>
-              <div className="col-span-1 lg:col-span-1 mt-6 flex flex-col gap-6">
+              <div className="col-span-3 lg:col-span-3 mt-6 flex flex-col gap-6">
                 {listing.notes && (
                   <div className="p-4 bg-gray-100 rounded-md">
                     <h3 className="text-lg font-semibold mb-2">Notes</h3>
