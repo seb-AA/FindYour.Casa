@@ -1,5 +1,5 @@
 // pages/lists.tsx
-"useclient"
+"use client"
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';

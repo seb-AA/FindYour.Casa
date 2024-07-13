@@ -1,5 +1,5 @@
 // pages/items/[itemId].tsx
-"useclient"
+"use client"
 
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
