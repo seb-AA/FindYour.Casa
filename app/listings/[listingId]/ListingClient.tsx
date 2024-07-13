@@ -37,60 +37,62 @@ const ListingClient: React.FC<IListingClientProps> = ({
   return (
     <>
       <Navbar />
-      <Container className="pt-20">
-        <div className="flex flex-col gap-8 w-full mt-12">
-          <ListingHead
-            title={listing.title}
-            imageSrc={listing.imageSrc}
-            latitude={listing.latitude ?? 0}
-            longitude={listing.longitude ?? 0}
-            id={listing.id}
-            currentUser={currentUser}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full">
-            <div className="col-span-2 lg:col-span-3 flex flex-col gap-8">
-              <ListingInfo
-                user={listing.user}
-                category={category}
-                description={listing.description}
-                roomCount={listing.roomCount}
-                guestCount={listing.guestCount}
-                bathroomCount={listing.bathroomCount}
-                latitude={listing.latitude ?? 0}
-                longitude={listing.longitude ?? 0}
-                agentWebsite={listing.agentWebsite || undefined}
-                hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
-                hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
-                numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
-                numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
-                landSize={listing.landSize !== null ? listing.landSize : undefined}
-                arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
-              />
-            </div>
-            <div className="col-span-1 lg:col-span-1 mt-6 flex flex-col gap-6">
-              {listing.notes && (
-                <div className="p-4 bg-gray-100 rounded-md">
-                  <h3 className="text-lg font-semibold mb-2">Notes</h3>
-                  <p>{listing.notes}</p>
-                </div>
-              )}
-              {listing.extractedInfo && (
-                <div className="p-4 bg-gray-100 rounded-md">
-                  <h3 className="text-lg font-semibold mb-2">Extracted Information</h3>
-                  <p>{listing.extractedInfo}</p>
-                </div>
-              )}
-              <button
-                onClick={() => window.open(`/listings/${listing.id}`, '_blank')}
-                className="w-full bg-blue-500 text-white py-2 px-4 rounded-md"
-              >
-                View Listing
-              </button>
-              {locationCoordinates && <Map center={locationCoordinates} />}
+      <div className="pt-20">
+        <Container>
+          <div className="flex flex-col gap-8 w-full mt-12">
+            <ListingHead
+              title={listing.title}
+              imageSrc={listing.imageSrc}
+              latitude={listing.latitude ?? 0}
+              longitude={listing.longitude ?? 0}
+              id={listing.id}
+              currentUser={currentUser}
+            />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+              <div className="col-span-1 lg:col-span-2 flex flex-col gap-8">
+                <ListingInfo
+                  user={listing.user}
+                  category={category}
+                  description={listing.description}
+                  roomCount={listing.roomCount}
+                  guestCount={listing.guestCount}
+                  bathroomCount={listing.bathroomCount}
+                  latitude={listing.latitude ?? 0}
+                  longitude={listing.longitude ?? 0}
+                  agentWebsite={listing.agentWebsite || undefined}
+                  hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
+                  hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
+                  numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
+                  numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
+                  landSize={listing.landSize !== null ? listing.landSize : undefined}
+                  arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
+                />
+              </div>
+              <div className="col-span-1 lg:col-span-1 mt-6 flex flex-col gap-6">
+                {listing.notes && (
+                  <div className="p-4 bg-gray-100 rounded-md">
+                    <h3 className="text-lg font-semibold mb-2">Notes</h3>
+                    <p>{listing.notes}</p>
+                  </div>
+                )}
+                {listing.extractedInfo && (
+                  <div className="p-4 bg-gray-100 rounded-md">
+                    <h3 className="text-lg font-semibold mb-2">Extracted Information</h3>
+                    <p>{listing.extractedInfo}</p>
+                  </div>
+                )}
+                <button
+                  onClick={() => window.open(`/listings/${listing.id}`, '_blank')}
+                  className="w-full bg-blue-500 text-white py-2 px-4 rounded-md"
+                >
+                  View Listing
+                </button>
+                {locationCoordinates && <Map center={locationCoordinates} />}
+              </div>
             </div>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
     </>
   );
 };
