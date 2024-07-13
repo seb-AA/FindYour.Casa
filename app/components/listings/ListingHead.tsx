@@ -7,8 +7,6 @@ import HeartButton from "../HeartButton";
 
 interface IListingHeadProps {
   title: string;
-  latitude: number;
-  longitude: number;
   imageSrc: string;
   id: number;  // Changed from string to number
   currentUser?: User | null;
@@ -16,8 +14,6 @@ interface IListingHeadProps {
 
 const ListingHead: React.FC<IListingHeadProps> = ({
   title,
-  latitude,
-  longitude,
   imageSrc,
   id,
   currentUser,
@@ -26,7 +22,6 @@ const ListingHead: React.FC<IListingHeadProps> = ({
     <>
       <Heading
         title={title}
-        subtitle={`Coordinates: ${latitude}, ${longitude}`}
       />
       <div
         className="
