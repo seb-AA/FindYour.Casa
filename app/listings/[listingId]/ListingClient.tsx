@@ -35,7 +35,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
 
   return (
     <>
-      <div className="pt-20">
+      <div className="mt-20">
         <Container>
           <div className="flex flex-col gap-8 w-full mt-12">
             <ListingHead
