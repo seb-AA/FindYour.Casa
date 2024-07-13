@@ -10,7 +10,7 @@ interface IListingHeadProps {
   latitude: number;
   longitude: number;
   imageSrc: string;
-  id: number;  // Changed from string to number
+  id: number;
   currentUser?: User | null;
 }
 
@@ -24,25 +24,9 @@ const ListingHead: React.FC<IListingHeadProps> = ({
 }) => {
   return (
     <>
-      <Heading
-        title={title}
-      />
-      <div
-        className="
-          w-full
-          h-[60vh]
-          overflow-hidden
-          rounded-xl
-          relative
-        "
-      >
-        <Image
-          alt="Image"
-          src={imageSrc}
-          fill
-          sizes="100%"
-          className="object-cover w-full"
-        />
+      <Heading title={title} />
+      <div className="w-full h-[60vh] overflow-hidden rounded-xl relative">
+        <Image alt="Image" src={imageSrc} fill sizes="100%" className="object-cover w-full" />
         <div className="absolute top-5 right-5">
           <HeartButton listingId={id} currentUser={currentUser} />
         </div>
