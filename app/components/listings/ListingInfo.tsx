@@ -43,62 +43,70 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   const location = { city: 'Unknown', region: 'Unknown', country: 'Unknown' }; // Placeholder for location data
 
   return (
-    <div className="flex flex-col gap-4 md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-6">
-      <div className="col-span-2 lg:col-span-3">
+    <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-6">
+      <div className="col-span-2">
         <div className="flex items-center gap-2">
           <div>{category?.icon}</div>
           <div className="text-lg font-semibold">{category?.label}</div>
         </div>
         <div>{description}</div>
         <hr />
-        <div>
-          <span className="font-semibold">Hosted by:</span> {user.name}
-        </div>
-        <div>
-          <span className="font-semibold">Location:</span> {latitude}, {longitude}
-        </div>
-        <div>
-          <span className="font-semibold">Rooms:</span> {roomCount}
-        </div>
-        <div>
-          <span className="font-semibold">Bathrooms:</span> {bathroomCount}
-        </div>
-        <div>
-          <span className="font-semibold">Guests:</span> {guestCount}
-        </div>
-        {extractedInfo && (
+        <div className="flex justify-between">
           <div>
-            <span className="font-semibold">Extracted Info:</span> {extractedInfo}
+            <span className="font-semibold">Hosted by:</span> {user.name}
           </div>
-        )}
-        {hasSwimmingPool && (
           <div>
-            <span className="font-semibold">Swimming Pool:</span> Yes
+            <span className="font-semibold">Location:</span> {latitude}, {longitude}
           </div>
-        )}
-        {hasGarage && (
+        </div>
+        <div className="flex justify-between">
           <div>
-            <span className="font-semibold">Garage:</span> Yes
+            <span className="font-semibold">Rooms:</span> {roomCount}
           </div>
-        )}
-        {numberOfOtherBuildings && (
           <div>
-            <span className="font-semibold">Number of Other Buildings:</span> {numberOfOtherBuildings}
+            <span className="font-semibold">Bathrooms:</span> {bathroomCount}
           </div>
-        )}
-        {numberOfHabitableBuildings && (
           <div>
-            <span className="font-semibold">Number of Habitable Buildings:</span> {numberOfHabitableBuildings}
+            <span className="font-semibold">Guests:</span> {guestCount}
           </div>
-        )}
+        </div>
+        <div className="flex justify-between">
+          {hasSwimmingPool !== undefined && (
+            <div>
+              <span className="font-semibold">Swimming Pool:</span> {hasSwimmingPool ? "Yes" : "No"}
+            </div>
+          )}
+          {hasGarage !== undefined && (
+            <div>
+              <span className="font-semibold">Garage:</span> {hasGarage ? "Yes" : "No"}
+            </div>
+          )}
+        </div>
+        <div className="flex justify-between">
+          {numberOfOtherBuildings !== undefined && (
+            <div>
+              <span className="font-semibold">Number of Other Buildings:</span> {numberOfOtherBuildings}
+            </div>
+          )}
+          {numberOfHabitableBuildings !== undefined && (
+            <div>
+              <span className="font-semibold">Number of Habitable Buildings:</span> {numberOfHabitableBuildings}
+            </div>
+          )}
+          {arableLandSize !== undefined && (
+            <div>
+              <span className="font-semibold">Size of Arable Land:</span> {arableLandSize} sq meters
+            </div>
+          )}
+        </div>
         {landSize && (
           <div>
             <span className="font-semibold">Size of Land:</span> {landSize} sq meters
           </div>
         )}
-        {arableLandSize && (
+        {extractedInfo && (
           <div>
-            <span className="font-semibold">Size of Arable Land:</span> {arableLandSize} sq meters
+            <span className="font-semibold">Extracted Info:</span> {extractedInfo}
           </div>
         )}
       </div>
