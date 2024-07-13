@@ -4,6 +4,7 @@ import EmptyState from "@/app/components/EmptyState";
 import ListingClient from "./ListingClient";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getReservations from "@/app/actions/getReservations";
+import Navbar from "@/app/components/navbar/Navbar";
 
 interface IParams {
   listingId?: string;
@@ -39,6 +40,7 @@ const ListingPage = async ({ params }: { params: IParams }) => {
         currentUser={currentUser}
         reservations={reservations}
       />
+      <Navbar currentUser={currentUser} />
     </ClientOnly>
   );
 };
