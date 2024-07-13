@@ -51,8 +51,8 @@ const ItemPage = () => {
               <ListingInfo
                 user={{ name: "Unknown" } as User}  // Placeholder user
                 description={item.description || "No description available"}
-                notes={item.notes}
-                extractedInfo={item.extractedInfo}
+                notes={item.notes || undefined}
+                extractedInfo={item.extractedInfo || undefined}
               />
               <button
                 onClick={() => window.open(item.link || '#', '_blank')}
