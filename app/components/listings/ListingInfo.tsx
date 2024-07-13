@@ -43,8 +43,8 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   const location = { city: 'Unknown', region: 'Unknown', country: 'Unknown' }; // Placeholder for location data
 
   return (
-    <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-6">
-      <div className="col-span-2">
+    <div className="flex flex-col gap-4 md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-6">
+      <div className="col-span-2 lg:col-span-3">
         <div className="flex items-center gap-2">
           <div>{category?.icon}</div>
           <div className="text-lg font-semibold">{category?.label}</div>
