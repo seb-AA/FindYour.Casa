@@ -53,7 +53,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         <hr />
         <div className="flex justify-between">
           <div>
-            <span className="font-semibold">Hosted by:</span> {user.name}
+            <span className="font-semibold">Posted by:</span> {user.name}
           </div>
         {extractedInfo && (
           <div>
