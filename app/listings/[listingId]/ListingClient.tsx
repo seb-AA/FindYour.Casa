@@ -49,7 +49,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
               currentUser={currentUser}
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-              <div className="col-span-3 lg:col-span-3 flex flex-col gap-8">
+              <div className="col-span-3 lg:col-span-3 mt-6 flex flex-col gap-6">
                 <ListingInfo
                   user={listing.user}
                   category={category}
