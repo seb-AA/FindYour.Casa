@@ -1,10 +1,11 @@
-// pages/api/items/index.ts
-import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/app/libs/prismadb';
+import { NextResponse } from "next/server";
+import prisma from "@/app/libs/prismadb";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    const { name, description, notes, extractedInfo, link } = req.body;
+export async function POST(request: Request) {
+  const body = await request.json();
+  const { name, description, notes, extractedInfo, link } = body;
+
+  try {
     const item = await prisma.item.create({
       data: {
         name,
@@ -14,11 +15,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         link,
       },
     });
-    res.status(201).json(item);
-  } else if (req.method === 'GET') {
+    return NextResponse.json(item);
+  } catch (error) {
+    return NextResponse.error();
+  }
+}
+
+export async function GET() {
+  try {
     const items = await prisma.item.findMany();
-    res.status(200).json(items);
-  } else {
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    return NextResponse.json(items);
+  } catch (error) {
+    return NextResponse.error();
   }
 }

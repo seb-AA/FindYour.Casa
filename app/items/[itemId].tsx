@@ -9,22 +9,26 @@ import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import Map from "@/app/components/Map";
 import { categories } from "@/app/components/navbar/Categories";
-import { Listing, User } from "@prisma/client";
+import { User } from "@prisma/client";
 
-interface IItemPageProps {
-  item: {
-    id: number;
-    name: string;
-    description?: string;
-    notes?: string;
-    extractedInfo?: string;
-    link?: string;
-    createdAt: string;
-    updatedAt: string;
-  };
-}
+const ItemPage = () => {
+  const router = useRouter();
+  const { itemId } = router.query;
+  const [item, setItem] = useState(null);
 
-const ItemPage: React.FC<IItemPageProps> = ({ item }) => {
+  useEffect(() => {
+    if (itemId) {
+      const fetchItem = async () => {
+        const response = await axios.get(`/api/items/${itemId}`);
+        setItem(response.data);
+      };
+
+      fetchItem();
+    }
+  }, [itemId]);
+
+  if (!item) return <div>Loading...</div>;
+
   return (
     <div className="mt-20">
       <Container>
