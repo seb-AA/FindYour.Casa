@@ -52,7 +52,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             "
           >
             <AiOutlinePlus className="mr-1" />
-            Add a Property
+            Add to a list
           </div>
           <div
             onClick={toggleOpen}
@@ -105,8 +105,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     icon={AiOutlineHeart}
                   />
                   <MenuItem
-                    onClick={() => router.push("/properties")}
-                    label="Properties"
+                    onClick={() => router.push("/lists")}
+                    label="Lists"
                     icon={AiOutlineHome}
                   />
                   <hr />
