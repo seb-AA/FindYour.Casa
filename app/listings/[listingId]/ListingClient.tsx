@@ -81,7 +81,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
                 )}
                 <button
                   onClick={() => window.open(`/listings/${listing.id}`, '_blank')}
-                  className="w-full bg-blue-500 text-white py-2 px-4 rounded-md"
+                  className="w-full bg-blue-500 text-white py-2 px-4 rounded-md mb-2"
                 >
                   View Listing
                 </button>
