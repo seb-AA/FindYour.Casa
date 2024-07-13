@@ -174,31 +174,9 @@ const RentModal: React.FC = () => {
   let bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
-        title="Which category best describes your place?"
+        title="Will this listing be public or private?"
         subtitle="You can change this later"
       />
-      <div
-        className="
-          grid
-          grid-cols-1
-          md:grid-cols-2
-          lg:grid-cols-3
-          gap-3
-          max-h-[50vh]
-          overflow-y-auto
-        "
-      >
-        {categories.map((item) => (
-          <div key={item.label} className="col-span-1">
-            <CategoryInput
-              onClick={(category) => setCustomValue("category", category)}
-              selected={category === item.label}
-              label={item.label}
-              icon={item.icon}
-            />
-          </div>
-        ))}
-      </div>
       <div className="flex items-center mt-4">
         <Switch
           checked={watch("isPublic")}
@@ -233,7 +211,7 @@ const RentModal: React.FC = () => {
     );
   }
 
-  if (step === STEPS.INFO) {
+  {/* if (step === STEPS.INFO) {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
@@ -262,7 +240,7 @@ const RentModal: React.FC = () => {
         />
       </div>
     );
-  }
+  } */}
 
   if (step === STEPS.IMAGES) {
     bodyContent = (
@@ -305,25 +283,25 @@ const RentModal: React.FC = () => {
           errors={errors}
           required
         />
+        <hr />
+        <Input
+          id="agentWebsite"
+          label="Link"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
       </div>
     );
   }
 
-  if (step === STEPS.AMENITIES) {
+  {/*if (step === STEPS.AMENITIES) {
     bodyContent = (
       <div className="flex flex-col gap-8 max-h-[60vh] overflow-y-auto">
         <Heading
           title="Information and Amenities"
           subtitle="Provide more information about your place"
         />
-        <Input
-          id="agentWebsite"
-          label="Agent Website"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        <hr />
         <Input
           id="notes"
           label="Notes"
@@ -471,7 +449,7 @@ const RentModal: React.FC = () => {
         />
       </div>
     );
-  }
+  } */}
 
   return (
     <Modal
