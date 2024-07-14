@@ -7,28 +7,18 @@ import { toast } from "react-hot-toast";
 import Container from "@/app/components/Container";
 import Heading from "@/app/components/Heading";
 import ListingCard from "@/app/components/listings/ListingCard";
-import { User } from "@prisma/client";
-
-interface Item {
-  id: number;
-  name: string;
-  description: string;
-  notes?: string;
-  extractedInfo?: string;
-  image?: string;
-  link?: string;
-}
+import { User, CommonListing } from "@/app/types";
 
 interface ListPageProps {
   params: {
     listId: string;
   };
-  searchParams?: Record<string, string | string[] | undefined>;
+  currentUser?: User | null;
 }
 
-const ListPage: React.FC<ListPageProps> = ({ params }) => {
+const ListPage: React.FC<ListPageProps> = ({ params, currentUser }) => {
   const { listId } = params;
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<CommonListing[]>([]);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const router = useRouter();
 
@@ -47,14 +37,14 @@ const ListPage: React.FC<ListPageProps> = ({ params }) => {
       try {
         await axios.delete(`/api/items/${id}`);
         toast.success("Item deleted successfully");
-        setItems(items.filter((item) => item.id !== id));
+        setItems((items) => items.filter((item) => item.id !== id));
       } catch {
         toast.error("Something went wrong.");
       } finally {
         setDeletingId(null);
       }
     },
-    [items]
+    []
   );
 
   return (
@@ -81,7 +71,7 @@ const ListPage: React.FC<ListPageProps> = ({ params }) => {
             onAction={() => onDelete(item.id)}
             disabled={deletingId === item.id}
             actionLabel="Delete item"
-            currentUser={null} // Assuming there's no user context for simplicity
+            currentUser={currentUser}
           />
         ))}
       </div>

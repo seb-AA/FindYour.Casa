@@ -1,7 +1,12 @@
+// app/api/lists/[listId]/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 
-export async function GET(request: Request, { params }: { params: { listId: string } }) {
+interface IParams {
+  listId?: string;
+}
+
+export async function GET(request: Request, { params }: { params: IParams }) {
   const { listId } = params;
 
   if (!listId || typeof listId !== "string") {
@@ -19,6 +24,24 @@ export async function GET(request: Request, { params }: { params: { listId: stri
     }
 
     return NextResponse.json(list);
+  } catch (error) {
+    return NextResponse.error();
+  }
+}
+
+export async function DELETE(request: Request, { params }: { params: IParams }) {
+  const { listId } = params;
+
+  if (!listId || typeof listId !== "string") {
+    return NextResponse.error();
+  }
+
+  try {
+    await prisma.list.delete({
+      where: { id: parseInt(listId) },
+    });
+
+    return NextResponse.json({ message: "List deleted successfully" });
   } catch (error) {
     return NextResponse.error();
   }

@@ -1,3 +1,5 @@
+// app/types/index.ts
+
 export type User = {
   id: number;
   name: string;
@@ -7,18 +9,17 @@ export type User = {
   hashedPassword?: string;
   createdAt: Date;
   updatedAt: Date;
-  favoriteIds: number[];  // Ensure this is number[]
-  // other fields...
+  favoriteIds: number[];
 };
 
 export interface CommonListing {
   id: number;
   name: string;
+  userId: number;
   description: string;
   notes?: string;
   extractedInfo?: string;
   image?: string;
   link?: string;
-  price?: number; // Include price if used in ListingCard
-  // Add any other properties used in ListingCard
+  price?: number;
 }

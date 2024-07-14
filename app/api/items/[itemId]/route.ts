@@ -1,7 +1,12 @@
+// app/api/items/[itemId]/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 
-export async function GET(request: Request, { params }: { params: { itemId: string } }) {
+interface IParams {
+  itemId?: string;
+}
+
+export async function GET(request: Request, { params }: { params: IParams }) {
   const { itemId } = params;
 
   if (!itemId || typeof itemId !== "string") {
@@ -23,7 +28,7 @@ export async function GET(request: Request, { params }: { params: { itemId: stri
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { itemId: string } }) {
+export async function DELETE(request: Request, { params }: { params: IParams }) {
   const { itemId } = params;
 
   if (!itemId || typeof itemId !== "string") {
@@ -35,7 +40,7 @@ export async function DELETE(request: Request, { params }: { params: { itemId: s
       where: { id: parseInt(itemId) },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ message: "Item deleted successfully" });
   } catch (error) {
     return NextResponse.error();
   }

@@ -1,27 +1,23 @@
+// app/api/lists/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 
-export async function POST(request: Request) {
-  const body = await request.json();
-  const { title, userId } = body;
-
+export async function GET(request: Request) {
   try {
-    const list = await prisma.list.create({
-      data: {
-        title,
-        userId,
-      },
-    });
-    return NextResponse.json(list);
+    const lists = await prisma.list.findMany();
+    return NextResponse.json(lists);
   } catch (error) {
     return NextResponse.error();
   }
 }
 
-export async function GET() {
+export async function POST(request: Request) {
   try {
-    const lists = await prisma.list.findMany();
-    return NextResponse.json(lists);
+    const { title, userId } = await request.json();
+    const newList = await prisma.list.create({
+      data: { title, userId },
+    });
+    return NextResponse.json(newList);
   } catch (error) {
     return NextResponse.error();
   }
