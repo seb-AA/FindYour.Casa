@@ -5,11 +5,10 @@ import { useCallback, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-
+import Container from "@/app/components/Container";
+import Heading from "@/app/components/Heading";
+import ListingCard from "@/app/components/listings/ListingCard";
 import { Listing, User } from "@prisma/client";
-import Container from "../components/Container";
-import Heading from "../components/Heading";
-import ListingCard from "../components/listings/ListingCard";
 import useRentModal from "@/app/hooks/useRentModal";
 
 interface PopularPropertiesProps {
@@ -20,16 +19,17 @@ interface PopularPropertiesProps {
 }
 
 const PopularProperties = ({ params, currentUser }: PopularPropertiesProps) => {
+  const { listId } = params;
   const router = useRouter();
   const [listings, setListings] = useState<Listing[]>([]);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const rentModal = useRentModal();
 
   useEffect(() => {
-    axios.get(`/api/lists/${params.listId}`).then((response) => {
+    axios.get(`/api/lists/${listId}`).then((response) => {
       setListings(response.data.items);
     });
-  }, [params.listId]);
+  }, [listId]);
 
   const onCancel = useCallback(
     (id: string) => {
