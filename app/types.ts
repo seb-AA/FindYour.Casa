@@ -23,3 +23,10 @@ export interface CommonListing {
   link?: string;
   price?: number;
 }
+
+export interface CommonList {
+  id: number;
+  title: string;
+  userId: number;
+  items: CommonListing[];
+}
