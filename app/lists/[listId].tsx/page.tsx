@@ -26,7 +26,7 @@ interface ListPageProps {
   currentUser?: User | null;
 }
 
-const ListPage = ({ params, currentUser }: ListPageProps) => {
+const ListPage: React.FC<ListPageProps> = ({ params, currentUser }) => {
   const { listId } = params;
   const [items, setItems] = useState<Item[]>([]);
   const [deletingId, setDeletingId] = useState<number | null>(null);
