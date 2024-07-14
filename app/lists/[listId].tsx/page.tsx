@@ -7,8 +7,9 @@ import { toast } from "react-hot-toast";
 import Container from "@/app/components/Container";
 import Heading from "@/app/components/Heading";
 import ListingCard from "@/app/components/listings/ListingCard";
-import { User, CommonListing } from "@/app/types";
+import { User, CommonListing } from "@/app/types"; // Import the custom types
 
+// Updated ListPageProps to reflect the correct types
 interface ListPageProps {
   params: {
     listId: string;
