@@ -1,7 +1,7 @@
-// PopularProperties/page.tsx
+// app/PopularProperties/page.tsx
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import axios from "axios";
@@ -10,20 +10,26 @@ import { Listing, User } from "@prisma/client";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
-import useRentModal from "@/app/hooks/useRentModal"; // Import the hook
+import useRentModal from "@/app/hooks/useRentModal";
 
 interface PopularPropertiesProps {
-  listings: Listing[];
+  params: {
+    listId: string;
+  };
   currentUser?: User | null;
 }
 
-const PopularProperties: React.FC<PopularPropertiesProps> = ({
-  listings,
-  currentUser,
-}) => {
+const PopularProperties = ({ params, currentUser }: PopularPropertiesProps) => {
   const router = useRouter();
+  const [listings, setListings] = useState<Listing[]>([]);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const rentModal = useRentModal(); // Use the hook
+  const rentModal = useRentModal();
+
+  useEffect(() => {
+    axios.get(`/api/lists/${params.listId}`).then((response) => {
+      setListings(response.data.items);
+    });
+  }, [params.listId]);
 
   const onCancel = useCallback(
     (id: string) => {
@@ -47,16 +53,10 @@ const PopularProperties: React.FC<PopularPropertiesProps> = ({
 
   const onEdit = useCallback(
     (listing: Listing) => {
-      rentModal.onOpen('edit', listing); // Open the modal in edit mode with listing data
+      rentModal.onOpen("edit", listing);
     },
     [rentModal]
   );
-
-  // Transform listings to add a name property if missing
-  const transformedListings = listings.map(listing => ({
-    ...listing,
-    name: listing.title || 'No name provided',
-  }));
 
   return (
     <Container>
@@ -74,7 +74,7 @@ const PopularProperties: React.FC<PopularPropertiesProps> = ({
           gap-8
         "
       >
-        {transformedListings.map((listing) => (
+        {listings.map((listing) => (
           <ListingCard
             key={listing.id}
             data={listing}
