@@ -1,8 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
-import { format } from "date-fns";
-import { Listing, Reservation, User } from "@prisma/client";
+import { useCallback } from "react";
 import HeartButton from "../HeartButton";
 import Button from "../Button";
 
@@ -16,18 +16,16 @@ interface ListingCardProps {
     image?: string;
     link?: string;
   };
-  reservation?: Reservation;
   onAction?: (id: string) => void;
-  onEdit?: (listing: Listing) => void;
+  onEdit?: (data: any) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
-  currentUser?: User | null;
+  currentUser?: any;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
   data,
-  reservation,
   onAction,
   onEdit,
   disabled,
@@ -53,7 +51,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   const handleEdit = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
-      onEdit?.(data as unknown as Listing);
+      onEdit?.(data);
     },
     [onEdit, data]
   );

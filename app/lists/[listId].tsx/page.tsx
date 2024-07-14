@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRouter } from "next/router";
 import { useState, useEffect, useCallback } from "react";
@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 import Container from "@/app/components/Container";
 import Heading from "@/app/components/Heading";
 import ListingCard from "@/app/components/listings/ListingCard";
-import { Listing, User } from "@prisma/client";
+import { User } from "@prisma/client";
 
 interface Item {
   id: number;
@@ -20,11 +20,14 @@ interface Item {
 }
 
 interface ListPageProps {
-  listId: string;
+  params: {
+    listId: string;
+  };
   currentUser?: User | null;
 }
 
-const ListPage: React.FC<ListPageProps> = ({ listId, currentUser }) => {
+const ListPage: React.FC<ListPageProps> = ({ params, currentUser }) => {
+  const { listId } = params;
   const [items, setItems] = useState<Item[]>([]);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const router = useRouter();
