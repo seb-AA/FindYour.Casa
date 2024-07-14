@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -26,7 +26,7 @@ interface ListPageProps {
   currentUser?: User | null;
 }
 
-const ListPage: React.FC<ListPageProps> = ({ params, currentUser }) => {
+const ListPage = ({ params, currentUser }: ListPageProps) => {
   const { listId } = params;
   const [items, setItems] = useState<Item[]>([]);
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -47,7 +47,7 @@ const ListPage: React.FC<ListPageProps> = ({ params, currentUser }) => {
       try {
         await axios.delete(`/api/items/${id}`);
         toast.success("Item deleted successfully");
-        setItems(items.filter(item => item.id !== id));
+        setItems(items.filter((item) => item.id !== id));
       } catch {
         toast.error("Something went wrong.");
       } finally {
