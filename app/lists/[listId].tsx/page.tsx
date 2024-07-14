@@ -23,10 +23,10 @@ interface ListPageProps {
   params: {
     listId: string;
   };
-  currentUser?: User | null;
+  searchParams?: Record<string, string | string[] | undefined>;
 }
 
-const ListPage: React.FC<ListPageProps> = ({ params, currentUser }) => {
+const ListPage: React.FC<ListPageProps> = ({ params }) => {
   const { listId } = params;
   const [items, setItems] = useState<Item[]>([]);
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -81,7 +81,7 @@ const ListPage: React.FC<ListPageProps> = ({ params, currentUser }) => {
             onAction={() => onDelete(item.id)}
             disabled={deletingId === item.id}
             actionLabel="Delete item"
-            currentUser={currentUser}
+            currentUser={null} // Assuming there's no user context for simplicity
           />
         ))}
       </div>
