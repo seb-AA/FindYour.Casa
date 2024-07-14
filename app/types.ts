@@ -4,13 +4,13 @@ export type User = {
   id: number;
   name: string;
   email: string;
-  emailVerified?: Date;
+  emailVerified?: Date | null; // Adjusted to match Prisma's type
   image?: string;
   hashedPassword?: string;
   createdAt: Date;
   updatedAt: Date;
   favoriteIds: number[];
-};
+}
 
 export interface CommonListing {
   id: number;
