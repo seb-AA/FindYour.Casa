@@ -4,6 +4,7 @@ import Container from "@/app/components/Container";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import Map from "@/app/components/Map";
+import Navbar from "@/app/components/navbar/Navbar";
 import { categories } from "@/app/components/navbar/Categories";
 import { Listing, Reservation, User } from "@prisma/client";
 import { useMemo } from "react";
@@ -35,7 +36,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
 
   return (
     <>
-      <div className="mt-20">
+      <Navbar />
+      <div className="pt-20">
         <Container>
           <div className="flex flex-col gap-8 w-full mt-12">
             <ListingHead
@@ -47,7 +49,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
               currentUser={currentUser}
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-              <div className="col-span-3 lg:col-span-3 mt-6 flex flex-col gap-6">
+              <div className="col-span-1 lg:col-span-2 flex flex-col gap-8">
                 <ListingInfo
                   user={listing.user}
                   category={category}
@@ -81,7 +83,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
                 )}
                 <button
                   onClick={() => window.open(`/listings/${listing.id}`, '_blank')}
-                  className="w-full bg-blue-500 text-white py-2 px-4 rounded-md mb-2"
+                  className="w-full bg-blue-500 text-white py-2 px-4 rounded-md"
                 >
                   View Listing
                 </button>
