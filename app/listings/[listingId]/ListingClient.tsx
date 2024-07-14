@@ -52,20 +52,7 @@ const ListingClient: React.FC<IListingClientProps> = ({
               <div className="col-span-1 lg:col-span-2 flex flex-col gap-8">
                 <ListingInfo
                   user={listing.user}
-                  category={category}
                   description={listing.description}
-                  roomCount={listing.roomCount}
-                  guestCount={listing.guestCount}
-                  bathroomCount={listing.bathroomCount}
-                  latitude={listing.latitude ?? 0}
-                  longitude={listing.longitude ?? 0}
-                  agentWebsite={listing.agentWebsite || undefined}
-                  hasSwimmingPool={listing.hasSwimmingPool !== null ? listing.hasSwimmingPool : undefined}
-                  hasGarage={listing.hasGarage !== null ? listing.hasGarage : undefined}
-                  numberOfOtherBuildings={listing.numberOfOtherBuildings !== null ? listing.numberOfOtherBuildings : undefined}
-                  numberOfHabitableBuildings={listing.numberOfHabitableBuildings !== null ? listing.numberOfHabitableBuildings : undefined}
-                  landSize={listing.landSize !== null ? listing.landSize : undefined}
-                  arableLandSize={listing.arableLandSize !== null ? listing.arableLandSize : undefined}
                 />
               </div>
               <div className="col-span-3 lg:col-span-3 mt-6 flex flex-col gap-6">
