@@ -44,7 +44,9 @@ const ItemPage = () => {
             title={item.name}
             imageSrc={item.image || "/placeholder-image.jpg"}
             id={item.id}
-            currentUser={null}  // Assuming there's no user context for simplicity
+            currentUser={null}
+            latitude={0}
+            longitude={0}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
             <div className="col-span-3 lg:col-span-3 mt-6 flex flex-col gap-6">
