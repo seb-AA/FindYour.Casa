@@ -1,4 +1,4 @@
-// ListingCard.tsx
+// app/components/listings/ListingCard.tsx
 "use client";
 
 import Image from "next/image";
@@ -10,26 +10,17 @@ import { Listing, Reservation, User } from "@prisma/client";
 
 import HeartButton from "../HeartButton";
 import Button from "../Button";
+import { CommonListing } from "@/app/types";
 
 interface ListingCardProps {
-  data: Listing | Item;
+  data: CommonListing;
   reservation?: Reservation;
   onAction?: (id: string) => void;
-  onEdit?: (listing: Listing | Item) => void;
+  onEdit?: (listing: CommonListing) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
   currentUser?: User | null;
-}
-
-interface Item {
-  id: number;
-  name: string;
-  description: string;
-  notes?: string;
-  extractedInfo?: string;
-  image?: string;
-  link?: string;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -70,8 +61,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
       return reservation.totalPrice;
     }
 
-    return (data as Listing).price || 0; // Adjusting for Listing price
-  }, [reservation, data]);
+    return data.price;
+  }, [reservation, data.price]);
 
   const reservationDate = useMemo(() => {
     if (!reservation) {
