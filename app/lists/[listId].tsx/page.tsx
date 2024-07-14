@@ -1,65 +1,84 @@
-// pages/lists/[listId].tsx
 "use client"
 
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useRouter } from "next/router";
+import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 import Container from "@/app/components/Container";
 import Heading from "@/app/components/Heading";
 import ListingCard from "@/app/components/listings/ListingCard";
-import useRentModal from "@/app/hooks/useRentModal";
+import { Listing, User } from "@prisma/client";
 
-const ListPage = () => {
+interface Item {
+  id: number;
+  name: string;
+  description: string;
+  notes?: string;
+  extractedInfo?: string;
+  image?: string;
+  link?: string;
+}
+
+interface ListPageProps {
+  listId: string;
+  currentUser?: User | null;
+}
+
+const ListPage: React.FC<ListPageProps> = ({ listId, currentUser }) => {
+  const [items, setItems] = useState<Item[]>([]);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
   const router = useRouter();
-  const { listId } = router.query;
-  const [list, setList] = useState(null);
-  const [items, setItems] = useState([]);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-  const rentModal = useRentModal();
 
   useEffect(() => {
     if (listId) {
-      const fetchList = async () => {
-        const response = await axios.get(`/api/lists/${listId}`);
-        setList(response.data);
+      axios.get(`/api/lists/${listId}`).then((response) => {
         setItems(response.data.items);
-      };
-
-      fetchList();
+      });
     }
   }, [listId]);
 
-  const onCancel = async (id: string) => {
-    setDeletingId(id);
+  const onDelete = useCallback(
+    async (id: number) => {
+      setDeletingId(id);
 
-    try {
-      await axios.delete(`/api/items/${id}`);
-      toast.success("Item deleted successfully");
-      setItems(items.filter(item => item.id !== id));
-    } catch {
-      toast.error("Something went wrong.");
-    } finally {
-      setDeletingId(null);
-    }
-  };
-
-  const onEdit = (item) => {
-    rentModal.onOpen('edit', item); // Open the modal in edit mode with item data
-  };
+      try {
+        await axios.delete(`/api/items/${id}`);
+        toast.success("Item deleted successfully");
+        setItems(items.filter(item => item.id !== id));
+      } catch {
+        toast.error("Something went wrong.");
+      } finally {
+        setDeletingId(null);
+      }
+    },
+    [items]
+  );
 
   return (
     <Container>
-      <Heading title={list?.title || 'List'} subtitle="Manage your items" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <Heading title="List Items" subtitle="Items in this list" />
+      <div
+        className="
+          mt-25
+          grid
+          grid-cols-1
+          sm:grid-cols-2
+          md:grid-cols-3
+          lg:grid-cols-4
+          xl:grid-cols-5
+          2xl:grid-cols-6
+          gap-8
+        "
+      >
         {items.map((item) => (
           <ListingCard
             key={item.id}
             data={item}
             actionId={item.id.toString()}
-            onAction={onCancel}
-            onEdit={onEdit}
-            disabled={deletingId === item.id.toString()}
+            onAction={() => onDelete(item.id)}
+            disabled={deletingId === item.id}
             actionLabel="Delete item"
+            currentUser={currentUser}
           />
         ))}
       </div>
