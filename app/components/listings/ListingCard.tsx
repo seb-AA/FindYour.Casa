@@ -1,31 +1,40 @@
+// ListingCard.tsx
 "use client";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
+import { format } from "date-fns";
+
+import { Listing, Reservation, User } from "@prisma/client";
+
 import HeartButton from "../HeartButton";
 import Button from "../Button";
 
 interface ListingCardProps {
-  data: {
-    id: number;
-    name: string;
-    description: string;
-    notes?: string;
-    extractedInfo?: string;
-    image?: string;
-    link?: string;
-  };
+  data: Listing | Item;
+  reservation?: Reservation;
   onAction?: (id: string) => void;
-  onEdit?: (data: any) => void;
+  onEdit?: (listing: Listing | Item) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
-  currentUser?: any;
+  currentUser?: User | null;
+}
+
+interface Item {
+  id: number;
+  name: string;
+  description: string;
+  notes?: string;
+  extractedInfo?: string;
+  image?: string;
+  link?: string;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
   data,
+  reservation,
   onAction,
   onEdit,
   disabled,
@@ -56,9 +65,28 @@ const ListingCard: React.FC<ListingCardProps> = ({
     [onEdit, data]
   );
 
+  const price = useMemo(() => {
+    if (reservation) {
+      return reservation.totalPrice;
+    }
+
+    return (data as Listing).price || 0; // Adjusting for Listing price
+  }, [reservation, data]);
+
+  const reservationDate = useMemo(() => {
+    if (!reservation) {
+      return null;
+    }
+
+    const start = new Date(reservation.startDate);
+    const end = new Date(reservation.endDate);
+
+    return `${format(start, "PP")} - ${format(end, "PP")}`;
+  }, [reservation]);
+
   return (
     <div
-      onClick={() => router.push(`/items/${data.id}`)}
+      onClick={() => router.push(`/listings/${data.id}`)}
       className="col-span-1 cursor-pointer group"
     >
       <div className="flex flex-col gap-2 w-full">
@@ -83,7 +111,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
               transition
             "
             src={data.image || "/placeholder-image.jpg"}
-            alt="Item"
+            alt="Listing"
           />
           <div
             className="
