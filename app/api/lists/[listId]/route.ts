@@ -1,47 +1,23 @@
-// app/api/lists/[listId]/route.ts
+// app/api/lists/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 
-interface IParams {
-  listId?: string;
-}
-
-export async function GET(request: Request, { params }: { params: IParams }) {
-  const { listId } = params;
-
-  if (!listId || typeof listId !== "string") {
-    return NextResponse.error();
-  }
-
+export async function GET(request: Request) {
   try {
-    const list = await prisma.list.findUnique({
-      where: { id: parseInt(listId) },
-      include: { items: true },
-    });
-
-    if (!list) {
-      return NextResponse.error();
-    }
-
-    return NextResponse.json(list);
+    const lists = await prisma.list.findMany();
+    return NextResponse.json(lists);
   } catch (error) {
     return NextResponse.error();
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: IParams }) {
-  const { listId } = params;
-
-  if (!listId || typeof listId !== "string") {
-    return NextResponse.error();
-  }
-
+export async function POST(request: Request) {
   try {
-    await prisma.list.delete({
-      where: { id: parseInt(listId) },
+    const { title, userId } = await request.json();
+    const newList = await prisma.list.create({
+      data: { title, userId },
     });
-
-    return NextResponse.json({ message: "List deleted successfully" });
+    return NextResponse.json(newList);
   } catch (error) {
     return NextResponse.error();
   }
