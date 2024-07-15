@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import authOptions from "@/pages/api/auth/[...nextauth]"; // Use default import
 import prisma from "@/app/libs/prismadb";
 import { User } from "@prisma/client";
 import { Session } from "next-auth";
