@@ -1,4 +1,4 @@
-import CreatePropertyListForm from "./components/PropertyLists/CreatePropertyListForm";
+import CreatePropertyListForm from "@/components/PropertyLists/CreatePropertyListForm";
 
 const CreatePropertyList = () => {
   return (
