@@ -51,7 +51,7 @@
     "tailwindcss": "3.3.2",
     "toast": "^0.5.4",
     "typescript": "5.0.4",
-    "world-countries": "^4.0.0",
+    "world-countries": "^5.0.0",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

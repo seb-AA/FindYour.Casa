@@ -126,8 +126,8 @@ importers:
         specifier: 5.0.4
         version: 5.0.4
       world-countries:
-        specifier: ^4.0.0
-        version: 4.1.1
+        specifier: ^5.0.0
+        version: 5.0.0
       zustand:
         specifier: ^4.5.4
         version: 4.5.4(@types/react@18.2.0)(react@18.2.0)
@@ -3833,8 +3833,8 @@ packages:
   wordwrap@1.0.0:
     resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
 
-  world-countries@4.1.1:
-    resolution: {integrity: sha512-2Vw8aRLHIRggmvM5BQsBrTHq5J8AMByksbdqQuTpxOHEgWWNMJJKdKjI6jfSBROgyTJHGm1uwQTX9d9/QhhmDw==}
+  world-countries@5.0.0:
+    resolution: {integrity: sha512-wAfOT9Y5i/xnxNOdKJKXdOCw9Q3yQLahBUeuRol+s+o20F6h2a4tLEbJ1lBCYwEQ30Sf9Meqeipk1gib3YwF5w==}
 
   wrap-ansi@7.0.0:
     resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==}
@@ -7964,7 +7964,7 @@ snapshots:
 
   wordwrap@1.0.0: {}
 
-  world-countries@4.1.1: {}
+  world-countries@5.0.0: {}
 
   wrap-ansi@7.0.0:
     dependencies:
