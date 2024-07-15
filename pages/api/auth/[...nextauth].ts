@@ -1,5 +1,5 @@
-import NextAuth from "next-auth";
-import { AuthOptions } from "next-auth/core/types";
+import NextAuthHandler from "next-auth/next";
+import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
@@ -18,7 +18,7 @@ interface CustomSession {
   expires: string;
 }
 
-const authOptions: AuthOptions = {
+const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
@@ -103,5 +103,6 @@ const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-export default NextAuth(authOptions);
+const authHandler = (req, res) => NextAuthHandler(req, res, authOptions);
+export default authHandler;
 export { authOptions };
