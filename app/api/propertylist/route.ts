@@ -68,10 +68,20 @@ export async function PATCH(request: Request) {
   const body = await request.json();
   const { name, listingIds } = body;
 
+  // Ensure the property list belongs to the current user
+  const propertyList = await prisma.propertyList.findUnique({
+    where: {
+      id: Number(listId),
+    },
+  });
+
+  if (!propertyList || propertyList.userId !== currentUser.id) {
+    return NextResponse.error();
+  }
+
   const updatedPropertyList = await prisma.propertyList.update({
     where: {
       id: Number(listId),
-      userId: currentUser.id,
     },
     data: {
       name,
@@ -100,10 +110,20 @@ export async function DELETE(request: Request) {
     throw new Error("Invalid ID");
   }
 
+  // Ensure the property list belongs to the current user
+  const propertyList = await prisma.propertyList.findUnique({
+    where: {
+      id: Number(listId),
+    },
+  });
+
+  if (!propertyList || propertyList.userId !== currentUser.id) {
+    return NextResponse.error();
+  }
+
   const deletedPropertyList = await prisma.propertyList.delete({
     where: {
       id: Number(listId),
-      userId: currentUser.id,
     },
   });
 
