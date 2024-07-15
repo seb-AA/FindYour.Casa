@@ -4,12 +4,12 @@ import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-
 import { Listing, User } from "@prisma/client";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
 import useRentModal from "@/app/hooks/useRentModal"; // Import the hook
+import { ListingCardData } from "@/app/types"; // Adjust the path as needed
 
 interface PropertiesClientProps {
   listings: Listing[];

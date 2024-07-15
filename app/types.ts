@@ -13,6 +13,14 @@ export interface User {
   // Add other properties as needed
 }
 
+export interface ListingCardData {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+}
+
 export interface Listing {
   id: number;
   userId: number;

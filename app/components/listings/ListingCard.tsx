@@ -4,19 +4,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { format } from "date-fns";
-
 import { Reservation, User } from "@prisma/client";
-
 import HeartButton from "../HeartButton";
 import Button from "../Button";
-
-interface ListingCardData {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  price: number;
-}
+import { ListingCardData } from "@/app/types"; // Adjust the path as needed
 
 interface ListingCardProps {
   data: ListingCardData;
