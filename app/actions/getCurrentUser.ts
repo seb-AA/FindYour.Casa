@@ -6,7 +6,7 @@ import { Session } from "next-auth";
 
 // Function to get the current session
 export async function getSession(): Promise<Session | null> {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions) as Session | null;
   return session;
 }
 
@@ -15,7 +15,7 @@ export default async function getCurrentUser(): Promise<User | null> {
   try {
     const session = await getSession();
 
-    if (!session || !session.user || !session.user.email) {
+    if (!session?.user?.email) {
       return null;
     }
 
