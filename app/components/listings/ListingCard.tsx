@@ -9,13 +9,20 @@ import { Reservation, User } from "@prisma/client";
 
 import HeartButton from "../HeartButton";
 import Button from "../Button";
-import { CommonListing } from "@/app/types";
+
+interface Listing {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+}
 
 interface ListingCardProps {
-  data: CommonListing;
+  data: Listing;
   reservation?: Reservation;
   onAction?: (id: string) => void;
-  onEdit?: (listing: CommonListing) => void;
+  onEdit?: (listing: Listing) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
