@@ -1,7 +1,8 @@
 import NextAuth from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { JWT } from "next-auth/jwt";
 import { Session } from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { Account, User as NextAuthUser } from "next-auth";
 
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
@@ -11,7 +12,7 @@ import bcrypt from "bcrypt";
 
 import prisma from "@/app/libs/prismadb";
 
-const authOptions: NextAuthOptions = {
+const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
@@ -65,7 +66,7 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, account, user }: { token: JWT, account: any, user: any }) {
+    async jwt({ token, account, user }: { token: JWT, account?: Account | null, user?: NextAuthUser | null }) {
       if (account) {
         token.accessToken = account.access_token;
       }
@@ -74,10 +75,10 @@ const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    async session({ session, token, user }: { session: Session, token: JWT, user: any }) {
-      session.accessToken = token.accessToken;
+    async session({ session, token, user }: { session: Session, token: JWT, user?: NextAuthUser | null }) {
+      session.accessToken = token.accessToken as string;
       if (session.user) {
-        session.user.id = token.id;
+        session.user.id = token.id as string;
       }
       return session;
     },
