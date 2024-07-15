@@ -4,7 +4,6 @@ import { Listing, User } from "@prisma/client";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
-import { CommonListing } from "../types";
 
 interface FavoritesClientProps {
   currentUser?: User | null; // Allow undefined as well
@@ -15,19 +14,6 @@ const FavoritesClient: React.FC<FavoritesClientProps> = ({
   currentUser,
   listings,
 }) => {
-  // Filter for public listings and map to CommonListing type
-  const publicListings: CommonListing[] = listings
-    .filter((listing) => listing.isPublic)
-    .map((listing) => ({
-      id: listing.id,
-      name: listing.title,
-      description: listing.description,
-      notes: listing.notes || '',
-      extractedInfo: listing.extractedInfo || '',
-      image: listing.imageSrc || '/placeholder-image.jpg',
-      link: `/listings/${listing.id}`
-    }));
-
   return (
     <Container>
       <Heading title="Favorites" subtitle="Your favorite listings" />
@@ -44,11 +30,17 @@ const FavoritesClient: React.FC<FavoritesClientProps> = ({
           gap-8
         "
       >
-        {publicListings.map((listing) => (
+        {listings.map((listing) => (
           <ListingCard
             currentUser={currentUser}
             key={listing.id}
-            data={listing}
+            data={{
+              id: listing.id,
+              title: listing.title,
+              description: listing.description,
+              image: listing.imageSrc || '/placeholder-image.jpg',
+              price: listing.price,
+            }}
           />
         ))}
       </div>
