@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       name,
       userId: currentUser.id,
       listings: {
-        connect: listingIds.map((id: number) => ({ id }))
+        create: listingIds.map((id: number) => ({ listingId: id }))
       }
     },
   });
@@ -39,7 +39,11 @@ export async function GET(request: Request) {
       userId: currentUser.id,
     },
     include: {
-      listings: true,
+      listings: {
+        include: {
+          listing: true,
+        }
+      }
     },
   });
 
@@ -72,7 +76,8 @@ export async function PATCH(request: Request) {
     data: {
       name,
       listings: {
-        set: listingIds.map((id: number) => ({ id })),
+        deleteMany: {},
+        create: listingIds.map((id: number) => ({ listingId: id }))
       },
     },
   });
