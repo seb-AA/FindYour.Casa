@@ -10,7 +10,7 @@ import { Reservation, User } from "@prisma/client";
 import HeartButton from "../HeartButton";
 import Button from "../Button";
 
-interface Listing {
+interface ListingCardData {
   id: number;
   title: string;
   description: string;
@@ -19,10 +19,10 @@ interface Listing {
 }
 
 interface ListingCardProps {
-  data: Listing;
+  data: ListingCardData;
   reservation?: Reservation;
   onAction?: (id: string) => void;
-  onEdit?: (listing: Listing) => void;
+  onEdit?: (listing: ListingCardData) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;

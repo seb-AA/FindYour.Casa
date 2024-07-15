@@ -45,7 +45,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
   );
 
   const onEdit = useCallback(
-    (listing: Listing) => {
+    (listing: ListingCardData) => {
       rentModal.onOpen('edit', listing); // Open the modal in edit mode with listing data
     },
     [rentModal]
@@ -70,7 +70,13 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
         {listings.map((listing) => (
           <ListingCard
             key={listing.id}
-            data={listing}
+            data={{
+              id: listing.id,
+              title: listing.title,
+              description: listing.description,
+              image: listing.imageSrc, // Map imageSrc to image
+              price: listing.price,
+            }}
             actionId={listing.id.toString()}
             onAction={onCancel}
             onEdit={onEdit}
