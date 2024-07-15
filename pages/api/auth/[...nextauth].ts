@@ -7,13 +7,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import prisma from "@/app/libs/prismadb";
 
-interface CustomSession {
-  accessToken?: string;
-  user: {
-    id: string;
-  } & DefaultSession["user"];
-}
-
 const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -78,15 +71,11 @@ const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      const customSession: CustomSession = {
-        ...session,
-        accessToken: token.accessToken as string,
-        user: {
-          ...session.user,
-          id: token.id as string,
-        },
-      };
-      return customSession;
+      session.accessToken = token.accessToken;
+      if (session.user) {
+        session.user.id = token.id;
+      }
+      return session;
     },
   },
   pages: {
