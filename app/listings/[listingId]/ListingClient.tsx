@@ -43,6 +43,8 @@ const ListingClient: React.FC<IListingClientProps> = ({
             <ListingHead
               title={listing.title}
               imageSrc={listing.imageSrc}
+              latitude={listing.latitude ?? 0}
+              longitude={listing.longitude ?? 0}
               id={listing.id}
               currentUser={currentUser}
             />
