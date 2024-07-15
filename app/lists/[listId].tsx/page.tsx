@@ -7,10 +7,17 @@ import { toast } from "react-hot-toast";
 import Container from "@/app/components/Container";
 import Heading from "@/app/components/Heading";
 import ListingCard from "@/app/components/listings/ListingCard";
-import { User, CommonListing } from "@/app/types"; // Import the custom types
+import { User, CommonListing } from "@/app/types";
 
-// Remove the ListPageProps interface and use direct props instead
-const ListPage = ({ params, currentUser }: { params: { listId: string }, currentUser?: User | null }) => {
+interface ListPageProps {
+  params: {
+    listId: string;
+  };
+  currentUser?: User | null;
+}
+
+const ListPage: React.FC<ListPageProps> = (props) => {
+  const { params, currentUser } = props;
   const { listId } = params;
   const [items, setItems] = useState<CommonListing[]>([]);
   const [deletingId, setDeletingId] = useState<number | null>(null);
