@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "migrate:dev": "dotenv -e .env.local -- prisma migrate dev --name init",
-    "migrate:deploy": "dotenv -e .env.local -- prisma migrate deploy",
-    "postinstall": "patch-package"
+    "migrate:deploy": "dotenv -e .env.local -- prisma migrate deploy"
   },
   "dependencies": {
     "@headlessui/react": "^2.1.2",
