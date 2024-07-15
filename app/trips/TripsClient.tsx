@@ -8,6 +8,7 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ListingCard from "../components/listings/ListingCard";
+import { ListingCardData } from "@/app/types"; // Import the type
 
 interface TripsClientProps {
   currentUser?: User | null;
@@ -59,18 +60,29 @@ const TripsClient: React.FC<TripsClientProps> = ({
           gap-8
         "
       >
-        {reservations.map((reservation) => (
-          <ListingCard
-            key={reservation.id}
-            data={reservation.listing}
-            reservation={reservation}
-            actionId={reservation.id.toString()} // Convert id to string
-            onAction={onCancel}
-            disabled={deletingId === reservation.id.toString()} // Convert id to string
-            actionLabel="Cancel Reservation"
-            currentUser={currentUser}
-          />
-        ))}
+        {reservations.map((reservation) => {
+          // Create a ListingCardData object from reservation.listing
+          const listingCardData: ListingCardData = {
+            id: reservation.listing.id,
+            title: reservation.listing.title,
+            description: reservation.listing.description,
+            image: reservation.listing.imageSrc, // Map imageSrc to image
+            price: reservation.listing.price,
+          };
+
+          return (
+            <ListingCard
+              key={reservation.id}
+              data={listingCardData}
+              reservation={reservation}
+              actionId={reservation.id.toString()} // Convert id to string
+              onAction={onCancel}
+              disabled={deletingId === reservation.id.toString()} // Convert id to string
+              actionLabel="Cancel Reservation"
+              currentUser={currentUser}
+            />
+          );
+        })}
       </div>
     </Container>
   );
