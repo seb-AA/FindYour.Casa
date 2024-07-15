@@ -1,6 +1,6 @@
 import { NextApiHandler } from 'next';
 import NextAuth from 'next-auth';
-import { NextAuthOptions } from 'next-auth';
+import {AuthOptions } from 'next-auth/core/types';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
@@ -19,7 +19,7 @@ interface CustomSession {
   expires: string;
 }
 
-const authOptions: NextAuthOptions = {
+const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
