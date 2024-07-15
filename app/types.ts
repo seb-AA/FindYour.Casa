@@ -1,10 +1,10 @@
 export type User = {
   id: number;
-  name: string;
-  email: string;
+  name: string | null;
+  email: string | null;
   emailVerified?: Date | null;
-  image?: string;
-  hashedPassword?: string;
+  image?: string | null;
+  hashedPassword?: string | null;
   createdAt: Date;
   updatedAt: Date;
   favoriteIds: number[];
