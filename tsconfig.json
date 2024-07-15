@@ -20,6 +20,10 @@
         "name": "next"
       }
     ],
+    "typeRoots": [
+      "./types", 
+      "./node_modules/@types"
+    ],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
@@ -35,4 +39,3 @@
   ],
   "exclude": ["node_modules"]
 }
-
