@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react";
 import axios from "axios";
 
@@ -7,7 +5,7 @@ const CreatePropertyListForm = () => {
   const [name, setName] = useState("");
   const [listingIds, setListingIds] = useState<number[]>([]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await axios.post("/api/propertyLists", { name, listingIds });
     // Redirect or update UI
