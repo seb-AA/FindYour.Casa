@@ -37,14 +37,14 @@ const ListPage: React.FC<ListPageProps> = ({ params, currentUser }) => {
       try {
         await axios.delete(`/api/items/${id}`);
         toast.success("Item deleted successfully");
-        setItems((items) => items.filter((item) => item.id !== id));
+        setItems((prevItems) => prevItems.filter((item) => item.id !== id));
       } catch {
         toast.error("Something went wrong.");
       } finally {
         setDeletingId(null);
       }
     },
-    [items]
+    []
   );
 
   return (
