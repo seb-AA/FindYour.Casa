@@ -3,12 +3,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+interface PropertyList {
+  id: number;
+  name: string;
+}
+
 const PropertyListsPage = () => {
-  const [propertyLists, setPropertyLists] = useState([]);
+  const [propertyLists, setPropertyLists] = useState<PropertyList[]>([]);
 
   useEffect(() => {
     const fetchPropertyLists = async () => {
-      const response = await axios.get("/api/propertyLists");
+      const response = await axios.get<PropertyList[]>("/api/propertyLists");
       setPropertyLists(response.data);
     };
 
