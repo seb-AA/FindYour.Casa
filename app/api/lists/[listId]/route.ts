@@ -15,32 +15,22 @@ export async function GET(request: Request, { params }: { params: IParams }) {
   try {
     const list = await prisma.list.findUnique({
       where: { id: parseInt(listId) },
-      include: { items: true },
+      include: {
+        items: {
+          include: {
+            item: true,
+          },
+        },
+      },
     });
 
     if (!list) {
       return NextResponse.error();
     }
 
-    return NextResponse.json(list);
-  } catch (error) {
-    return NextResponse.error();
-  }
-}
+    const items = list.items.map((listItem) => listItem.item);
 
-export async function DELETE(request: Request, { params }: { params: IParams }) {
-  const { listId } = params;
-
-  if (!listId || typeof listId !== "string") {
-    return NextResponse.error();
-  }
-
-  try {
-    await prisma.list.delete({
-      where: { id: parseInt(listId) },
-    });
-
-    return NextResponse.json({ message: "List deleted successfully" });
+    return NextResponse.json({ ...list, items });
   } catch (error) {
     return NextResponse.error();
   }

@@ -9,14 +9,8 @@ import Heading from "@/app/components/Heading";
 import ListingCard from "@/app/components/listings/ListingCard";
 import { User, CommonListing } from "@/app/types"; // Import the custom types
 
-interface ListPageProps {
-  params: {
-    listId: string;
-  };
-  currentUser?: User | null;
-}
-
-const ListPage: React.FC<ListPageProps> = ({ params, currentUser }) => {
+// Remove the ListPageProps interface and use direct props instead
+const ListPage = ({ params, currentUser }: { params: { listId: string }, currentUser?: User | null }) => {
   const { listId } = params;
   const [items, setItems] = useState<CommonListing[]>([]);
   const [deletingId, setDeletingId] = useState<number | null>(null);
