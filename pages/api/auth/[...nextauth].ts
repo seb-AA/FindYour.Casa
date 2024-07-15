@@ -1,4 +1,5 @@
-import NextAuthHandler from "next-auth/next";
+import { NextApiRequest, NextApiResponse } from "next";
+import NextAuth from "next-auth/next";
 import { AuthOptions } from "next-auth/core/types";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GithubProvider from "next-auth/providers/github";
@@ -103,6 +104,6 @@ const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-const authHandler = (req, res) => NextAuthHandler(req, res, authOptions);
+const authHandler = (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, authOptions);
 export default authHandler;
 export { authOptions };
