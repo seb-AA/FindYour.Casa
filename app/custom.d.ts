@@ -1,4 +1,4 @@
-// custom.d.ts
+// types/custom.d.ts
 export interface OfficialAndCommon {
     common: string;
     official: string;
@@ -43,7 +43,7 @@ export interface OfficialAndCommon {
     languages: { [languageCode: string]: string };
     translations: { [languageCode: string]: OfficialAndCommon };
     latlng: [number, number];
-    demonyms: { [languageCode: string]?: Demonyms };
+    demonyms?: { [languageCode: string]: Demonyms };
     landlocked: boolean;
     borders: string[];
     area: number;
