@@ -1,4 +1,4 @@
-import PropertyListsPage from "./components/PropertyLists/PropertyListsPage";
+import PropertyListsPage from "@/components/PropertyLists/PropertyListsPage";
 
 const PropertyLists = () => {
   return (
