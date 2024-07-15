@@ -1,5 +1,4 @@
 // app/types/index.ts
-
 export type User = {
   id: number;
   name: string;
@@ -10,7 +9,7 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
   favoriteIds: number[];
-}
+};
 
 export interface CommonListing {
   id: number;

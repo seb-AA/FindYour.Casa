@@ -5,8 +5,6 @@ import HeartButton from "../HeartButton";
 
 interface IListingHeadProps {
   title: string;
-  latitude: number;
-  longitude: number;
   imageSrc: string;
   id: number;
   currentUser?: User | null;
@@ -14,8 +12,6 @@ interface IListingHeadProps {
 
 const ListingHead: React.FC<IListingHeadProps> = ({
   title,
-  latitude,
-  longitude,
   imageSrc,
   id,
   currentUser,

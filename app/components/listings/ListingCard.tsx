@@ -1,4 +1,3 @@
-// app/components/listings/ListingCard.tsx
 "use client";
 
 import Image from "next/image";
@@ -6,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { format } from "date-fns";
 
-import { Listing, Reservation, User } from "@prisma/client";
+import { User, Reservation } from "@prisma/client";
 
 import HeartButton from "../HeartButton";
 import Button from "../Button";
