@@ -1,11 +1,12 @@
-import NextAuth from "next-auth";
-import { AuthOptions } from "next-auth/core/types";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import GithubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
-import prisma from "@/app/libs/prismadb";
+import { NextApiHandler } from 'next';
+import NextAuth from 'next-auth';
+import { NextAuthOptions } from 'next-auth';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import GithubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcrypt';
+import prisma from '@/app/libs/prismadb';
 
 interface CustomSession {
   user: {
@@ -18,7 +19,7 @@ interface CustomSession {
   expires: string;
 }
 
-const authOptions: AuthOptions = {
+const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
@@ -26,7 +27,7 @@ const authOptions: AuthOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
       authorization: {
         params: {
-          scope: "read:user user:email",
+          scope: 'read:user user:email',
         },
       },
     }),
@@ -35,14 +36,14 @@ const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials');
         }
 
         const user = await prisma.user.findUnique({
@@ -52,7 +53,7 @@ const authOptions: AuthOptions = {
         });
 
         if (!user || !user.hashedPassword) {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials');
         }
 
         const isCorrectPassword = await bcrypt.compare(
@@ -61,7 +62,7 @@ const authOptions: AuthOptions = {
         );
 
         if (!isCorrectPassword) {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials');
         }
 
         return {
@@ -94,13 +95,14 @@ const authOptions: AuthOptions = {
     },
   },
   pages: {
-    signIn: "/",
+    signIn: '/',
   },
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === 'development',
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-export default NextAuth(authOptions);
+const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, authOptions);
+export default authHandler;
